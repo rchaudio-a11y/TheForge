@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <StartupObject>Sub Main</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <MyType>WindowsForms</MyType>
+    <RootNamespace>TheForge</RootNamespace>
+    <AssemblyName>RCH.Forge.Dashboard</AssemblyName>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionInfer>Off</OptionInfer>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\DashboardMainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\UI\DashboardMainForm.Designer.vb">
+      <DependentUpon>DashboardMainForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Services\IModuleLoaderService.vb" />
+    <Compile Include="Source\Services\ILoggingService.vb" />
+    <Compile Include="Source\Services\LoggingService.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Documentation\Codex\" />
+    <Folder Include="Documentation\Tomes\" />
+    <Folder Include="Documentation\Lore\" />
+    <Folder Include="Documentation\Grimoire\" />
+    <Folder Include="Documentation\Scriptorium\" />
+    <Folder Include="Source\Services\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Data\" />
+  </ItemGroup>
+
+</Project>
