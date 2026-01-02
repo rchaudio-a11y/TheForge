@@ -279,6 +279,22 @@ The Forge must never:
 - The field must appear exactly as written, including capitalization and punctuation  
 - The field must appear in the header block, not inline or at the end of the file  
 
+## 9.4 Character Count Update Requirement
+Whenever the Forge edits any file, it must update the `Character Count` field in the metadata header.
+
+Rules:
+- The Forge must compute the new character count after all edits are applied.
+- The count must reflect the entire file content, including the metadata header.
+- The Forge must never leave the field as `TBD` after modifying a file.
+- The Forge must never approximate or estimate the count.
+- The Forge must never omit the field.
+- The Forge must never update the count unless the file was actually modified.
+
+This rule applies to:
+- Code files
+- Designer files
+- Documentation files
+- Any future file types governed by the Forge
 ---
 
 # 10. Contributor Expectations
@@ -304,5 +320,9 @@ Changes to ForgeCharter require:
 No branch or extension may override ForgeCharter.
 
 ---
+
+
+
+## End of Amendment Block
 
 # End of ForgeCharter.md
