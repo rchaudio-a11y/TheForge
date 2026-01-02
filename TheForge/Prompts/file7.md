@@ -3,6 +3,28 @@
 This file extends the Forge rule stack for documentation and large text generation. It does not restate taxonomy or high-level documentation rules defined in Master.md or file1–file6; it only adds concrete behavioral constraints for Copilot.
 
 ----------------------------------------------------------------------
+0. Rule precedence (file7.md scope)
+----------------------------------------------------------------------
+
+This file operates at the lowest precedence tier in the Forge rule stack:
+
+Precedence order (highest to lowest):
+1. Master.md — Canonical governance index
+2. ForgeOrchestrator.md — Orchestration and execution rules
+3. File6.md — Prime Directives (architectural principles)
+4. file1–file5 — Core domain rules (Scriptorium, Layout, Taxonomy, Config)
+5. file7.md — Documentation extensions (this file)
+6. file8.md — Code implementation clarifications
+
+Conflict resolution:
+• If file7.md contradicts file1–file6: file1–file6 wins
+• If file7.md contradicts File6.md Prime Directives: File6.md wins
+• file7.md adds *behavioral constraints* for documentation, not new doc types
+• At same precedence level: more specific beats more general
+
+When in doubt: Consult file1.md (Scriptorium) and file4.md (Taxonomy) first.
+
+----------------------------------------------------------------------
 1. File size behavior for generated text
 ----------------------------------------------------------------------
 

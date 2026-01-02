@@ -3,6 +3,28 @@
 This file extends the Forge rule stack for code generation and modification. It does not restate core language, architecture, or layout rules already defined in Master.md or file1–file6; it only clarifies how Copilot should behave when implementing them.
 
 ----------------------------------------------------------------------
+0. Rule precedence (file8.md scope)
+----------------------------------------------------------------------
+
+This file operates at the lowest precedence in the Forge rule stack:
+
+Precedence order (highest to lowest):
+1. Master.md — Canonical governance index
+2. ForgeOrchestrator.md — Orchestration and execution rules
+3. File6.md — Prime Directives (architectural principles)
+4. file1–file5 — Core domain rules (Scriptorium, Layout, Taxonomy, Config)
+5. file7.md — Documentation extensions (file size, multi-file output)
+6. file8.md — Code implementation clarifications (this file)
+
+Conflict resolution:
+• If file8.md contradicts file1–file6: file1–file6 wins
+• If file8.md contradicts File6.md Prime Directives: File6.md wins
+• file8.md clarifies *how* to implement rules, not *what* the rules are
+• At same precedence level: more specific beats more general
+
+When in doubt: Ask user for clarification per section 1 below.
+
+----------------------------------------------------------------------
 1. When rules appear ambiguous
 ----------------------------------------------------------------------
 
