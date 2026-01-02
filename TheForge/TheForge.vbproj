@@ -39,14 +39,27 @@
     <Compile Include="Source\UI\Controls\LogOutputControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Source\UI\Controls\LogOutputControl.Designer.vb">
+      <DependentUpon>LogOutputControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleDetailsControl.Designer.vb" />
     <Compile Include="Source\UI\Controls\ModuleListControl.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleListControl.Designer.vb">
+      <DependentUpon>ModuleListControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Source\UI\Controls\ModuleDetailsControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Source\UI\Controls\ModuleDetailsControl.Designer.vb">
+      <DependentUpon>ModuleDetailsControl.vb</DependentUpon>
+    </Compile>
     <Compile Include="Source\UI\Controls\TestAreaControl.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\TestAreaControl.Designer.vb">
+      <DependentUpon>TestAreaControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Source\UI\DashboardMainForm.vb">
       <SubType>Form</SubType>

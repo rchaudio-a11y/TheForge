@@ -4,7 +4,8 @@ Namespace UI.Controls
     ''' <summary>
     ''' UserControl placeholder for module UI testing area.
     ''' </summary>
-    Partial Public Class TestAreaControl        '<-- NO attribute here!
+    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+    Partial Public Class TestAreaControl
         Inherits UserControl
 
         Public Sub New()

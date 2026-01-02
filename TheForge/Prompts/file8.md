@@ -110,7 +110,9 @@ When executing terminal commands (PowerShell, bash, cmd, etc.):
 Rationale:
 Silent error suppression violates the Forge principle of explicit over implicit behavior.
 Errors must be visible so they can be addressed, not hidden.
-## 7. Designer File Handling
+----------------------------------------------------------------------
+7. Designer File Handling
+----------------------------------------------------------------------
 
 This section defines required behavior when generating, modifying, or interacting with
 files managed by the Visual Studio Windows Forms Designer. These rules ensure that
@@ -124,43 +126,230 @@ These rules apply to:
 - Any project file entries involving `<SubType>UserControl</SubType>` or `<DependentUpon>`
 
 ### 7.2 File Lock Awareness
-- Assume Designer‑managed files may be locked by Visual Studio at any time.
-- If a file is locked, do not attempt shell‑based modification, deletion, or replacement.
-- When a lock is detected (e.g., “Could not get text view”), stop immediately and surface
-  the error instead of retrying or falling back to shell commands.
+- Assume Designer‑managed files may be locked by Visual Studio when Designer view is open.
+- The `.Designer.vb` file CAN be modified when Designer is closed (not locked).
+- If attempting to edit and receiving "Could not get text view", instruct user to close Designer.
+- User can paste complete file content into `.Designer.vb` when Designer is closed.
 
 ### 7.3 Modification Rules
 - Do not modify `.Designer.vb` files using shell commands under any circumstances.
-- Do not modify Designer‑paired `.vb` files using shell commands if Visual Studio is open.
-- All modifications must occur through the Visual Studio text buffer when available.
-- If Designer is open for a file, do not attempt automated edits; require the user to close
-  the Designer before proceeding.
+- The `.Designer.vb` file CAN be modified by Copilot directly when:
+  - File is not currently open in Visual Studio Designer view
+  - File is open in code editor only (not Designer view)
+  - Copilot has complete understanding of the control structure
+- Copilot can use edit_file tool on `.Designer.vb` files when Designer is not active
+- If edit_file fails with "Could not get text view", instruct user to close Designer view
+- Always provide complete `.Designer.vb` content in edit_file tool, not partial edits
+- The user can also paste complete file content if edit_file fails (file not locked when Designer closed)
+- Do not modify Designer‑paired `.vb` files using shell commands if Visual Studio is open
+- Main `.vb` files can be modified with edit_file tool directly
 
-### 7.4 Partial Class Consistency
+### 7.4 Control Declaration Rule (CRITICAL - Prevents Duplicates)
+
+**THE GOLDEN RULE:** Partial classes merge ALL declarations from both files.
+
+If you declare something in BOTH files, VB.NET throws errors:
+- `BC30260` - "already declared"
+- `BC30269` - "has multiple definitions"
+- `BC30663` - "attribute cannot be applied multiple times"
+
+**Solution:** Declare each element in EXACTLY ONE file.
+
+**Quick Reference:**
+
+| Element | .vb (Main) | .Designer.vb |
+|---------|-----------|--------------|
+| `<DesignerGenerated()>` attribute | ❌ NO | ✅ YES |
+| `Partial Class` declaration | ✅ YES | ✅ YES |
+| `Public Sub New()` | ✅ YES | ❌ NO |
+| `InitializeComponent()` | ❌ NO | ✅ YES |
+| `Dispose()` override | ❌ NO | ✅ YES |
+| `Private components` | ❌ NO | ✅ YES |
+| Control declarations | ❌ NO | ✅ YES |
+| Event handlers (`Handles`) | ✅ YES | ❌ NO |
+| Public/Private methods | ✅ YES | ❌ NO |
+
+**Main file (.vb) - Business Logic Only:**
+```vb
+Namespace UI.Controls
+    Partial Public Class MyControl
+        Inherits UserControl
+
+        Public Sub New()
+            InitializeComponent()
+        End Sub
+
+        ' Event handlers
+        Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+            ' Business logic
+        End Sub
+
+        ' Public methods
+        Public Sub LoadData(data As String)
+            txtName.Text = data  ' Uses Designer's control
+        End Sub
+    End Class
+End Namespace
+```
+
+**Designer file (.Designer.vb) - UI Only:**
+```vb
+Namespace UI.Controls
+    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+    Partial Class MyControl
+        Inherits UserControl
+
+        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+            ' Cleanup
+        End Sub
+
+        Private components As IContainer
+
+        Private Sub InitializeComponent()
+            Me.txtName = New TextBox()
+            Me.txtName.Location = New Point(10, 10)
+            Me.txtName.Size = New Size(200, 27)
+            ' ... more UI code ...
+        End Sub
+
+        Friend WithEvents txtName As TextBox
+        Friend WithEvents btnSave As Button
+    End Class
+End Namespace
+```
+
+**Conversion Checklist:**
+
+Main .vb file - REMOVE:
+- All control declarations (`Private txtName As TextBox`)
+- Entire `InitializeComponent()` method
+- `Dispose()` override (if present)
+- `<DesignerGenerated()>` attribute (if present)
+
+Main .vb file - KEEP:
+- Change to `Partial Public Class`
+- `Public Sub New()` with `InitializeComponent()` call
+- All event handlers
+- All public/private methods
+
+Designer .vb file - ADD:
+- `<DesignerGenerated()>` on `Partial Class`
+- `Dispose()` override
+- `Private components As IContainer`
+- `InitializeComponent()` with ALL UI code
+- ALL control declarations as `Friend` or `Friend WithEvents`
+
+### 7.5 Layout Strategy (Designer-Friendly)
+
+When generating `InitializeComponent()` for Designer support:
+
+**PRIMARY APPROACH - Absolute Positioning (Full Designer Control):**
+- Use explicit `Location` (X, Y) and `Size` (Width, Height) for ALL controls
+- NO TableLayoutPanel, NO Dock, NO Anchor constraints for child controls
+- Controls are freely movable and resizable in Designer
+- This is standard Windows Forms Designer behavior
+- **WHY:** Maximum Designer editability - users can move, resize, and edit everything visually
+
+**Example:**
+```vb
+' ✓ GOOD - Absolute positioning with Location and Size
+Me.btnSave.Location = New System.Drawing.Point(10, 50)
+Me.btnSave.Size = New System.Drawing.Size(100, 30)
+Me.btnSave.TabIndex = 1
+
+' ✓ GOOD - Simple layout, fully editable
+Me.txtName.Location = New System.Drawing.Point(10, 10)
+Me.txtName.Size = New System.Drawing.Size(200, 27)
+```
+
+**ALLOWED use of Dock (LIMITED to main form layout ONLY):**
+- `DockStyle.Fill/Top/Bottom/Left/Right` ONLY for positioning UserControls on main form (DashboardMainForm)
+- NOT for controls inside UserControls (use absolute positioning)
+- **WHY:** Main form needs responsive layout; UserControls need Designer editability
+
+**For responsive layouts (OPTIONAL):**
+- Can use `Anchor` property on specific controls if user needs resize behavior
+- Example: Anchor = Right for buttons that should stay right-aligned on resize
+- But default should be NO Anchor for maximum Designer freedom
+
+**Requirements for Designer editability:**
+- All controls must have explicit `Location` property
+- All controls must have explicit `Size` property
+- Controls must have meaningful `Name` properties
+- TabIndex should be set for proper tab order
+- NO Dock, NO Anchor by default (user can add in Designer if needed)
+
+**Rationale:** Absolute positioning is the standard Windows Forms Designer approach.
+It provides maximum visual editability - users can freely move, resize, and arrange
+all controls exactly as they want using the visual designer tools.
+
+### 7.6 Partial Class Consistency
 - When generating or modifying a UserControl or Form, ensure that:
   - Both the main `.vb` file and `.Designer.vb` file declare `Partial Class` with identical names.
-  - The `DesignerGenerated` attribute is preserved where required.
+  - The `DesignerGenerated` attribute appears ONLY in `.Designer.vb` file.
 - Never introduce mismatched class declarations that would desynchronize Designer state.
 
-### 7.5 Project File Integrity
+### 7.7 Project File Integrity
 - When creating or restructuring Designer‑managed files:
   - Ensure the `.Designer.vb` file is marked with `<DependentUpon>` in the project file.
   - Ensure the main `.vb` file includes `<SubType>UserControl</SubType>` or `<SubType>Form</SubType>` as appropriate.
 - Do not create temporary files inside the project directory that may be auto‑imported by Visual Studio.
+- Check for duplicate entries in project file (control listed twice causes duplicate declarations).
 
-### 7.6 External Change Handling
+### 7.8 External Change Handling
 - If a Designer‑managed file must be edited externally, require Visual Studio to be closed first.
 - After external edits, Visual Studio must be allowed to reload the file and resynchronize Designer state.
-- Never bypass Visual Studio’s reload mechanism.
+- Never bypass Visual Studio's reload mechanism.
+- When Designer is closed, `.Designer.vb` can be edited and VS will reload on next Designer open.
 
-### 7.7 Error Handling
+### 7.9 Designer Workflow
+
+**Workflow A: Copilot Edits Directly (Preferred)**
+1. User closes Designer view (if open) in Visual Studio
+2. Copilot uses edit_file tool to update `.Designer.vb` file
+3. Copilot uses edit_file tool to update `.vb` file (logic only, no control declarations)
+4. User saves files in Visual Studio
+5. User can now open Designer and edit controls visually
+6. Designer modifies `.Designer.vb` as user makes changes
+7. User saves and continues working
+
+**Workflow B: User Pastes Content (Fallback)**
+1. If edit_file fails with "Could not get text view":
+2. Copilot generates complete `.Designer.vb` file content with Designer-friendly layout
+3. Copilot generates complete `.vb` file content with logic only (no control declarations)
+4. User closes Designer view (if open) in Visual Studio
+5. User pastes content into both files in Visual Studio
+6. User saves files
+7. User can now open Designer and edit controls visually
+8. Designer modifies `.Designer.vb` as user makes changes
+9. User saves and continues working
+
+**Key Point:** `.Designer.vb` files are NOT locked when Designer view is closed. 
+Copilot can edit them directly with edit_file tool.
+
+### 7.10 Error Handling
 - Do not suppress errors when interacting with Designer‑managed files.
 - Surface locking, synchronization, or project‑structure errors explicitly.
 - Do not attempt fallback operations that could corrupt Designer state.
+- Common errors and causes:
+  - BC30260 "already declared": Control declared in both files - remove from main file
+  - BC30506 "Handles requires WithEvents": Control not declared WithEvents in Designer
+  - BC30269 "multiple definitions": Duplicate entry in project file or duplicate Designer file
 
-### 7.8 Automation Limitations
+### 7.11 Automation Limitations
 - Do not attempt to automate Designer interactions (open/close Designer, reload Designer, etc.).
 - Do not attempt to modify Designer‑generated code structures beyond what Visual Studio itself produces.
 - Respect that Designer files are authoritative for layout and component initialization.
+- Provide complete file content for user to paste, not instructions to manually edit specific lines.
+
+### 7.12 WithEvents Usage
+Controls that need event handlers in main file:
+- Declare as `Friend WithEvents` in Designer file
+- Allows `Handles controlName.EventName` in main file
+
+Controls without event handlers:
+- Declare as `Friend` (no WithEvents) in Designer file
+- Still accessible to main file methods
+- Reduces unnecessary WithEvents overhead
 
 End of file8.md.

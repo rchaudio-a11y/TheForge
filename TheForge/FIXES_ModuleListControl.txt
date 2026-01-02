@@ -1,3 +1,35 @@
+# ModuleListControl - Designer Enablement Instructions
+
+**Control:** ModuleListControl (2 of 4)
+**Status:** Ready for manual fix
+**Created:** 2025-01-02
+
+---
+
+## What's Already Done
+
+? Created: ModuleListControl.Designer.vb
+? Updated: TheForge.vbproj with Designer file reference
+
+---
+
+## What You Need To Do
+
+### Step 1: Close Visual Studio
+
+- Save any work
+- Close Visual Studio completely
+- Wait 5 seconds
+
+---
+
+### Step 2: Edit ModuleListControl.vb
+
+**File:** `C:\Users\rchau\source\repos\TheForge\TheForge\Source\UI\Controls\ModuleListControl.vb`
+
+**Replace the entire `InitializeComponent()` method AND class declaration with this:**
+
+```vb
 Imports System.Windows.Forms
 
 Namespace UI.Controls
@@ -119,3 +151,12 @@ Namespace UI.Controls
         End Sub
     End Class
 End Namespace
+```
+
+**Key Changes:**
+1. Added `Partial` to class declaration
+2. **REMOVED ALL control declarations** (lstModules, btnRunModule, etc.)
+   - They're already declared in Designer.vb as `Friend WithEvents`
+3. REMOVED the entire `Private Sub InitializeComponent()` method
+4. Kept all event handlers (Handles clauses work with Designer's Friend WithEvents)
+5. Kept all public methods (LoadModules, UpdateButtonStates, etc.)

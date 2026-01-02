@@ -1,3 +1,35 @@
+# LogOutputControl - Designer Enablement Instructions
+
+**Control:** LogOutputControl (3 of 4)
+**Status:** Ready for manual fix
+**Created:** 2025-01-02
+
+---
+
+## What's Already Done
+
+? Created: LogOutputControl.Designer.vb
+? Updated: TheForge.vbproj with Designer file reference
+
+---
+
+## What You Need To Do
+
+### Step 1: Close Visual Studio
+
+- Save any work
+- Close Visual Studio completely
+- Wait 5 seconds
+
+---
+
+### Step 2: Edit LogOutputControl.vb
+
+**File:** `C:\Users\rchau\source\repos\TheForge\TheForge\Source\UI\Controls\LogOutputControl.vb`
+
+**Replace ENTIRE file content with this:**
+
+```vb
 Imports System.Windows.Forms
 
 Namespace UI.Controls
@@ -143,3 +175,74 @@ Namespace UI.Controls
         End Sub
     End Class
 End Namespace
+```
+
+**Key Changes:**
+1. Added `Partial` to class declaration
+2. **REMOVED ALL control declarations** - they're in Designer.vb as `Friend WithEvents`
+3. REMOVED entire `InitializeComponent()` method - now in Designer.vb
+4. Kept all public methods (AppendLog, RebuildLog, ClearLog, etc.)
+5. Kept all event handlers (Handles clauses work with Designer's declarations)
+6. Kept private helper methods (ShouldDisplayEntry, GetEntryLevel, ApplyCurrentFilters)
+
+---
+
+### Step 3: Reopen Visual Studio
+
+- Open Visual Studio
+- Open TheForge solution
+- Wait for IntelliSense to load
+
+---
+
+### Step 4: Build
+
+```
+Build ? Rebuild Solution
+```
+
+**Expected:** Build succeeded, 0 errors
+
+---
+
+### Step 5: Test Designer
+
+- Right-click `LogOutputControl.vb` ? View Designer
+- Should show: 
+  - TextBox at top (log output area)
+  - Panel at bottom with TableLayoutPanel containing:
+    - Level dropdown
+    - Search textbox
+    - Apply Search button
+    - Clear Log button
+
+---
+
+## If Build Fails
+
+**"Multiple definitions"**
+- Check that you removed ALL control declarations from main file
+- They should ONLY be in Designer.vb
+
+**"txtLogOutput is not declared"**
+- Make sure Designer.vb was created properly
+- All controls should be `Friend` or `Friend WithEvents` in Designer
+
+**"Handles clause requires WithEvents"**
+- WithEvents controls in Designer: cmbLogLevel, txtLogSearch, btnApplyFilter, btnClearLog
+- Non-WithEvents controls: txtLogOutput, pnlLogFilter, filterTable, labels
+
+---
+
+## Success Checklist
+
+- [ ] LogOutputControl.vb has `Partial` in class declaration
+- [ ] LogOutputControl.vb has NO control declarations
+- [ ] LogOutputControl.vb has NO InitializeComponent method
+- [ ] Build succeeds with 0 errors
+- [ ] Designer opens and shows TextBox + filter panel with TableLayoutPanel
+- [ ] All controls are clickable in Designer
+
+---
+
+**One more control after this! Almost done!** ??
