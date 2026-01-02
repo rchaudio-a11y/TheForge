@@ -42,7 +42,6 @@
     <Compile Include="Source\UI\Controls\LogOutputControl.Designer.vb">
       <DependentUpon>LogOutputControl.vb</DependentUpon>
     </Compile>
-    <Compile Include="Source\UI\Controls\ModuleDetailsControl.Designer.vb" />
     <Compile Include="Source\UI\Controls\ModuleListControl.vb">
       <SubType>UserControl</SubType>
     </Compile>

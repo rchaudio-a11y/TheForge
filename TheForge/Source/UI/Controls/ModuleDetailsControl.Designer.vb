@@ -27,179 +27,180 @@ Namespace UI.Controls
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
         Private Sub InitializeComponent()
-            Me.lblModuleDetailsHeader = New System.Windows.Forms.Label()
-            Me.lblFileName = New System.Windows.Forms.Label()
-            Me.txtFileName = New System.Windows.Forms.TextBox()
-            Me.lblDisplayName = New System.Windows.Forms.Label()
-            Me.txtDisplayName = New System.Windows.Forms.TextBox()
-            Me.lblTypeName = New System.Windows.Forms.Label()
-            Me.txtTypeName = New System.Windows.Forms.TextBox()
-            Me.lblLastLoadedTime = New System.Windows.Forms.Label()
-            Me.txtLastLoadedTime = New System.Windows.Forms.TextBox()
-            Me.lblIsLoaded = New System.Windows.Forms.Label()
-            Me.txtIsLoaded = New System.Windows.Forms.TextBox()
-            Me.lblDependencies = New System.Windows.Forms.Label()
-            Me.txtDependencies = New System.Windows.Forms.TextBox()
-            Me.lblConfigPath = New System.Windows.Forms.Label()
-            Me.txtConfigPath = New System.Windows.Forms.TextBox()
-            Me.SuspendLayout()
-            '
-            'lblModuleDetailsHeader
-            '
-            Me.lblModuleDetailsHeader.AutoSize = True
-            Me.lblModuleDetailsHeader.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
-            Me.lblModuleDetailsHeader.Location = New System.Drawing.Point(10, 10)
-            Me.lblModuleDetailsHeader.Name = "lblModuleDetailsHeader"
-            Me.lblModuleDetailsHeader.Size = New System.Drawing.Size(114, 20)
-            Me.lblModuleDetailsHeader.TabIndex = 0
-            Me.lblModuleDetailsHeader.Text = "Module Details"
-            '
-            'lblFileName
-            '
-            Me.lblFileName.AutoSize = True
-            Me.lblFileName.Location = New System.Drawing.Point(10, 40)
-            Me.lblFileName.Name = "lblFileName"
-            Me.lblFileName.Size = New System.Drawing.Size(76, 20)
-            Me.lblFileName.TabIndex = 1
-            Me.lblFileName.Text = "File Name:"
-            '
-            'txtFileName
-            '
-            Me.txtFileName.Location = New System.Drawing.Point(10, 63)
-            Me.txtFileName.Name = "txtFileName"
-            Me.txtFileName.ReadOnly = True
-            Me.txtFileName.Size = New System.Drawing.Size(280, 27)
-            Me.txtFileName.TabIndex = 2
-            '
-            'lblDisplayName
-            '
-            Me.lblDisplayName.AutoSize = True
-            Me.lblDisplayName.Location = New System.Drawing.Point(10, 100)
-            Me.lblDisplayName.Name = "lblDisplayName"
-            Me.lblDisplayName.Size = New System.Drawing.Size(104, 20)
-            Me.lblDisplayName.TabIndex = 3
-            Me.lblDisplayName.Text = "Display Name:"
-            '
-            'txtDisplayName
-            '
-            Me.txtDisplayName.Location = New System.Drawing.Point(10, 123)
-            Me.txtDisplayName.Name = "txtDisplayName"
-            Me.txtDisplayName.ReadOnly = True
-            Me.txtDisplayName.Size = New System.Drawing.Size(280, 27)
-            Me.txtDisplayName.TabIndex = 4
-            '
-            'lblTypeName
-            '
-            Me.lblTypeName.AutoSize = True
-            Me.lblTypeName.Location = New System.Drawing.Point(10, 160)
-            Me.lblTypeName.Name = "lblTypeName"
-            Me.lblTypeName.Size = New System.Drawing.Size(87, 20)
-            Me.lblTypeName.TabIndex = 5
-            Me.lblTypeName.Text = "Type Name:"
-            '
-            'txtTypeName
-            '
-            Me.txtTypeName.Location = New System.Drawing.Point(10, 183)
-            Me.txtTypeName.Multiline = True
-            Me.txtTypeName.Name = "txtTypeName"
-            Me.txtTypeName.ReadOnly = True
-            Me.txtTypeName.Size = New System.Drawing.Size(280, 60)
-            Me.txtTypeName.TabIndex = 6
-            '
-            'lblLastLoadedTime
-            '
-            Me.lblLastLoadedTime.AutoSize = True
-            Me.lblLastLoadedTime.Location = New System.Drawing.Point(10, 253)
-            Me.lblLastLoadedTime.Name = "lblLastLoadedTime"
-            Me.lblLastLoadedTime.Size = New System.Drawing.Size(98, 20)
-            Me.lblLastLoadedTime.TabIndex = 7
-            Me.lblLastLoadedTime.Text = "Last Loaded:"
-            '
-            'txtLastLoadedTime
-            '
-            Me.txtLastLoadedTime.Location = New System.Drawing.Point(10, 276)
-            Me.txtLastLoadedTime.Name = "txtLastLoadedTime"
-            Me.txtLastLoadedTime.ReadOnly = True
-            Me.txtLastLoadedTime.Size = New System.Drawing.Size(280, 27)
-            Me.txtLastLoadedTime.TabIndex = 8
-            '
-            'lblIsLoaded
-            '
-            Me.lblIsLoaded.AutoSize = True
-            Me.lblIsLoaded.Location = New System.Drawing.Point(10, 313)
-            Me.lblIsLoaded.Name = "lblIsLoaded"
-            Me.lblIsLoaded.Size = New System.Drawing.Size(75, 20)
-            Me.lblIsLoaded.TabIndex = 9
-            Me.lblIsLoaded.Text = "Is Loaded:"
-            '
-            'txtIsLoaded
-            '
-            Me.txtIsLoaded.Location = New System.Drawing.Point(10, 336)
-            Me.txtIsLoaded.Name = "txtIsLoaded"
-            Me.txtIsLoaded.ReadOnly = True
-            Me.txtIsLoaded.Size = New System.Drawing.Size(280, 27)
-            Me.txtIsLoaded.TabIndex = 10
-            '
-            'lblDependencies
-            '
-            Me.lblDependencies.AutoSize = True
-            Me.lblDependencies.Location = New System.Drawing.Point(10, 373)
-            Me.lblDependencies.Name = "lblDependencies"
-            Me.lblDependencies.Size = New System.Drawing.Size(102, 20)
-            Me.lblDependencies.TabIndex = 11
-            Me.lblDependencies.Text = "Dependencies:"
-            '
-            'txtDependencies
-            '
-            Me.txtDependencies.Location = New System.Drawing.Point(10, 396)
-            Me.txtDependencies.Multiline = True
-            Me.txtDependencies.Name = "txtDependencies"
-            Me.txtDependencies.ReadOnly = True
-            Me.txtDependencies.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-            Me.txtDependencies.Size = New System.Drawing.Size(280, 60)
-            Me.txtDependencies.TabIndex = 12
-            '
-            'lblConfigPath
-            '
-            Me.lblConfigPath.AutoSize = True
-            Me.lblConfigPath.Location = New System.Drawing.Point(10, 466)
-            Me.lblConfigPath.Name = "lblConfigPath"
-            Me.lblConfigPath.Size = New System.Drawing.Size(90, 20)
-            Me.lblConfigPath.TabIndex = 13
-            Me.lblConfigPath.Text = "Config Path:"
-            '
-            'txtConfigPath
-            '
-            Me.txtConfigPath.Location = New System.Drawing.Point(10, 489)
-            Me.txtConfigPath.Name = "txtConfigPath"
-            Me.txtConfigPath.ReadOnly = True
-            Me.txtConfigPath.Size = New System.Drawing.Size(280, 27)
-            Me.txtConfigPath.TabIndex = 14
-            '
-            'ModuleDetailsControl
-            '
-            Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.AutoScroll = True
-            Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(245, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(245, Byte), Integer))
-            Me.Controls.Add(Me.txtConfigPath)
-            Me.Controls.Add(Me.lblConfigPath)
-            Me.Controls.Add(Me.txtDependencies)
-            Me.Controls.Add(Me.lblDependencies)
-            Me.Controls.Add(Me.txtIsLoaded)
-            Me.Controls.Add(Me.lblIsLoaded)
-            Me.Controls.Add(Me.txtLastLoadedTime)
-            Me.Controls.Add(Me.lblLastLoadedTime)
-            Me.Controls.Add(Me.txtTypeName)
-            Me.Controls.Add(Me.lblTypeName)
-            Me.Controls.Add(Me.txtDisplayName)
-            Me.Controls.Add(Me.lblDisplayName)
-            Me.Controls.Add(Me.txtFileName)
-            Me.Controls.Add(Me.lblFileName)
-            Me.Controls.Add(Me.lblModuleDetailsHeader)
-            Me.Name = "ModuleDetailsControl"
-            Me.Size = New System.Drawing.Size(300, 530)
-            Me.ResumeLayout(False)
-            Me.PerformLayout()
+            lblModuleDetailsHeader = New Label()
+            lblFileName = New Label()
+            txtFileName = New TextBox()
+            lblDisplayName = New Label()
+            txtDisplayName = New TextBox()
+            lblTypeName = New Label()
+            txtTypeName = New TextBox()
+            lblLastLoadedTime = New Label()
+            txtLastLoadedTime = New TextBox()
+            lblIsLoaded = New Label()
+            txtIsLoaded = New TextBox()
+            lblDependencies = New Label()
+            txtDependencies = New TextBox()
+            lblConfigPath = New Label()
+            txtConfigPath = New TextBox()
+            SuspendLayout()
+            ' 
+            ' lblModuleDetailsHeader
+            ' 
+            lblModuleDetailsHeader.AutoSize = True
+            lblModuleDetailsHeader.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+            lblModuleDetailsHeader.Location = New Point(10, 10)
+            lblModuleDetailsHeader.Name = "lblModuleDetailsHeader"
+            lblModuleDetailsHeader.Size = New Size(114, 20)
+            lblModuleDetailsHeader.TabIndex = 0
+            lblModuleDetailsHeader.Text = "Module Details"
+            ' 
+            ' lblFileName
+            ' 
+            lblFileName.AutoSize = True
+            lblFileName.Location = New Point(10, 40)
+            lblFileName.Name = "lblFileName"
+            lblFileName.Size = New Size(79, 20)
+            lblFileName.TabIndex = 1
+            lblFileName.Text = "File Name:"
+            ' 
+            ' txtFileName
+            ' 
+            txtFileName.Location = New Point(10, 63)
+            txtFileName.Name = "txtFileName"
+            txtFileName.ReadOnly = True
+            txtFileName.Size = New Size(280, 27)
+            txtFileName.TabIndex = 2
+            ' 
+            ' lblDisplayName
+            ' 
+            lblDisplayName.AutoSize = True
+            lblDisplayName.Location = New Point(10, 100)
+            lblDisplayName.Name = "lblDisplayName"
+            lblDisplayName.Size = New Size(105, 20)
+            lblDisplayName.TabIndex = 3
+            lblDisplayName.Text = "Display Name:"
+            ' 
+            ' txtDisplayName
+            ' 
+            txtDisplayName.Location = New Point(10, 123)
+            txtDisplayName.Name = "txtDisplayName"
+            txtDisplayName.ReadOnly = True
+            txtDisplayName.Size = New Size(280, 27)
+            txtDisplayName.TabIndex = 4
+            ' 
+            ' lblTypeName
+            ' 
+            lblTypeName.AutoSize = True
+            lblTypeName.Location = New Point(10, 160)
+            lblTypeName.Name = "lblTypeName"
+            lblTypeName.Size = New Size(87, 20)
+            lblTypeName.TabIndex = 5
+            lblTypeName.Text = "Type Name:"
+            ' 
+            ' txtTypeName
+            ' 
+            txtTypeName.Location = New Point(10, 183)
+            txtTypeName.Multiline = True
+            txtTypeName.Name = "txtTypeName"
+            txtTypeName.ReadOnly = True
+            txtTypeName.Size = New Size(280, 60)
+            txtTypeName.TabIndex = 6
+            ' 
+            ' lblLastLoadedTime
+            ' 
+            lblLastLoadedTime.AutoSize = True
+            lblLastLoadedTime.Location = New Point(10, 253)
+            lblLastLoadedTime.Name = "lblLastLoadedTime"
+            lblLastLoadedTime.Size = New Size(92, 20)
+            lblLastLoadedTime.TabIndex = 7
+            lblLastLoadedTime.Text = "Last Loaded:"
+            ' 
+            ' txtLastLoadedTime
+            ' 
+            txtLastLoadedTime.Location = New Point(10, 276)
+            txtLastLoadedTime.Name = "txtLastLoadedTime"
+            txtLastLoadedTime.ReadOnly = True
+            txtLastLoadedTime.Size = New Size(280, 27)
+            txtLastLoadedTime.TabIndex = 8
+            ' 
+            ' lblIsLoaded
+            ' 
+            lblIsLoaded.AutoSize = True
+            lblIsLoaded.Location = New Point(10, 313)
+            lblIsLoaded.Name = "lblIsLoaded"
+            lblIsLoaded.Size = New Size(76, 20)
+            lblIsLoaded.TabIndex = 9
+            lblIsLoaded.Text = "Is Loaded:"
+            ' 
+            ' txtIsLoaded
+            ' 
+            txtIsLoaded.Location = New Point(10, 336)
+            txtIsLoaded.Name = "txtIsLoaded"
+            txtIsLoaded.ReadOnly = True
+            txtIsLoaded.Size = New Size(280, 27)
+            txtIsLoaded.TabIndex = 10
+            ' 
+            ' lblDependencies
+            ' 
+            lblDependencies.AutoSize = True
+            lblDependencies.Location = New Point(10, 373)
+            lblDependencies.Name = "lblDependencies"
+            lblDependencies.Size = New Size(106, 20)
+            lblDependencies.TabIndex = 11
+            lblDependencies.Text = "Dependencies:"
+            ' 
+            ' txtDependencies
+            ' 
+            txtDependencies.Location = New Point(10, 396)
+            txtDependencies.Multiline = True
+            txtDependencies.Name = "txtDependencies"
+            txtDependencies.ReadOnly = True
+            txtDependencies.ScrollBars = ScrollBars.Vertical
+            txtDependencies.Size = New Size(280, 60)
+            txtDependencies.TabIndex = 12
+            ' 
+            ' lblConfigPath
+            ' 
+            lblConfigPath.AutoSize = True
+            lblConfigPath.Location = New Point(10, 466)
+            lblConfigPath.Name = "lblConfigPath"
+            lblConfigPath.Size = New Size(88, 20)
+            lblConfigPath.TabIndex = 13
+            lblConfigPath.Text = "Config Path:"
+            ' 
+            ' txtConfigPath
+            ' 
+            txtConfigPath.Location = New Point(10, 489)
+            txtConfigPath.Name = "txtConfigPath"
+            txtConfigPath.ReadOnly = True
+            txtConfigPath.Size = New Size(280, 27)
+            txtConfigPath.TabIndex = 14
+            ' 
+            ' ModuleDetailsControl
+            ' 
+            AutoScaleDimensions = New SizeF(8F, 20F)
+            AutoScaleMode = AutoScaleMode.Font
+            AutoScroll = True
+            BackColor = Color.FromArgb(CByte(245), CByte(245), CByte(245))
+            Controls.Add(txtConfigPath)
+            Controls.Add(lblConfigPath)
+            Controls.Add(txtDependencies)
+            Controls.Add(lblDependencies)
+            Controls.Add(txtIsLoaded)
+            Controls.Add(lblIsLoaded)
+            Controls.Add(txtLastLoadedTime)
+            Controls.Add(lblLastLoadedTime)
+            Controls.Add(txtTypeName)
+            Controls.Add(lblTypeName)
+            Controls.Add(txtDisplayName)
+            Controls.Add(lblDisplayName)
+            Controls.Add(txtFileName)
+            Controls.Add(lblFileName)
+            Controls.Add(lblModuleDetailsHeader)
+            Name = "ModuleDetailsControl"
+            Size = New Size(300, 530)
+            ResumeLayout(False)
+            PerformLayout()
         End Sub
 
         Friend lblModuleDetailsHeader As Label
