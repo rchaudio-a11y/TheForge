@@ -2,7 +2,7 @@
 
 **Document Type:** Amendment Proposal  
 **Created:** 2025-01-02  
-**Character Count:** TBD  
+**Character Count:** 16123  
 **Status:** Draft - Awaiting Approval  
 **Proposes Amendment To:** ForgeCharter.md Section 12 (NEW)  
 **Related:** Branch-Architecture.md, Branch-Coding.md

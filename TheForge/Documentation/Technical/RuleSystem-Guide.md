@@ -2,7 +2,7 @@
 
 **Document Type:** Technical Reference  
 **Created:** 2025-01-02  
-**Character Count:** 8,956  
+**Character Count:** 11167  
 **Status:** Final  
 **Purpose:** Guide for understanding and using The Forge rule hierarchy  
 **Related:** CodeRules-Summary.md, ArchitectureRules-Summary.md, DocumentationRules-Summary.md

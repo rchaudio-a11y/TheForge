@@ -1,6 +1,14 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** IModuleConfiguration.vb
+
+Imports System.Collections.Generic
+
 Namespace Models
     ''' <summary>
-    ''' Thread-safe implementation of IModuleConfiguration.
+    ''' Represents configuration settings for a module.
     ''' </summary>
     Public Class ModuleConfiguration
         Implements Modules.Interfaces.IModuleConfiguration

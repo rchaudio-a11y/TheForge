@@ -1,6 +1,12 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** ILoggingService.vb
+
 Namespace Services.Implementations
     ''' <summary>
-    ''' Implementation of ILoggingService for logging and diagnostics.
+    ''' Implementation of ILoggingService for logging operations.
     ''' </summary>
     Public Class LoggingService
         Implements Services.Interfaces.ILoggingService

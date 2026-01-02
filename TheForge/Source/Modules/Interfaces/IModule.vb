@@ -1,3 +1,9 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** ModuleConfiguration.vb, ModuleLoaderService.vb
+
 Namespace Modules.Interfaces
     ''' <summary>
     ''' Interface that all Forge modules must implement.

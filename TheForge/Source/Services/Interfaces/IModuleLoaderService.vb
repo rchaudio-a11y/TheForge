@@ -1,6 +1,12 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** ModuleLoaderService.vb, ModuleMetadata.vb
+
 Namespace Services.Interfaces
     ''' <summary>
-    ''' Interface for module loading and discovery services.
+    ''' Interface for module loading and management operations.
     ''' </summary>
     Public Interface IModuleLoaderService
         ''' <summary>

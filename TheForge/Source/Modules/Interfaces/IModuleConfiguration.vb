@@ -1,6 +1,12 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** IModule.vb
+
 Namespace Modules.Interfaces
     ''' <summary>
-    ''' Interface for module configuration management.
+    ''' Interface for module configuration.
     ''' </summary>
     Public Interface IModuleConfiguration
         ''' <summary>

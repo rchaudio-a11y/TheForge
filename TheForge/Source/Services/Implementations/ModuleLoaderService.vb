@@ -1,3 +1,9 @@
+' **Character Count:** TBD
+' **Document Type:** Code
+' **Created:** 2024-11-01
+' **Last Updated:** 2025-01-02
+' **Related:** IModuleLoaderService.vb, ILoggingService.vb, ModuleMetadata.vb
+
 Imports System.IO
 Imports System.Reflection
 
@@ -39,7 +45,7 @@ Namespace Services.Implementations
                 Try
                     Dim fileName As String = IO.Path.GetFileName(filePath)
                     Dim displayName As String = IO.Path.GetFileNameWithoutExtension(filePath)
-                    
+
                     Dim metadata As Models.ModuleMetadata = Nothing
                     If _moduleCache.ContainsKey(fileName) Then
                         metadata = _moduleCache(fileName)
@@ -47,14 +53,14 @@ Namespace Services.Implementations
                     Else
                         Dim assembly As Assembly = Assembly.LoadFrom(filePath)
                         Dim moduleType As Type = FindModuleType(assembly)
-                        
+
                         Dim typeName As String = String.Empty
                         Dim dependencies As String() = New String() {}
-                        
+
                         If moduleType IsNot Nothing Then
                             typeName = moduleType.FullName
                             dependencies = ExtractDependencies(moduleType)
-                            
+
                             If dependencies.Length > 0 Then
                                 _loggingService.LogInfo(String.Format("Discovered module: {0} ({1}) with {2} dependencies", displayName, typeName, dependencies.Length))
                             Else
@@ -63,12 +69,12 @@ Namespace Services.Implementations
                         Else
                             _loggingService.LogWarning(String.Format("No IModule implementation found in {0}", fileName))
                         End If
-                        
+
                         metadata = New Models.ModuleMetadata(fileName, displayName, typeName)
                         metadata.Dependencies = dependencies
                         _moduleCache(fileName) = metadata
                     End If
-                    
+
                     modules.Add(metadata)
                 Catch ex As Exception
                     _loggingService.LogError(String.Format("Error discovering module {0}: {1}", IO.Path.GetFileName(filePath), ex.Message))
@@ -81,16 +87,16 @@ Namespace Services.Implementations
 
         Private Function GetModuleFiles() As String()
             Dim timeSinceLastScan As TimeSpan = DateTime.Now - _lastDirectoryScanTime
-            
+
             If _cachedDirectoryListing IsNot Nothing AndAlso timeSinceLastScan.TotalSeconds < 2 Then
                 _loggingService.LogInfo("Using cached directory listing (scanned " & timeSinceLastScan.TotalMilliseconds.ToString("F0") & "ms ago)")
                 Return _cachedDirectoryListing
             End If
-            
+
             _cachedDirectoryListing = Directory.GetFiles(_modulesDirectory, "*.dll", SearchOption.TopDirectoryOnly)
             _lastDirectoryScanTime = DateTime.Now
             _loggingService.LogInfo("Directory listing refreshed")
-            
+
             Return _cachedDirectoryListing
         End Function
 
@@ -100,7 +106,7 @@ Namespace Services.Implementations
             End If
 
             Dim fileName As String = IO.Path.GetFileName(path)
-            
+
             If _moduleCache.ContainsKey(fileName) Then
                 Dim cachedMetadata As Models.ModuleMetadata = _moduleCache(fileName)
                 If cachedMetadata.IsLoaded AndAlso cachedMetadata.CachedInstance IsNot Nothing Then
@@ -127,27 +133,27 @@ Namespace Services.Implementations
 
             Dim reloadDuration As TimeSpan = DateTime.Now - reloadStartTime
             _loggingService.LogInfo(String.Format("Module reloaded successfully: {0} (took {1}ms)", metadata.DisplayName, reloadDuration.TotalMilliseconds.ToString("F0")))
-            
+
             Return reloadedModule
         End Function
 
         Private Function LoadModuleInternal(path As String, useCache As Boolean) As Modules.Interfaces.IModule
             _loggingService.LogInfo(String.Format("Loading assembly from: {0}", path))
-            
+
             Dim assembly As Assembly = Assembly.LoadFrom(path)
             Dim moduleType As Type = FindModuleType(assembly)
-            
+
             If moduleType Is Nothing Then
                 Dim errorMsg As String = String.Format("No type implementing IModule found in assembly: {0}", path)
                 _loggingService.LogError(errorMsg)
                 Throw New InvalidOperationException(errorMsg)
             End If
-            
+
             _loggingService.LogInfo(String.Format("Instantiating module type: {0}", moduleType.FullName))
-            
+
             Dim moduleInstance As Object = Activator.CreateInstance(moduleType)
             Dim moduleInterface As Modules.Interfaces.IModule = TryCast(moduleInstance, Modules.Interfaces.IModule)
-            
+
             If moduleInterface Is Nothing Then
                 Dim errorMsg As String = String.Format("Failed to cast module instance to IModule: {0}", moduleType.FullName)
                 _loggingService.LogError(errorMsg)
