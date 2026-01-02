@@ -89,4 +89,78 @@ When creating new files:
   - Place them in the folder that matches existing architectural patterns (UI, Services, Models, etc.).
   - Ask the user before creating new top-level folders or structural changes.
 
+----------------------------------------------------------------------
+6. Terminal command and error handling behavior
+----------------------------------------------------------------------
+
+When executing terminal commands (PowerShell, bash, cmd, etc.):
+
+• Copilot must:
+  - NEVER use -ErrorAction SilentlyContinue or equivalent silent error suppression
+  - Allow errors to surface explicitly so failures are visible
+  - Prefer -ErrorAction Stop for critical operations that must not fail silently
+  - Report command failures clearly to the user
+
+• Copilot should:
+  - Validate file/path existence before destructive operations when practical
+  - Use appropriate tools (edit_file, create_file, remove_file) instead of terminal commands for file modifications when available
+  - Provide clear context when terminal command execution fails
+  - Follow existing error handling patterns in the codebase
+
+Rationale:
+Silent error suppression violates the Forge principle of explicit over implicit behavior.
+Errors must be visible so they can be addressed, not hidden.
+## 7. Designer File Handling
+
+This section defines required behavior when generating, modifying, or interacting with
+files managed by the Visual Studio Windows Forms Designer. These rules ensure that
+Designer‑generated code remains stable, synchronized, and free from corruption.
+
+### 7.1 Scope
+These rules apply to:
+- Any `.Designer.vb` file
+- Any `.vb` file paired with a Designer file through `Partial Class`
+- Any UserControl or Form using `InitializeComponent`
+- Any project file entries involving `<SubType>UserControl</SubType>` or `<DependentUpon>`
+
+### 7.2 File Lock Awareness
+- Assume Designer‑managed files may be locked by Visual Studio at any time.
+- If a file is locked, do not attempt shell‑based modification, deletion, or replacement.
+- When a lock is detected (e.g., “Could not get text view”), stop immediately and surface
+  the error instead of retrying or falling back to shell commands.
+
+### 7.3 Modification Rules
+- Do not modify `.Designer.vb` files using shell commands under any circumstances.
+- Do not modify Designer‑paired `.vb` files using shell commands if Visual Studio is open.
+- All modifications must occur through the Visual Studio text buffer when available.
+- If Designer is open for a file, do not attempt automated edits; require the user to close
+  the Designer before proceeding.
+
+### 7.4 Partial Class Consistency
+- When generating or modifying a UserControl or Form, ensure that:
+  - Both the main `.vb` file and `.Designer.vb` file declare `Partial Class` with identical names.
+  - The `DesignerGenerated` attribute is preserved where required.
+- Never introduce mismatched class declarations that would desynchronize Designer state.
+
+### 7.5 Project File Integrity
+- When creating or restructuring Designer‑managed files:
+  - Ensure the `.Designer.vb` file is marked with `<DependentUpon>` in the project file.
+  - Ensure the main `.vb` file includes `<SubType>UserControl</SubType>` or `<SubType>Form</SubType>` as appropriate.
+- Do not create temporary files inside the project directory that may be auto‑imported by Visual Studio.
+
+### 7.6 External Change Handling
+- If a Designer‑managed file must be edited externally, require Visual Studio to be closed first.
+- After external edits, Visual Studio must be allowed to reload the file and resynchronize Designer state.
+- Never bypass Visual Studio’s reload mechanism.
+
+### 7.7 Error Handling
+- Do not suppress errors when interacting with Designer‑managed files.
+- Surface locking, synchronization, or project‑structure errors explicitly.
+- Do not attempt fallback operations that could corrupt Designer state.
+
+### 7.8 Automation Limitations
+- Do not attempt to automate Designer interactions (open/close Designer, reload Designer, etc.).
+- Do not attempt to modify Designer‑generated code structures beyond what Visual Studio itself produces.
+- Respect that Designer files are authoritative for layout and component initialization.
+
 End of file8.md.
