@@ -1,0 +1,335 @@
+Folder PATH listing for volume Windows
+Volume serial number is 807C-5907
+C:.
+|   .gitattributes
+|   .gitignore
+|   output.doc
+|   TheForge.slnx
+|   
++---.github
+|       copilot-instructions.md
+|       
++---SampleForgeModule
+|   |   SampleForgeModule.config
+|   |   SampleForgeModule.vbproj
+|   |   SampleForgeModule_fixed.vbproj
+|   |   SampleForgeModule_new.vbproj
+|   |   SampleModule.vb
+|   |   SampleModule_new.vb
+|   |   
+|   +---bin
+|   |   \---Debug
+|   |       +---net8.0
+|   |       \---net8.0-windows
+|   |               RCH.Forge.Dashboard.deps.json
+|   |               RCH.Forge.Dashboard.dll
+|   |               RCH.Forge.Dashboard.exe
+|   |               RCH.Forge.Dashboard.pdb
+|   |               RCH.Forge.Dashboard.runtimeconfig.json
+|   |               SampleForgeModule.deps.json
+|   |               SampleForgeModule.dll
+|   |               SampleForgeModule.pdb
+|   |               
+|   \---obj
+|       |   project.assets.json
+|       |   project.nuget.cache
+|       |   SampleForgeModule.vbproj.nuget.dgspec.json
+|       |   SampleForgeModule.vbproj.nuget.g.props
+|       |   SampleForgeModule.vbproj.nuget.g.targets
+|       |   
+|       \---Debug
+|           +---net8.0
+|           |   |   .NETCoreApp,Version=v8.0.AssemblyAttributes.vb
+|           |   |   SampleForgeModule.AssemblyInfo.vb
+|           |   |   SampleForgeModule.AssemblyInfoInputs.cache
+|           |   |   SampleForgeModule.assets.cache
+|           |   |   SampleForgeModule.GeneratedMSBuildEditorConfig.editorconfig
+|           |   |   SampleForgeModule.sourcelink.json
+|           |   |   SampleForgeModule.vbproj.CoreCompileInputs.cache
+|           |   |   SampleForgeModule.vbproj.FileListAbsolute.txt
+|           |   |   
+|           |   +---ref
+|           |   \---refint
+|           \---net8.0-windows
+|               |   .NETCoreApp,Version=v8.0.AssemblyAttributes.vb
+|               |   SampleFo.0B1D116D.Up2Date
+|               |   SampleForgeModule.AssemblyInfo.vb
+|               |   SampleForgeModule.AssemblyInfoInputs.cache
+|               |   SampleForgeModule.assets.cache
+|               |   SampleForgeModule.dll
+|               |   SampleForgeModule.GeneratedMSBuildEditorConfig.editorconfig
+|               |   SampleForgeModule.pdb
+|               |   SampleForgeModule.sourcelink.json
+|               |   SampleForgeModule.vbproj.AssemblyReference.cache
+|               |   SampleForgeModule.vbproj.CoreCompileInputs.cache
+|               |   SampleForgeModule.vbproj.FileListAbsolute.txt
+|               |   
+|               +---ref
+|               |       SampleForgeModule.dll
+|               |       
+|               \---refint
+|                       SampleForgeModule.dll
+|                       
+\---TheForge
+    |   ApplicationEvents.vb
+    |   FIXES.txt
+    |   FIXES_LogOutputControl.txt
+    |   FIXES_ModuleListControl.txt
+    |   Form1.Designer.vb
+    |   Form1.vb
+    |   README.md
+    |   REDESIGN_Instructions.txt
+    |   TheForge.vbproj
+    |   TheForge.vbproj.Backup (1).tmp
+    |   TheForge.vbproj.Backup (10).tmp
+    |   TheForge.vbproj.Backup (2).tmp
+    |   TheForge.vbproj.Backup (3).tmp
+    |   TheForge.vbproj.Backup (4).tmp
+    |   TheForge.vbproj.Backup (5).tmp
+    |   TheForge.vbproj.Backup (6).tmp
+    |   TheForge.vbproj.Backup (7).tmp
+    |   TheForge.vbproj.Backup (8).tmp
+    |   TheForge.vbproj.Backup (9).tmp
+    |   TheForge.vbproj.Backup.tmp
+    |   TheForge.vbproj.user
+    |   TheForge_fixed.vbproj
+    |   TheForge_v08.vbproj
+    |   TheForge_v081.vbproj
+    |   
+    +---bin
+    |   \---Debug
+    |       \---net8.0-windows
+    |           |   RCH.Forge.Dashboard.deps.json
+    |           |   RCH.Forge.Dashboard.dll
+    |           |   RCH.Forge.Dashboard.exe
+    |           |   RCH.Forge.Dashboard.pdb
+    |           |   RCH.Forge.Dashboard.runtimeconfig.json
+    |           |   
+    |           \---Modules
+    |                   SampleForgeModule.config
+    |                   SampleForgeModule.dll
+    |                   
+    +---Documentation
+    |   |   README.md
+    |   |   
+    |   +---Chronicle
+    |   |   |   DevelopmentLog.index.md
+    |   |   |   DevelopmentLog_Consolidation_Summary.md
+    |   |   |   file7_file8_Integration_Assessment.md
+    |   |   |   ForgeAudit-ComprehensiveSolutionReport-2025-01-02.md
+    |   |   |   ForgeRuleSystem20-ComplianceReport-ActionPlan.md
+    |   |   |   ForgeSolutionRuleComplianceAudit_Summary.md
+    |   |   |   ForgeSolutionRuleComplianceReport_01.md
+    |   |   |   ForgeSolutionRuleComplianceReport_02.md
+    |   |   |   ForgeSolutionRuleComplianceReport_03.md
+    |   |   |   ForgeSolutionRuleComplianceReport_04.md
+    |   |   |   ImplementationSummary.md
+    |   |   |   MetadataHeaderUpdate-ImplementationSummary.md
+    |   |   |   Phase1_Cleanup_Implementation_Guide.md
+    |   |   |   Phase1_Completion_Report.md
+    |   |   |   Progress_Checklist.md
+    |   |   |   README.md
+    |   |   |   Roadmap_Creation_Summary.md
+    |   |   |   Roadmap_v092_to_v100.md
+    |   |   |   v092_Milestone_Creation_Summary.md
+    |   |   |   v093_Completion_Summary.md
+    |   |   |   VersionHistory.chronicle.md
+    |   |   |   
+    |   |   \---DevelopmentLog
+    |   |           DevelopmentLog.split.summary.md
+    |   |           DevelopmentLog_Original.md
+    |   |           IssueSummary.md
+    |   |           v010.md
+    |   |           v020.md
+    |   |           v030.md
+    |   |           v040.md
+    |   |           v050.md
+    |   |           v060.md
+    |   |           v070.md
+    |   |           v080.md
+    |   |           v081.md
+    |   |           v082.md
+    |   |           v091.md
+    |   |           v092.md
+    |   |           v093.md
+    |   |           v094.md
+    |   |           v095.md
+    |   |           v096.md
+    |   |           v097.md
+    |   |           v098.md
+    |   |           
+    |   +---Codex
+    |   |       README.md
+    |   |       
+    |   +---Grimoire
+    |   |       README.md
+    |   |       
+    |   +---Lore
+    |   |       NamingCanon.md
+    |   |       README.md
+    |   |       
+    |   +---Scriptorium
+    |   |       README.md
+    |   |       
+    |   +---Technical
+    |   |       ArchitectureRules-Summary.md
+    |   |       CodeRules-Summary.md
+    |   |       DesignerFileShellCommandIssues.md
+    |   |       DesignerFileStructure-OptimalPlacement.md
+    |   |       DocumentationRules-Summary.md
+    |   |       FileStructure-CharacterCounts.md
+    |   |       ForgeCharter-Amendment-ControlVersioning.md
+    |   |       ForgeCharter-Amendment-Section12.md
+    |   |       HybridRuleSystem-Response.md
+    |   |       MetadataHeaders-ManualApplication.md
+    |   |       RuleSystem-Guide.md
+    |   |       RuleSystemSimplification-Proposal-Part1.md
+    |   |       RuleSystemSimplification-Proposal-Part2.md
+    |   |       
+    |   \---Tomes
+    |           CreatingModules.md
+    |           ForgeTome.md
+    |           README.md
+    |           
+    +---My Project
+    |       Application.Designer.vb
+    |       Application.myapp
+    |       
+    +---obj
+    |   |   project.assets.json
+    |   |   project.nuget.cache
+    |   |   TheForge.vbproj.nuget.dgspec.json
+    |   |   TheForge.vbproj.nuget.g.props
+    |   |   TheForge.vbproj.nuget.g.targets
+    |   |   
+    |   \---Debug
+    |       \---net8.0-windows
+    |           |   .NETCoreApp,Version=v8.0.AssemblyAttributes.vb
+    |           |   apphost.exe
+    |           |   RCH.Forge.Dashboard.designer.deps.json
+    |           |   RCH.Forge.Dashboard.designer.runtimeconfig.json
+    |           |   RCH.Forge.Dashboard.dll
+    |           |   RCH.Forge.Dashboard.pdb
+    |           |   TheForge.AssemblyInfo.vb
+    |           |   TheForge.AssemblyInfoInputs.cache
+    |           |   TheForge.assets.cache
+    |           |   TheForge.DashboardMainForm.resources
+    |           |   TheForge.GeneratedMSBuildEditorConfig.editorconfig
+    |           |   TheForge.genruntimeconfig.cache
+    |           |   TheForge.LogOutputControl_Todo.resources
+    |           |   TheForge.sourcelink.json
+    |           |   TheForge.UI.Controls.LogOutputControl.resources
+    |           |   TheForge.UI.Controls.ModuleDetailsControl.resources
+    |           |   TheForge.UI.Controls.ModuleListControl.resources
+    |           |   TheForge.UI.Controls.TestAreaControl.resources
+    |           |   TheForge.vbproj.BuildWithSkipAnalyzers
+    |           |   TheForge.vbproj.CoreCompileInputs.cache
+    |           |   TheForge.vbproj.FileListAbsolute.txt
+    |           |   TheForge.vbproj.GenerateResource.cache
+    |           |   
+    |           +---ref
+    |           |       RCH.Forge.Dashboard.dll
+    |           |       
+    |           +---refint
+    |           |       RCH.Forge.Dashboard.dll
+    |           |       
+    |           \---TempPE
+    +---Prompts
+    |   |   Branch-AlwaysRead.md
+    |   |   Branch-Architecture.md
+    |   |   Branch-Coding.md
+    |   |   Branch-Documentation.md
+    |   |   file1.md
+    |   |   file2.md
+    |   |   file3.md
+    |   |   file4.md
+    |   |   file5.md
+    |   |   File6.md
+    |   |   file7.md
+    |   |   file8.md
+    |   |   ForgeAudit.md
+    |   |   ForgeCharter.md
+    |   |   ForgeOrchistrator.md
+    |   |   master.md
+    |   |   
+    |   +---Skills
+    |   |       Claude Opus 4.5 Prompt Pack.md
+    |   |       file1.md
+    |   |       Forge-Agents.md.md
+    |   |       Free - Claude Haiku 4.5.md
+    |   |       Free - GPT-4o.md
+    |   |       Free - GPT-5 Mini.md
+    |   |       GPT-5.1-Codex-Max Prompt Pack.md
+    |   |       
+    |   \---Tasks
+    |           file1.md
+    |           IssueSummary.md
+    |           
+    +---Resources
+    |   |   README.md
+    |   |   
+    |   +---Data
+    |   |       README.md
+    |   |       
+    |   \---Images
+    |           README.md
+    |           
+    \---Source
+        |   README.md
+        |   
+        +---Core
+        |       ModuleConfiguration.vb
+        |       ModuleMetadata.vb
+        |       README.md
+        |       
+        +---Models
+        |       README.md
+        |       
+        +---Modules
+        |   \---Interfaces
+        |           IModule.vb
+        |           IModuleConfiguration.vb
+        |           ModuleDependencyAttribute.vb
+        |           README.md
+        |           
+        +---Services
+        |   |   ILoggingService.vb
+        |   |   IModuleLoaderService.vb
+        |   |   LoggingService.vb
+        |   |   README.md
+        |   |   
+        |   +---Implementations
+        |   |       LoggingService.vb
+        |   |       ModuleLoaderService.vb
+        |   |       README.md
+        |   |       
+        |   \---Interfaces
+        |           ILoggingService.vb
+        |           IModuleLoaderService.vb
+        |           README.md
+        |           
+        \---UI
+            |   DashboardMainForm.Designer.vb
+            |   DashboardMainForm.resx
+            |   DashboardMainForm.vb
+            |   DashboardMainForm_Modular.vb
+            |   DashboardMainForm_v08.vb
+            |   README.md
+            |   
+            \---Controls
+                    LogOutputControl.Designer.vb
+                    LogOutputControl.resx
+                    LogOutputControl.vb
+                    LogOutputControl_Todo.resx
+                    ModuleDetailsControl.Designer.vb
+                    ModuleDetailsControl.resx
+                    ModuleDetailsControl.vb
+                    ModuleListControl.Designer.vb
+                    ModuleListControl.resx
+                    ModuleListControl.vb
+                    README.md
+                    TestAreaControl.Designer.vb
+                    TestAreaControl.resx
+                    TestAreaControl.vb
+                    TestAreaControl_TEMP.vb
+                    

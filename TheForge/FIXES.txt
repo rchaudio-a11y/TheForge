@@ -1,0 +1,367 @@
+# v0.9.9 Designer Enablement - Manual Fix Instructions
+
+**Created:** 2025-01-02
+**Purpose:** Fix TestAreaControl to enable Visual Studio Designer
+**Status:** Requires manual intervention per file8.md section 7
+
+---
+
+## IMPORTANT: Why Manual Fixes Are Required
+
+Per file8.md section 7 (Designer File Handling):
+- Visual Studio locks Designer-managed files
+- Shell commands cannot modify locked files
+- External changes require VS to be closed and reopened
+- This is the ONLY safe way to enable Designer
+
+See: Documentation/Technical/DesignerFileShellCommandIssues.md for full explanation
+
+---
+
+## Current State
+
+**What's Wrong:**
+1. TestAreaControl.vb still has the old InitializeComponent() method
+2. TestAreaControl.Designer.vb exists (correct) but causes duplicate definition
+3. TestAreaControl_TEMP.vb exists and shouldn't be in project
+4. Project file has been cleaned (? already fixed)
+
+**Build Errors:** 7 errors related to duplicate definitions
+
+---
+
+## Fix Instructions
+
+### Step 1: Close Visual Studio
+
+**WHY:** Releases all file locks so you can edit safely
+
+**ACTION:**
+- Save any unsaved work
+- Close Visual Studio completely
+- Wait 5 seconds to ensure all processes exit
+
+---
+
+### Step 2: Edit TestAreaControl.vb
+
+**File Location:** 
+```
+C:\Users\rchau\source\repos\TheForge\TheForge\Source\UI\Controls\TestAreaControl.vb
+```
+
+**ACTION:** Replace the ENTIRE file content with this:
+
+```vb
+Imports System.Windows.Forms
+
+Namespace UI.Controls
+    ''' <summary>
+    ''' UserControl placeholder for module UI testing area.
+    ''' </summary>
+    Partial Public Class TestAreaControl        ' <-- NO attribute here!
+        Inherits UserControl
+
+        Public Sub New()
+            InitializeComponent()
+        End Sub
+    End Class
+End Namespace
+```
+
+**What Changed:**
+- REMOVED: <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> attribute
+- Changed: Public Class ? Partial Public Class
+- Removed: Entire Private Sub InitializeComponent() method (now in .Designer.vb)
+
+**IMPORTANT:** Only the .Designer.vb file should have the DesignerGenerated attribute!
+
+---
+
+### Step 3: Delete TestAreaControl_TEMP.vb
+
+**File Location:**
+```
+C:\Users\rchau\source\repos\TheForge\TheForge\Source\UI\Controls\TestAreaControl_TEMP.vb
+```
+
+**ACTION:**
+- Delete this file manually (Windows Explorer or any file manager)
+- This was a temp file created during failed automation attempt
+- It's NOT needed and was causing project confusion
+
+---
+
+### Step 4: Verify TestAreaControl.Designer.vb
+
+**File Location:**
+```
+C:\Users\rchau\source\repos\TheForge\TheForge\Source\UI\Controls\TestAreaControl.Designer.vb
+```
+
+**ACTION:** 
+- Open the file and verify it looks like this:
+- DO NOT MODIFY - just verify it exists and looks correct
+
+**Expected Content:**
+```vb
+Imports System.ComponentModel
+Imports System.Windows.Forms
+
+Namespace UI.Controls
+    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+    Partial Class TestAreaControl
+        Inherits UserControl
+
+        'UserControl overrides dispose to clean up the component list.
+        <System.Diagnostics.DebuggerNonUserCode()>
+        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+            Try
+                If disposing AndAlso components IsNot Nothing Then
+                    components.Dispose()
+                End If
+            Finally
+                MyBase.Dispose(disposing)
+            End Try
+        End Sub
+
+        'Required by the Windows Form Designer
+        Private components As IContainer
+
+        'NOTE: The following procedure is required by the Windows Form Designer
+        'It can be modified using the Windows Form Designer.  
+        'Do not modify it using the code editor.
+        <System.Diagnostics.DebuggerStepThrough()>
+        Private Sub InitializeComponent()
+            Me.SuspendLayout()
+            '
+            'TestAreaControl
+            '
+            Me.BackColor = System.Drawing.Color.White
+            Me.Name = "TestAreaControl"
+            Me.ResumeLayout(False)
+        End Sub
+    End Class
+End Namespace
+```
+
+**If it looks correct:** ? Good, proceed to Step 5
+**If it's missing or different:** Stop and ask for help
+
+---
+
+### Step 5: Verify TheForge.vbproj
+
+**File Location:**
+```
+C:\Users\rchau\source\repos\TheForge\TheForge\TheForge.vbproj
+```
+
+**ACTION:**
+- Open the file and search for "TestAreaControl"
+- Verify you see EXACTLY this (and no duplicates):
+
+**Expected Content:**
+```xml
+    <Compile Include="Source\UI\Controls\TestAreaControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\TestAreaControl.Designer.vb">
+      <DependentUpon>TestAreaControl.vb</DependentUpon>
+    </Compile>
+```
+
+**Check for Problems:**
+- ? If you see TestAreaControl listed MORE than twice: REMOVE duplicates
+- ? If you see TestAreaControl_TEMP: REMOVE that line completely
+- ? If Designer.vb doesn't have <DependentUpon>: ADD it
+- ? If it matches above exactly: Good, proceed
+
+---
+
+### Step 6: Reopen Visual Studio
+
+**WHY:** Allows VS to reload files and resynchronize Designer state
+
+**ACTION:**
+1. Open Visual Studio 2022
+2. Open the TheForge solution
+3. Wait for IntelliSense to finish loading (bottom left: "Ready")
+4. DO NOT open any files yet
+
+---
+
+### Step 7: Build and Verify
+
+**ACTION:**
+1. In Visual Studio: Build ? Rebuild Solution
+2. Check Output window for results
+
+**Expected Result:**
+```
+Build succeeded.
+0 Warning(s)
+0 Error(s)
+```
+
+**If Build Succeeds:**
+- ? TestAreaControl is now Designer-ready!
+- Proceed to Step 8 to test Designer
+
+**If Build Fails:**
+- Read the error messages carefully
+- Most likely cause: File still has duplicate definitions
+- Check that you completed Steps 2-5 correctly
+- If still stuck, stop and ask for help
+
+---
+
+### Step 8: Test Designer (Optional but Recommended)
+
+**ACTION:**
+1. In Solution Explorer, right-click TestAreaControl.vb
+2. Select "View Designer"
+
+**Expected Result:**
+- Designer opens showing empty white control
+- No errors in Error List
+- You can see properties in Properties window
+
+**If Designer Opens Successfully:**
+- ?? SUCCESS! Designer is enabled!
+- TestAreaControl is now visually editable
+
+**If Designer Fails to Open:**
+- Check Error List for specific errors
+- Most common: "Could not load file or assembly"
+- Verify all 3 files exist and are correct
+- Try Clean Solution, then Rebuild
+
+---
+
+## Verification Checklist
+
+Before proceeding to other controls, verify:
+
+- [ ] TestAreaControl.vb has Partial and DesignerGenerated attribute
+- [ ] TestAreaControl.vb does NOT have InitializeComponent method
+- [ ] TestAreaControl.Designer.vb exists and has InitializeComponent
+- [ ] TestAreaControl_TEMP.vb is deleted
+- [ ] TheForge.vbproj has exactly 2 TestAreaControl entries (no duplicates)
+- [ ] Project builds with 0 errors
+- [ ] Designer opens TestAreaControl successfully
+
+**All checked?** ? Ready to proceed to next control!
+
+---
+
+## What's Next After TestAreaControl Works
+
+Once TestAreaControl is working, we'll repeat for the other 3 controls:
+
+**Order (simplest to most complex):**
+1. ? TestAreaControl (current)
+2. ? ModuleListControl (next - simple list + buttons)
+3. ? LogOutputControl (medium - has TableLayoutPanel)
+4. ? ModuleDetailsControl (complex - large TableLayoutPanel)
+
+**For each control:**
+- Same process as TestAreaControl
+- Create .Designer.vb file
+- Modify .vb file to be Partial
+- Update project file
+- Build and verify
+
+---
+
+## If Something Goes Wrong
+
+**Common Issues:**
+
+**"Could not get text view"**
+- Cause: File is still open in VS
+- Fix: Close VS completely, make changes, reopen
+
+**"Multiple definitions"**
+- Cause: Old InitializeComponent still in main file
+- Fix: Remove it completely from .vb file
+
+**"Not a partial class"**
+- Cause: Missing Partial keyword in one of the files
+- Fix: Add Partial to both .vb and .Designer.vb
+
+**"Cannot find component"**
+- Cause: Project file missing DependentUpon
+- Fix: Add <DependentUpon>TestAreaControl.vb</DependentUpon>
+
+**Build succeeds but Designer won't open**
+- Cause: Designer cache corruption
+- Fix: Close VS, delete bin/ and obj/ folders, reopen and rebuild
+
+---
+
+## Important Notes
+
+**DO:**
+- Follow steps in exact order
+- Close VS before editing files
+- Reopen VS after editing files
+- Build after every change
+- Test Designer before proceeding
+
+**DON'T:**
+- Edit files while VS is open
+- Skip the build verification step
+- Proceed to next control if current one fails
+- Use shell/PowerShell commands for these files
+- Suppress errors
+
+---
+
+## File Locations Quick Reference
+
+```
+TheForge/
+??? TheForge/
+?   ??? TheForge.vbproj                               (Step 5: Verify)
+?   ??? Source/
+?       ??? UI/
+?           ??? Controls/
+?               ??? TestAreaControl.vb                (Step 2: EDIT THIS)
+?               ??? TestAreaControl.Designer.vb       (Step 4: Verify exists)
+?               ??? TestAreaControl_TEMP.vb           (Step 3: DELETE THIS)
+```
+
+---
+
+## Success Criteria
+
+**You'll know it worked when:**
+1. Build shows "0 Error(s)"
+2. No warnings about duplicate definitions
+3. Right-click ? View Designer opens successfully
+4. Designer shows white panel with no errors
+5. Properties window shows TestAreaControl properties
+
+---
+
+## Related Documentation
+
+- **file8.md section 7:** Designer File Handling rules
+- **Documentation/Technical/DesignerFileShellCommandIssues.md:** Full explanation of why this is needed
+- **v0.9.9 chronicle (when created):** Will document this milestone
+
+---
+
+## Questions?
+
+If you get stuck:
+1. Check which step failed
+2. Read the error messages carefully
+3. Verify you followed steps exactly
+4. Check the "Common Issues" section above
+5. Ask for help with specific error message
+
+---
+
+**Good luck! This is the final push to get Designer working!** ??

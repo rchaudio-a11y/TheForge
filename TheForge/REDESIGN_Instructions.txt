@@ -1,0 +1,169 @@
+# v0.9.9 REDESIGN - Designer-Friendly Controls
+
+**Status:** Complete Redesign with Designer-Friendly Layout
+**Created:** 2025-01-02
+**Rules:** Based on updated file8.md Section 7
+
+---
+
+## What Changed
+
+**OLD APPROACH (Dock-based):**
+- Complex Dock hierarchies
+- Designer could view but not edit
+- Controls not repositionable
+
+**NEW APPROACH (Designer-friendly):**
+- TableLayoutPanel for structured layouts
+- Anchor for relative positioning
+- Absolute positioning where needed
+- Fully editable in Designer
+
+---
+
+## Instructions for Each Control
+
+### 1. TestAreaControl (Simplest - Start Here)
+
+**Files to replace:**
+1. `Source/UI/Controls/TestAreaControl.Designer.vb`
+2. `Source/UI/Controls/TestAreaControl.vb`
+
+**Step-by-step:**
+1. In Visual Studio, close Designer view if open
+2. Open `TestAreaControl.Designer.vb`
+3. Copy content from `REDESIGN_TestAreaControl.Designer.vb` (this file below)
+4. Paste and replace ENTIRE file
+5. Save
+
+6. Open `TestAreaControl.vb`
+7. Copy content from `REDESIGN_TestAreaControl.vb` (this file below)
+8. Paste and replace ENTIRE file
+9. Save
+
+10. Build solution (should succeed)
+11. Right-click `TestAreaControl.vb` ? View Designer
+12. You should see empty white control that you can resize
+
+**TestAreaControl.Designer.vb content:**
+```vb
+Imports System.ComponentModel
+Imports System.Drawing
+Imports System.Windows.Forms
+
+Namespace UI.Controls
+    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+    Partial Class TestAreaControl
+        Inherits UserControl
+
+        'UserControl overrides dispose to clean up the component list.
+        <System.Diagnostics.DebuggerNonUserCode()>
+        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+            Try
+                If disposing AndAlso components IsNot Nothing Then
+                    components.Dispose()
+                End If
+            Finally
+                MyBase.Dispose(disposing)
+            End Try
+        End Sub
+
+        'Required by the Windows Form Designer
+        Private components As IContainer
+
+        'NOTE: The following procedure is required by the Windows Form Designer
+        'It can be modified using the Windows Form Designer.  
+        'Do not modify it using the code editor.
+        <System.Diagnostics.DebuggerStepThrough()>
+        Private Sub InitializeComponent()
+            Me.SuspendLayout()
+            '
+            'TestAreaControl
+            '
+            Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.BackColor = System.Drawing.Color.White
+            Me.Name = "TestAreaControl"
+            Me.Size = New System.Drawing.Size(400, 300)
+            Me.ResumeLayout(False)
+        End Sub
+    End Class
+End Namespace
+```
+
+**TestAreaControl.vb content:**
+```vb
+Imports System.Windows.Forms
+
+Namespace UI.Controls
+    ''' <summary>
+    ''' UserControl placeholder for module UI testing area.
+    ''' </summary>
+    Partial Public Class TestAreaControl
+        Inherits UserControl
+
+        ' NOTE: No control declarations here - this is an empty container
+        ' Future controls can be added via Designer
+
+        Public Sub New()
+            InitializeComponent()
+        End Sub
+    End Class
+End Namespace
+```
+
+---
+
+### 2. ModuleListControl (Next)
+
+**Coming after TestAreaControl verification**
+
+Will use TableLayoutPanel for buttons at bottom, ListBox above with Anchor.
+
+---
+
+### 3. LogOutputControl
+
+**Coming after ModuleListControl verification**
+
+Will use TableLayoutPanel for entire control structure.
+
+---
+
+### 4. ModuleDetailsControl
+
+**Coming after LogOutputControl verification**
+
+Will use TableLayoutPanel for all label/textbox pairs.
+
+---
+
+## Verification Steps
+
+After each control:
+1. Build succeeds with 0 errors
+2. Designer opens the control
+3. You can click and select the control itself
+4. Properties window shows control properties
+5. You can resize the control in Designer
+6. (For controls with children) You can select child controls
+7. (For controls with children) You can move/resize child controls
+
+---
+
+## Key Differences in New Approach
+
+**Control Declarations:**
+- ? OLD: Declared in both files (caused duplicates)
+- ? NEW: Declared ONLY in Designer.vb
+
+**Layout:**
+- ? OLD: Complex Dock hierarchies
+- ? NEW: TableLayoutPanel + Anchor + absolute positioning
+
+**Designer Editability:**
+- ? OLD: Can view, cannot edit
+- ? NEW: Can view AND edit fully
+
+---
+
+**Let's start with TestAreaControl!** Follow instructions above.

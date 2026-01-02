@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <StartupObject>Sub Main</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <MyType>WindowsForms</MyType>
+    <RootNamespace>TheForge</RootNamespace>
+    <AssemblyName>RCH.Forge.Dashboard</AssemblyName>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionInfer>Off</OptionInfer>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Core\ModuleConfiguration.vb" />
+    <Compile Include="Source\Models\ModuleMetadata.vb" />
+    <Compile Include="Source\Modules\Interfaces\IModule.vb" />
+    <Compile Include="Source\Modules\Interfaces\IModuleConfiguration.vb" />
+    <Compile Include="Source\Modules\Interfaces\ModuleDependencyAttribute.vb" />
+    <Compile Include="Source\Services\Implementations\ModuleLoaderService.vb" />
+    <Compile Include="Source\Services\Implementations\LoggingService.vb" />
+    <Compile Include="Source\Services\Interfaces\IModuleLoaderService.vb" />
+    <Compile Include="Source\Services\Interfaces\ILoggingService.vb" />
+    <Compile Include="Source\UI\Controls\LogOutputControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\LogOutputControl.Designer.vb">
+      <DependentUpon>LogOutputControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleListControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleListControl.Designer.vb">
+      <DependentUpon>ModuleListControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleDetailsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleDetailsControl.Designer.vb">
+      <DependentUpon>ModuleDetailsControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Controls\TestAreaControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\TestAreaControl.Designer.vb">
+      <DependentUpon>TestAreaControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\DashboardMainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\UI\DashboardMainForm.Designer.vb">
+      <DependentUpon>DashboardMainForm.vb</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Documentation\Codex\" />
+    <Folder Include="Documentation\Tomes\" />
+    <Folder Include="Documentation\Lore\" />
+    <Folder Include="Documentation\Grimoire\" />
+    <Folder Include="Documentation\Scriptorium\" />
+    <Folder Include="Source\Modules\Interfaces\" />
+    <Folder Include="Source\Services\Interfaces\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Data\" />
+  </ItemGroup>
+
+</Project>
