@@ -90,6 +90,25 @@ This index provides quick access to detailed development logs for each milestone
   - Consolidated supporting documentation
   - Improved navigation and discoverability
 
+- **[v0.9.3 - Temporary File Cleanup](DevelopmentLog/v093.md)**
+  - Deleted 7 obsolete/temporary files
+  - Cleaned project file references
+  - Verified build success
+  - Code quality improved (75% ? 85%)
+
+- **[v0.9.4 - README Documentation Complete](DevelopmentLog/v094.md)**
+  - Created UI/Controls/README.md
+  - Verified 3 existing READMEs present
+  - 100% README coverage achieved
+  - Onboarding improved (85% ? 95%)
+
+- **[v0.9.5 - VersionHistory Deprecated](DevelopmentLog/v095.md)**
+  - Replaced VersionHistory.chronicle.md with redirect
+  - Linked to all milestones (v0.1.0-v0.9.4)
+  - Single source of truth established
+  - Documentation drift eliminated (90% ? 92%)
+  - **Phase 1 Target Achieved: 91% compliance** ?
+
 ---
 
 ## Cross-Milestone Analysis
@@ -97,6 +116,11 @@ This index provides quick access to detailed development logs for each milestone
 - **[IssueSummary.md](DevelopmentLog/IssueSummary.md)** - High-level categorization of recurring development issues and resolution patterns
 - **[DevelopmentLog.split.summary.md](DevelopmentLog/DevelopmentLog.split.summary.md)** - Summary of the log splitting process
 - **[DevelopmentLog_Original.md](DevelopmentLog/DevelopmentLog_Original.md)** - Original monolithic development log (archived)
+
+## Planning & Roadmap
+
+- **[Roadmap_v092_to_v100.md](Roadmap_v092_to_v100.md)** - Detailed milestone breakdown from v0.9.2 to v1.0.0 production release
+- **[Progress_Checklist.md](Progress_Checklist.md)** - Quick-reference checklist for tracking milestone completion
 
 ---
 
@@ -145,6 +169,9 @@ Each milestone chapter follows this structure:
 | v0.8.2 | Enhanced UX | Improved filtering |
 | v0.9.1 | Performance | Optimized operations |
 | v0.9.2 | Documentation | Consolidated organization |
+| v0.9.3 | Code Quality | Technical debt cleanup |
+| v0.9.4 | Onboarding | README coverage complete |
+| v0.9.5 | Documentation | VersionHistory deprecated - Phase 1 Complete! |
 
 ---
 

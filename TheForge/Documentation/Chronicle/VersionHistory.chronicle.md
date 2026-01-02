@@ -1,100 +1,149 @@
 # RCH.Forge.Dashboard — Version History
-**Document Type:** Chronicle  
-**Purpose:** Chronological record of project changes and evolution  
+**Document Type:** Chronicle (Deprecated)  
+**Purpose:** Redirect to current chronicle index  
 **Last Updated:** 2025-01-02  
-**Related Documents:** ForgeTome.md, file5.md
+**Status:** DEPRECATED - Redirected to DevelopmentLog.index.md
 
 ---
 
-## Overview
-This document tracks all changes, updates, and milestones in the RCH.Forge.Dashboard project. All entries are timestamped and ordered in reverse chronological order (newest first).
+## ?? Document Deprecated
+
+This document has been superseded by the more comprehensive **DevelopmentLog** system.
+
+**Please use:** [DevelopmentLog.index.md](DevelopmentLog.index.md)
 
 ---
 
-## [v0.1.0] — 2025-01-02
+## Reason for Deprecation
 
-### Added
-- **Project restructuring** to align with RCH UI Forge standards
-  - Created folder structure per file2.md and file3.md
-  - Established `/Documentation` taxonomy per file4.md
-  - Established `/Source/UI` and `/Source/Services` separation
-  - Established `/Resources` with `/Images` and `/Data`
-  - Added README.md to all folders
+As the project evolved through v0.9.4, the DevelopmentLog system emerged as the authoritative source for version history, providing:
 
-- **Documentation**
-  - ForgeTome.md — Project overview and onboarding guide
-  - NamingCanon.md — Naming conventions and rules
-  - VersionHistory.chronicle.md — This document
-  - README.md files for all documentation categories
+- **More detail:** Each milestone has its own detailed entry file
+- **Better organization:** Indexed navigation with quick reference
+- **Issue tracking:** Comprehensive documentation of issues encountered
+- **Pattern analysis:** Development patterns and lessons learned
+- **Search optimization:** Split into chapters for easier searching
+- **Cross-milestone analysis:** IssueSummary.md provides pattern insights
 
-- **Project configuration**
-  - Updated project name from "TheForge" to "RCH.Forge.Dashboard"
-  - Added compiler options: Option Strict On, Option Explicit On, Option Infer Off
-  - Configured build rules per file5.md
-
-- **Code structure**
-  - Renamed Form1 to DashboardMainForm
-  - Moved UI files to `/Source/UI`
-  - Prepared `/Source/Services` for service layer implementation
-
-### Rationale
-Initial restructuring to establish a compliant foundation for the RCH UI Forge ecosystem. This ensures all future development follows established standards, reduces technical debt, and improves maintainability.
-
-### Impact
-- **Breaking Change:** Project renamed from "TheForge" to "RCH.Forge.Dashboard"
-- **Breaking Change:** Form1 renamed to DashboardMainForm
-- **Non-Breaking:** Folder structure established (no existing code affected)
-- **Non-Breaking:** Documentation added (no code changes)
+VersionHistory.chronicle.md became outdated (last entry: v0.1.0) while the project progressed to v0.9.4.
 
 ---
 
-## [v0.0.1] — 2025-01-01 (Initial State)
+## Complete Version History
 
-### Description
-Initial project creation as "TheForge" with default WinForms structure.
+For complete version history from v0.1.0 through v0.9.4 (and beyond), see:
 
-### Structure
-- Default Form1.vb
-- Default project configuration
-- No documentation
-- No folder structure
+### Primary Chronicle
+**[DevelopmentLog.index.md](DevelopmentLog.index.md)** - Navigation hub for all milestones
 
-### Notes
-This version did not follow RCH UI Forge standards and required complete restructuring.
+### Individual Milestone Entries
 
----
+**Foundational Milestones (v0.1.0 - v0.3.0)**
+- [v0.1.0 - Initial Project Restructuring](DevelopmentLog/v010.md)
+- [v0.2.0 - UI Enhancements](DevelopmentLog/v020.md)
+- [v0.3.0 - Module Discovery & Loading](DevelopmentLog/v030.md)
 
-## Version Numbering
-This project follows semantic versioning: `MAJOR.MINOR.PATCH`
+**Core Functionality (v0.4.0 - v0.5.0)**
+- [v0.4.0 - Logging Integration](DevelopmentLog/v040.md)
+- [v0.5.0 - Module Execution](DevelopmentLog/v050.md)
 
-- **MAJOR** — Breaking changes or architectural shifts
-- **MINOR** — New features or significant updates
-- **PATCH** — Bug fixes or minor improvements
+**Enhanced Features (v0.6.0 - v0.7.0)**
+- [v0.6.0 - Enhanced Module Management](DevelopmentLog/v060.md)
+- [v0.7.0 - UI Improvements](DevelopmentLog/v070.md)
 
----
+**Advanced Features (v0.8.0+)**
+- [v0.8.0 - Advanced Features](DevelopmentLog/v080.md)
+- [v0.8.1 - UI Modularization](DevelopmentLog/v081.md)
+- [v0.8.2 - Enhanced Log Filtering UX](DevelopmentLog/v082.md)
+- [v0.9.1 - Performance Improvements](DevelopmentLog/v091.md)
+- [v0.9.2 - Documentation Consolidation](DevelopmentLog/v092.md)
+- [v0.9.3 - Temporary File Cleanup](DevelopmentLog/v093.md)
+- [v0.9.4 - README Documentation Complete](DevelopmentLog/v094.md)
 
-## Change Categories
-All changes are categorized as:
-- **Added** — New features or capabilities
-- **Changed** — Modifications to existing features
-- **Deprecated** — Features marked for removal
-- **Removed** — Deleted features
-- **Fixed** — Bug fixes
-- **Security** — Security-related changes
+**Current Version:** v0.9.4 (90% compliance)
 
----
+### Cross-Milestone Analysis
+- **[IssueSummary.md](DevelopmentLog/IssueSummary.md)** - High-level categorization of recurring issues
+- **[DevelopmentLog.split.summary.md](DevelopmentLog/DevelopmentLog.split.summary.md)** - Split documentation summary
+- **[DevelopmentLog_Original.md](DevelopmentLog/DevelopmentLog_Original.md)** - Original monolithic log (archived)
 
-## Deprecated Features
-None yet. When features are deprecated, they will be documented here and moved to `/Documentation/Chronicle/DeprecatedArchive`.
-
----
-
-## Future Milestones
-- v0.2.0 — Implement DashboardMainForm UI layout
-- v0.3.0 — Implement ModuleLoaderService
-- v0.4.0 — Implement LoggingService
-- v1.0.0 — First stable release
+### Planning & Roadmap
+- **[Roadmap_v092_to_v100.md](Roadmap_v092_to_v100.md)** - Detailed milestone breakdown to v1.0.0
+- **[Progress_Checklist.md](Progress_Checklist.md)** - Quick-reference progress tracking
 
 ---
 
-**All changes must be logged here before release.**
+## Migration Notes
+
+### If you were linking to this file:
+
+**Old link format:**
+```markdown
+See [VersionHistory.chronicle.md](Documentation/Chronicle/VersionHistory.chronicle.md)
+```
+
+**New link format (main index):**
+```markdown
+See [DevelopmentLog.index.md](Documentation/Chronicle/DevelopmentLog.index.md)
+```
+
+**New link format (specific version):**
+```markdown
+See [v0.8.1 Chronicle](Documentation/Chronicle/DevelopmentLog/v081.md)
+```
+
+### External References
+If external documentation links to this file, update references to point to:
+```
+https://github.com/rchaudio-a11y/TheForge/blob/master/Documentation/Chronicle/DevelopmentLog.index.md
+```
+
+---
+
+## Quick Reference: Current Status
+
+**Current Version:** v0.9.4  
+**Current Compliance:** 90%  
+**Target Version:** v1.0.0  
+**Target Compliance:** 95%+  
+**Phase 1 Progress:** 67% complete (4/6 milestones)
+
+**Recent Milestones:**
+- v0.9.4 (2025-01-02): README documentation complete - Onboarding 95%
+- v0.9.3 (2025-01-02): Temporary file cleanup - Code quality 85%
+- v0.9.2 (2025-01-02): Documentation consolidation
+- v0.9.1 (2025-01-02): Performance improvements
+
+**Next Milestones:**
+- v0.9.5: Deprecate VersionHistory (this milestone!)
+- v0.9.6: Phase 1 validation
+- v0.9.7-v0.9.9: Phase 2 & 3
+- v1.0.0: Production release
+
+---
+
+## Historical Content (v0.1.0 Entry)
+
+The original v0.1.0 entry from this file is preserved below for reference:
+
+### [v0.1.0] — 2025-01-02
+
+**Added:**
+- Project restructuring to RCH UI Forge standards
+- Documentation (ForgeTome.md, NamingCanon.md, README files)
+- Project configuration (compiler options, naming)
+- Code structure (DashboardMainForm, /Source hierarchy)
+
+**Rationale:** Initial restructuring to establish compliant foundation
+
+**Impact:**
+- Breaking: Project renamed to "RCH.Forge.Dashboard"
+- Breaking: Form1 renamed to DashboardMainForm
+
+**Note:** Complete details available in [DevelopmentLog/v010.md](DevelopmentLog/v010.md)
+
+---
+
+**This file is preserved for historical reference but is no longer maintained.**  
+**All future version history updates will be in the DevelopmentLog system.**  
+**Last manual update: 2025-01-02 (v0.9.5 deprecation)**
