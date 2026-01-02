@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -27,15 +27,35 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="Source\Models\ModuleMetadata.vb" />
+    <Compile Include="Source\Models\ModuleConfiguration.vb" />
+    <Compile Include="Source\Modules\Interfaces\IModule.vb" />
+    <Compile Include="Source\Modules\Interfaces\IModuleConfiguration.vb" />
+    <Compile Include="Source\Modules\Interfaces\ModuleDependencyAttribute.vb" />
+    <Compile Include="Source\Services\Implementations\ModuleLoaderService.vb" />
+    <Compile Include="Source\Services\Implementations\LoggingService.vb" />
+    <Compile Include="Source\Services\Implementations\ModuleLoaderService_v091.vb" />
+    <Compile Include="Source\Services\Interfaces\IModuleLoaderService.vb" />
+    <Compile Include="Source\Services\Interfaces\ILoggingService.vb" />
+    <Compile Include="Source\UI\Controls\LogOutputControl_v091.vb" />
+    <Compile Include="Source\UI\Controls\ModuleListControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\ModuleDetailsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\LogOutputControl_Todo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Controls\TestAreaControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Source\UI\DashboardMainForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Source\UI\DashboardMainForm.Designer.vb">
       <DependentUpon>DashboardMainForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Source\Services\IModuleLoaderService.vb" />
-    <Compile Include="Source\Services\ILoggingService.vb" />
-    <Compile Include="Source\Services\LoggingService.vb" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,9 +71,15 @@
     <Folder Include="Documentation\Lore\" />
     <Folder Include="Documentation\Grimoire\" />
     <Folder Include="Documentation\Scriptorium\" />
-    <Folder Include="Source\Services\" />
+    <Folder Include="Source\Models\" />
+    <Folder Include="Source\Modules\Interfaces\" />
+    <Folder Include="Source\Services\Interfaces\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TheForge_v091.vbproj" />
   </ItemGroup>
 
 </Project>

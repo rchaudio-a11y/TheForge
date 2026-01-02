@@ -30,6 +30,7 @@ Partial Class DashboardMainForm
         Me.Name = "DashboardMainForm"
         Me.Text = "RCH Forge Dashboard"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.MinimumSize = New System.Drawing.Size(800, 600)
         Me.ResumeLayout(False)
 
     End Sub
