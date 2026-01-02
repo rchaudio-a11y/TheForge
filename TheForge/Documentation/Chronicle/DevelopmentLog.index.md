@@ -62,22 +62,35 @@ This index provides quick access to detailed development logs for each milestone
 
 ### Advanced Features (v0.8.0+)
 
-- **[v0.8.0 - Advanced Features](../v080_entry.md)**
+- **[v0.8.0 - Advanced Features](DevelopmentLog/v080.md)**
   - Module configuration support with .config files
   - Dependency resolution and circular detection
   - Hot-reload capability
   - Log filtering and search
 
-- **[v0.8.1 - UI Modularization](../v081_entry.md)**
+- **[v0.8.1 - UI Modularization](DevelopmentLog/v081.md)**
   - Refactored UI into modular UserControls
   - Event-driven communication architecture
   - Enhanced module details (Dependencies, ConfigPath)
 
-- **[v0.8.2 - Enhanced Log Filtering UX](../v082_entry.md)**
+- **[v0.8.2 - Enhanced Log Filtering UX](DevelopmentLog/v082.md)**
   - Auto-filtering on dropdown selection
   - "All" level option for complete log view
   - Enter key support for search
   - Centralized filter logic
+
+- **[v0.9.1 - Performance Improvements](DevelopmentLog/v091.md)**
+  - Directory listing cache with 2-second TTL
+  - StringBuilder optimization for log rendering
+  - Reload timing diagnostics
+
+---
+
+## Cross-Milestone Analysis
+
+- **[IssueSummary.md](DevelopmentLog/IssueSummary.md)** - High-level categorization of recurring development issues and resolution patterns
+- **[DevelopmentLog.split.summary.md](DevelopmentLog/DevelopmentLog.split.summary.md)** - Summary of the log splitting process
+- **[DevelopmentLog_Original.md](DevelopmentLog/DevelopmentLog_Original.md)** - Original monolithic development log (archived)
 
 ---
 
@@ -104,10 +117,9 @@ Each milestone chapter follows this structure:
 
 ## Related Documentation
 
-- **[VersionHistory.chronicle.md](../VersionHistory.chronicle.md)** — High-level version summary
+- **[VersionHistory.chronicle.md](../VersionHistory.chronicle.md)** — High-level version summary (deprecated, redirects here)
 - **[ForgeTome.md](../../Codex/ForgeTome.md)** — Project overview and onboarding
 - **[file5.md](../../Grimoire/file5.md)** — Build rules and code standards
-- **v0.8.0+ Entries** — Detailed entries in parent Chronicle directory
 
 ---
 
@@ -125,6 +137,7 @@ Each milestone chapter follows this structure:
 | v0.8.0 | Advanced features | Configuration & dependencies |
 | v0.8.1 | UI modularization | Maintainable architecture |
 | v0.8.2 | Enhanced UX | Improved filtering |
+| v0.9.1 | Performance | Optimized operations |
 
 ---
 

@@ -85,7 +85,7 @@
 | Modularity | 85% | ? Good |
 | Onboarding | 85% | ? Good |
 | Logging | 85% | ? Good |
-| Documentation | 80% | ?? Needs Update |
+| Documentation | 85% | ?? Needs Update |
 | Project Structure | 75% | ?? Needs Fix |
 | Code Quality | 75% | ?? Cleanup Needed |
 | Designer Integration | 0% | ?? Needs Policy |
