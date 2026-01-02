@@ -1,4 +1,4 @@
-' **Character Count:** TBD
+' **Character Count:** 1899
 ' **Document Type:** Code
 ' **Created:** 2024-11-01
 ' **Last Updated:** 2025-01-02

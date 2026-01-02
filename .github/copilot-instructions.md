@@ -4,8 +4,8 @@
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** TBD  
-**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, Branch-Documentation.md, ForgeAudit.md
+**Character Count:** 2879  
+**Related:** TheForge/Prompts/ForgeCharter.md, TheForge/Prompts/Branch-Coding.md, TheForge/Prompts/Branch-Architecture.md, TheForge/Prompts/Branch-Documentation.md, TheForge/Prompts/ForgeAudit.md
 
 ---
 
@@ -19,22 +19,29 @@ All rules live in ForgeCharter and the branch files.
 # 2. Routing Model
 All tasks must be routed according to the governance defined in **ForgeCharter**.
 
-Routing:
-If the task involves code → Use Branch-Coding
-If the task involves structure or design → Use Branch-Architecture
-If the task involves documentation → Use Branch-Documentation
-If the task involves evaluation or drift detection → Use ForgeAudit
+**File Locations:**
+- **ForgeCharter:** `TheForge/Prompts/ForgeCharter.md`
+- **Branch-Coding:** `TheForge/Prompts/Branch-Coding.md`
+- **Branch-Architecture:** `TheForge/Prompts/Branch-Architecture.md`
+- **Branch-Documentation:** `TheForge/Prompts/Branch-Documentation.md`
+- **ForgeAudit:** `TheForge/Prompts/ForgeAudit.md`
 
-ForgeCharter always governs the process.
+**Routing:**
+- If the task involves **code** → Use `TheForge/Prompts/Branch-Coding.md`
+- If the task involves **structure or design** → Use `TheForge/Prompts/Branch-Architecture.md`
+- If the task involves **documentation** → Use `TheForge/Prompts/Branch-Documentation.md`
+- If the task involves **evaluation or drift detection** → Use `TheForge/Prompts/ForgeAudit.md`
+
+**ForgeCharter always governs the process:** `TheForge/Prompts/ForgeCharter.md`
 
 ---
 
 # 3. Responsibilities
 This router must:
 
-- Load ForgeCharter  
+- Load `TheForge/Prompts/ForgeCharter.md`
 - Identify the task type  
-- Delegate to the correct branch  
+- Delegate to the correct branch file  
 - Never interpret rules  
 - Never override rules  
 - Never duplicate rules  
@@ -67,6 +74,23 @@ If routing is ambiguous:
 2. Do not guess  
 3. Do not route incorrectly  
 4. Do not perform any work until routing is clear  
+
+---
+
+# 6. File Reference Quick Guide
+
+**Governance:**
+- `TheForge/Prompts/ForgeCharter.md` - Master governance
+
+**Branch Files:**
+- `TheForge/Prompts/Branch-Coding.md` - Code generation rules
+- `TheForge/Prompts/Branch-Architecture.md` - Project structure rules
+- `TheForge/Prompts/Branch-Documentation.md` - Documentation rules
+
+**Audit:**
+- `TheForge/Prompts/ForgeAudit.md` - Compliance evaluation
+
+**All files located in:** `TheForge/Prompts/` directory
 
 ---
 
