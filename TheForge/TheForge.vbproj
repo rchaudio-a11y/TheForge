@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -27,8 +27,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
-    <Compile Include="Source\Models\ModuleMetadata.vb" />
-    <Compile Include="Source\Models\ModuleConfiguration.vb" />
+    <Compile Include="Source\Core\ModuleMetadata.vb" />
+    <Compile Include="Source\Core\ModuleConfiguration.vb" />
     <Compile Include="Source\Modules\Interfaces\IModule.vb" />
     <Compile Include="Source\Modules\Interfaces\IModuleConfiguration.vb" />
     <Compile Include="Source\Modules\Interfaces\ModuleDependencyAttribute.vb" />

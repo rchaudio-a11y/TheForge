@@ -116,6 +116,15 @@ This index provides quick access to detailed development logs for each milestone
   - Created Phase1_Completion_Report.md
   - **Phase 1 Complete: All goals achieved!** ??
 
+### Phase 2: Structure (v0.9.7-v0.9.8)
+
+- **[v0.9.7 - Create /Source/Core Folder](DevelopmentLog/v097.md)**
+  - Created /Source/Core folder per file2.md
+  - Moved ModuleMetadata and ModuleConfiguration to Core
+  - Updated project file paths
+  - Created Core/README.md
+  - Project structure improved (75% ? 85%)
+
 ---
 
 ## Cross-Milestone Analysis
@@ -178,8 +187,9 @@ Each milestone chapter follows this structure:
 | v0.9.2 | Documentation | Consolidated organization |
 | v0.9.3 | Code Quality | Technical debt cleanup |
 | v0.9.4 | Onboarding | README coverage complete |
-| v0.9.5 | Documentation | VersionHistory deprecated - Phase 1 Complete! |
+| v0.9.5 | Documentation | VersionHistory deprecated - Phase 1 Target! |
 | v0.9.6 | Validation | Phase 1 Complete! |
+| v0.9.7 | Structure | /Core folder created |
 
 ---
 
