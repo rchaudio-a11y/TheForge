@@ -1,50 +1,73 @@
-# Repository-wide Copilot Instructions
+# copilot-instructions  
+**Document Type:** Router  
+**Purpose:** Route all tasks to the correct Forge branch based on user intent  
+**Created:** 2026-01-02  
+**Last Updated:** 2026-01-02  
+**Status:** Final  
+**Character Count:** TBD  
+**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, Branch-Documentation.md, ForgeAudit.md
 
-This repository uses the Forge rule stack. Copilot must treat the listed documents as authoritative and must not restate or redefine rules already present in them.
+---
 
-----------------------------------------------------------------------
-Authoritative governance sources
-----------------------------------------------------------------------
+# 1. Purpose
+This file acts as the routing layer for the RCH UI Forge.  
+It contains **no rules**.  
+All rules live in ForgeCharter and the branch files.
 
-Copilot must resolve behavior and rules in this order:
+---
 
-1. Documentation/Master.md  
-   - Canonical index of all rules, owners, and file locations.
+# 2. Routing Model
+All tasks must be routed according to the governance defined in **ForgeCharter**.
 
-2. Prompts/ForgeOrchestrator.md  
-   - Defines rule hierarchy, file scope boundaries, orchestration behavior,
-     and how Copilot should interpret tasks and delegate across files.
+Routing:
+If the task involves code → Use Branch-Coding
+If the task involves structure or design → Use Branch-Architecture
+If the task involves documentation → Use Branch-Documentation
+If the task involves evaluation or drift detection → Use ForgeAudit
 
-3. Forge rule stack:
-   - file1.md through file6.md
-   - file7.md (documentation & large-output extensions)
-   - file8.md (code behavior & implementation extensions)
+ForgeCharter always governs the process.
 
-Copilot must:
-- Prefer these files over any assumptions or defaults.
-- Avoid rephrasing or duplicating rules from these documents.
-- Ask the user for clarification if instructions appear to conflict.
+---
 
-----------------------------------------------------------------------
-Instruction routing
-----------------------------------------------------------------------
+# 3. Responsibilities
+This router must:
 
-When generating or modifying code:
-- Consult Master.md, ForgeOrchestrator.md, file1–file6, and file8.md.
-- Treat file8.md as an extension/clarification when core rules are ambiguous.
+- Load ForgeCharter  
+- Identify the task type  
+- Delegate to the correct branch  
+- Never interpret rules  
+- Never override rules  
+- Never duplicate rules  
+- Never merge branch responsibilities  
+- Never perform work itself  
 
-When generating documentation or large text outputs:
-- Consult Master.md, ForgeOrchestrator.md, file1–file6, and file7.md.
-- Treat file7.md as an extension/clarification for file size, multi-file output,
-  and milestone documentation behavior.
+---
 
-----------------------------------------------------------------------
-Behavior constraints
-----------------------------------------------------------------------
+# 4. Non-Responsibilities
+This router must **not**:
 
-• Do not invent new rules or governance concepts.  
-• Do not override, weaken, or reinterpret rules defined in the MD files above.  
-• If user instructions conflict with the Forge rule stack, request clarification
-  instead of silently ignoring the rules.
+- Contain rules  
+- Modify files  
+- Generate files  
+- Evaluate work  
+- Perform audits  
+- Apply naming canon  
+- Apply layout rules  
+- Apply architecture rules  
+- Apply documentation rules  
 
+All rule enforcement occurs in the branches and ForgeCharter.
 
+---
+
+# 5. Drift Prevention
+If routing is ambiguous:
+
+1. Ask the user to clarify the task  
+2. Do not guess  
+3. Do not route incorrectly  
+4. Do not perform any work until routing is clear  
+
+---
+
+# End of copilot-instructions.md

@@ -1,17 +1,10 @@
 Imports System.Windows.Forms
 
-Public Class DashboardMainForm
+Partial Public Class DashboardMainForm
     Inherits Form
 
-    Private WithEvents moduleListControl As UI.Controls.ModuleListControl
-    Private moduleDetailsControl As UI.Controls.ModuleDetailsControl
-    Private WithEvents logOutputControl As UI.Controls.LogOutputControl
-    Private testAreaControl As UI.Controls.TestAreaControl
-    Private splitterVertical As Splitter
-    Private splitterHorizontal As Splitter
-    Private splitterVerticalRight As Splitter
-    Private MainStatusStrip As StatusStrip
-    Private StatusLabel As ToolStripStatusLabel
+    ' NOTE: Control declarations are in DashboardMainForm.Designer.vb
+    ' DO NOT declare them here - they're already declared as Friend WithEvents in Designer
 
     Private _moduleLoaderService As Services.Interfaces.IModuleLoaderService
     Private _loggingService As Services.Interfaces.ILoggingService
@@ -20,64 +13,7 @@ Public Class DashboardMainForm
 
     Public Sub New()
         InitializeComponent()
-        InitializeLayout()
         InitializeServices()
-    End Sub
-
-    Private Sub InitializeLayout()
-        MainStatusStrip = New StatusStrip()
-        MainStatusStrip.Name = "MainStatusStrip"
-        MainStatusStrip.Dock = DockStyle.Bottom
-
-        StatusLabel = New ToolStripStatusLabel()
-        StatusLabel.Name = "StatusLabel"
-        StatusLabel.Text = "Ready"
-        MainStatusStrip.Items.Add(StatusLabel)
-
-        moduleListControl = New UI.Controls.ModuleListControl()
-        moduleListControl.Name = "moduleListControl"
-        moduleListControl.Dock = DockStyle.Left
-        moduleListControl.Width = 250
-
-        splitterVertical = New Splitter()
-        splitterVertical.Name = "splitterVertical"
-        splitterVertical.Dock = DockStyle.Left
-        splitterVertical.Width = 3
-
-        moduleDetailsControl = New UI.Controls.ModuleDetailsControl()
-        moduleDetailsControl.Name = "moduleDetailsControl"
-        moduleDetailsControl.Dock = DockStyle.Right
-        moduleDetailsControl.Width = 300
-
-        splitterVerticalRight = New Splitter()
-        splitterVerticalRight.Name = "splitterVerticalRight"
-        splitterVerticalRight.Dock = DockStyle.Right
-        splitterVerticalRight.Width = 3
-
-        logOutputControl = New UI.Controls.LogOutputControl()
-        logOutputControl.Name = "logOutputControl"
-        logOutputControl.Dock = DockStyle.Bottom
-        logOutputControl.Height = 200
-
-        splitterHorizontal = New Splitter()
-        splitterHorizontal.Name = "splitterHorizontal"
-        splitterHorizontal.Dock = DockStyle.Bottom
-        splitterHorizontal.Height = 3
-
-        testAreaControl = New UI.Controls.TestAreaControl()
-        testAreaControl.Name = "testAreaControl"
-        testAreaControl.Dock = DockStyle.Fill
-
-        Me.Controls.Add(testAreaControl)
-        Me.Controls.Add(splitterVerticalRight)
-        Me.Controls.Add(moduleDetailsControl)
-        Me.Controls.Add(splitterHorizontal)
-        Me.Controls.Add(logOutputControl)
-        Me.Controls.Add(splitterVertical)
-        Me.Controls.Add(moduleListControl)
-        Me.Controls.Add(MainStatusStrip)
-
-        AddHandler Me.Load, AddressOf DashboardMainForm_Load
     End Sub
 
     Private Sub InitializeServices()
@@ -86,6 +22,7 @@ Public Class DashboardMainForm
         _discoveredModules = New List(Of Models.ModuleMetadata)()
         _currentModule = Nothing
         AddHandler _loggingService.LogMessageReceived, AddressOf LoggingService_LogMessageReceived
+        AddHandler Me.Load, AddressOf DashboardMainForm_Load
     End Sub
 
     Private Sub DashboardMainForm_Load(sender As Object, e As EventArgs)
