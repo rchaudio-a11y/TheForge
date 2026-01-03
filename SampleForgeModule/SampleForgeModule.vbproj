@@ -3,7 +3,18 @@
   <PropertyGroup>
     <RootNamespace>SampleForgeModule</RootNamespace>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SampleModule.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="SampleForgeModule.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TheForge\TheForge.vbproj" />

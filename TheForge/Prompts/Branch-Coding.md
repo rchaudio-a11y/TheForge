@@ -1,11 +1,11 @@
 ﻿# Branch-Coding  
 **Document Type:** Codex  
 **Purpose:** Define rules for code generation, modification, UI behavior, and implementation discipline  
-**Created:** 2026-01-02  
-**Last Updated:** 2026-01-02  
+**Created:** 2025-01-02  
+**Last Updated:** 2026-01-03  
 **Status:** Final  
-**Character Count:** 8485  
-**Related:** ForgeCharter.md, Branch-Architecture.md, Branch-Documentation.md, ForgeAudit.md
+**Character Count:** 10876  
+**Related:** ForgeCharter.md, Branch-Architecture.md, Branch-Documentation.md, ForgeAudit.md, CONSTITUTION.md
 
 ---
 
@@ -94,7 +94,7 @@ Modules must:
 
 ---
 
-## 4.3 Service Rules
+## 4.3 Service Rules (Enhanced)
 Services must:
 
 - Be stateless when possible  
@@ -103,6 +103,60 @@ Services must:
 - Avoid ad‑hoc instantiation  
 - Use dependency injection  
 - Use explicit interfaces  
+- **Be thread-safe by default**
+- **Be injected into modules and UI components**
+
+### Service Characteristics (Constitutional Principles)
+- **Interface-first design** - Always define interface before implementation
+- **Stateless where possible** - Minimize mutable state to improve testability
+- **Thread-safe by default** - Assume multi-threaded usage in all service implementations
+- **Explicit dependencies** - All dependencies via constructor or Initialize() method
+- **Injected everywhere** - Services injected into modules via Initialize(), into UI via constructor/properties
+
+**Examples:**
+
+```vb
+' ✅ CORRECT: Service with interface-first design
+Public Interface ILoggingService
+    Sub LogInfo(message As String)
+    Sub LogError(ex As Exception)
+End Interface
+
+Public Class LoggingService
+    Implements ILoggingService
+    
+    ' Thread-safe, stateless implementation
+    Public Sub LogInfo(message As String) Implements ILoggingService.LogInfo
+        ' Thread-safe logging logic
+    End Sub
+End Class
+
+' ✅ CORRECT: Service injection into module
+Public Class AudioModule
+    Implements IModule
+    
+    Private _loggingService As ILoggingService
+    
+    Public Sub Initialize(loggingService As ILoggingService) Implements IModule.Initialize
+        _loggingService = loggingService
+    End Sub
+End Class
+
+' ❌ WRONG: Direct instantiation (no injection)
+Public Class AudioModule
+    Private _loggingService As New LoggingService()  ' Should be injected!
+End Class
+
+' ❌ WRONG: Stateful service (not thread-safe)
+Public Class CounterService
+    Private _count As Integer = 0  ' Mutable state = thread issues
+    
+    Public Function Increment() As Integer
+        _count += 1  ' Not thread-safe!
+        Return _count
+    End Function
+End Class
+```
 
 ---
 
@@ -279,7 +333,61 @@ It governs **code only**.
 
 ---
 
-# 8. Routing Behavior
+# 9. Build Verification Rules
+**Tags:** build, compilation, efficiency, documentation, workflow
+
+## 9.1 When to Build
+Build verification is **required** after:
+- Any code modification (`.vb`, `.Designer.vb`, `.resx`)
+- Project file changes (`.vbproj`, `.sln`, `.slnx`)
+- Adding/removing files
+- Reference changes
+- Mixed code + documentation changes
+
+## 9.2 When to Skip Build
+Build verification is **not required** after:
+- Documentation-only changes (`.md`, `.txt` files)
+- Changes to `/Documentation/` folder only
+- Constitution or governance file updates
+- README updates
+- Version history updates (if no code changed)
+
+## 9.3 Rationale
+- Documentation files are not compiled
+- Building wastes time for docs-only changes
+- Allows rapid documentation iteration
+- Focus build resources on actual code changes
+- Separation of concerns: documentation quality ≠ compilation success
+
+## 9.4 Build Before Deployment
+Always build before:
+- Committing code changes
+- Creating releases
+- Deploying to production
+- Merging branches (if code changed)
+
+**Examples:**
+```
+✅ Build Required:
+- Modified LoggingService.vb
+- Added new control to DashboardMainForm.Designer.vb
+- Updated TheForge.vbproj with new file reference
+- Changed IModule interface signature
+
+❌ Build NOT Required:
+- Updated README.md
+- Modified ForgeTome.md in /Documentation/Tomes/
+- Added CONSTITUTION.md to .github/
+- Updated VersionHistory.chronicle.md (docs only)
+
+✅ Build Required (Mixed):
+- Modified ModuleLoaderService.vb AND updated API documentation
+- Added new UI control AND updated user guide
+```
+
+---
+
+# 10. Routing Behavior
 The Coding Branch is invoked when:
 
 - The user requests code  
@@ -291,3 +399,10 @@ The Coding Branch is invoked when:
 - The user requests error handling  
 
 Routing:
+If task involves code → Use Branch-Coding
+Otherwise → Delegate to appropriate branch
+ForgeCharter always governs the process
+
+---
+
+# End of Branch-Coding.md

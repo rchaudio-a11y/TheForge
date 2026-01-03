@@ -1,11 +1,11 @@
 ﻿# Branch-Architecture  
 **Document Type:** Codex  
 **Purpose:** Define rules for project structure, naming canon, modularity, dependencies, and architectural discipline  
-**Created:** 2026-01-02  
-**Last Updated:** 2026-01-02  
+**Created:** 2025-01-02  
+**Last Updated:** 2026-01-03  
 **Status:** Final  
-**Character Count:** 8828  
-**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Documentation.md, ForgeAudit.md
+**Character Count:** 13987  
+**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Documentation.md, ForgeAudit.md, CONSTITUTION.md
 
 ---
 
@@ -267,9 +267,38 @@ Not:
 
 ---
 
-# 7. Component Modularity
+# 7. Data Persistence Architecture
+**Tags:** database, access, configuration, data-store
 
-## 7.1 Reusable Components
+## 7.1 Database Technology
+The Forge uses Microsoft Access for optional data persistence:
+- **Format:** `.accdb` (Access 2007+ format)
+- **Location:** `/Resources/Data/` directory
+- **Purpose:** Configuration, logging, module tracking, historical data
+
+## 7.2 Database Design Principles
+- **Optional:** Not required for core functionality
+- **Portable:** Single-file database (xcopy deployment)
+- **Graceful Degradation:** Falls back to file-based if Access unavailable
+- **Windows-Integrated Security:** No separate credentials
+- **No External Server:** No database server dependencies
+
+## 7.3 Database Naming
+- Use descriptive names: `ForgeData.accdb`, `ForgeLog.accdb`
+- Follow Forge naming canon (no abbreviations)
+- Location: Always in `/Resources/Data/`
+
+## 7.4 File-Based Fallback
+Current implementation uses file-based configuration:
+- `.config` files for module configuration
+- Text-based logging via `ILoggingService`
+- Must remain functional if Access not available
+
+---
+
+# 8. Component Modularity
+
+## 8.1 Reusable Components
 Reusable components must:
 - Be self-contained  
 - Avoid external state  
@@ -278,7 +307,7 @@ Reusable components must:
 
 ---
 
-## 7.2 Control Libraries
+## 8.2 Control Libraries
 Controls must:
 - Live in dedicated folders  
 - Follow naming canon  
@@ -287,12 +316,115 @@ Controls must:
 
 ---
 
-# 8. Common Mistakes
+# 9. Cross-Platform IDE Compatibility
+**Tags:** visual-studio, vscode, github, codespaces, project-files
+
+## 9.1 Objective
+Maintain compatibility across:
+- Visual Studio (Windows)
+- Visual Studio Code
+- GitHub Codespaces
+- Other .NET-compatible editors
+
+## 9.2 File Synchronization Requirements
+
+### When Adding/Removing Files
+AI must update:
+1. **`.vbproj`** - Add/remove `<Compile>`, `<EmbeddedResource>`, or `<None>` entries
+2. **`.sln`** - Update project references if project added/removed
+3. **`.slnx`** - Keep synchronized with `.sln` for cross-platform support
+
+### When Modifying Designer-Based UI Components
+AI must update:
+1. **`.Designer.vb`** - Control declarations, initialization, layout
+2. **`.resx`** - Embedded resources, strings, images
+3. **`.vbproj`** - Ensure proper `<DependentUpon>` relationships
+
+### When Adding/Removing Project References
+AI must update:
+1. **`.vbproj`** - Add/remove `<ProjectReference>` or `<Reference>` entries
+2. **`.sln`** - Update project dependency hierarchy if needed
+
+## 9.3 File Relationship Patterns (Must Maintain)
+
+```xml
+<!-- Code files -->
+<Compile Include="Source\UI\DashboardMainForm.vb">
+  <SubType>Form</SubType>
+</Compile>
+<Compile Include="Source\UI\DashboardMainForm.Designer.vb">
+  <DependentUpon>DashboardMainForm.vb</DependentUpon>
+</Compile>
+
+<!-- Resource files -->
+<EmbeddedResource Include="Source\UI\DashboardMainForm.resx">
+  <DependentUpon>DashboardMainForm.vb</DependentUpon>
+</EmbeddedResource>
+```
+
+## 9.4 Common Compatibility Issues to Avoid
+- ❌ Adding files to filesystem without updating `.vbproj`
+- ❌ Modifying `.sln` without updating `.slnx` (or vice versa)
+- ❌ Breaking `<DependentUpon>` relationships (orphaned Designer/resource files)
+- ❌ Adding project references without updating solution dependencies
+- ❌ Changing file paths without updating all referencing files
+
+## 9.5 Validation Requirements
+After any structural change:
+- ✅ Verify project builds in multiple editors
+- ✅ Ensure `.sln` and `.slnx` remain synchronized
+- ✅ Validate `<DependentUpon>` relationships correct
+- ✅ Confirm resource files properly embedded
+
+---
+
+# 10. Module Lifecycle Architecture
+**Tags:** modules, imodule, lifecycle, dependency-injection
+
+## 10.1 Module Lifecycle Phases
+All modules must follow this exact lifecycle:
+
+1. **Discovery** - Filesystem scan for module assemblies
+2. **Load** - Assembly load, type discovery
+3. **Initialize** - Service injection via `Initialize()` method
+4. **Configure** - Optional configuration load via `LoadConfiguration()`
+5. **Execute** - Primary functionality via `Execute()` method
+6. **OnUnload** - Cleanup via `OnUnload()` method
+7. **Dispose** - Resource release via `Dispose()` method
+
+## 10.2 Module Requirements
+All modules must:
+- Implement `IModule` interface
+- Implement `IDisposable` interface
+- Accept service dependencies via `Initialize(loggingService)`
+- Support optional configuration via `LoadConfiguration(config)`
+- Be self-contained (no shared state between modules)
+- Be stateless where possible
+- Not depend on execution order of other modules
+
+## 10.3 Module Configuration
+Modules may optionally:
+- Have `.config` file (key=value format)
+- Have database-backed configuration (future)
+- Request configuration via `LoadConfiguration()`
+- Validate configuration before `Execute()`
+
+## 10.4 Module Disposal
+Modules must:
+- Implement proper `Dispose()` pattern
+- Release all resources in `Dispose()`
+- Set `_disposed` flag to prevent double-disposal
+- Call `GC.SuppressFinalize(Me)` after disposal
+- Log disposal via `ILoggingService`
+
+---
+
+# 11. Common Mistakes
 **Tags:** errors, namespace-issues, project-file, temp-files, troubleshooting
 
 **Note:** See `Documentation/Chronicle/DevelopmentLog/IssueSummary.md` for full patterns and solutions.
 
-## 8.1 Namespace Issues
+## 11.1 Namespace Issues
 ❌ Using variable names that match keywords (`module`, `interface`)  
 ❌ Namespace doesn't match folder structure  
 ❌ Ambiguous type references without qualification  
@@ -300,7 +432,7 @@ Controls must:
 ✅ Keep namespace aligned with folder path  
 ✅ Use descriptive suffixes for disambiguation  
 
-## 8.2 Project File Sync
+## 11.2 Project File Sync
 ❌ Moving files without updating project file  
 ❌ Duplicate compile entries after refactoring  
 ❌ References to deleted temporary files  
@@ -308,14 +440,14 @@ Controls must:
 ✅ Build immediately after project changes  
 ✅ Remove old references before adding new ones  
 
-## 8.3 Temporary File Management
+## 11.3 Temporary File Management
 ❌ Creating `*_old.vb`, `*_backup.vb`, `*_v091.vb` files  
 ❌ Leaving temporary files in repository  
 ✅ Use version control for backups, not suffixes  
 ✅ Delete temp files immediately after refactoring  
 ✅ Search with wildcards before declaring cleanup complete  
 
-## 8.4 Dependency Management
+## 11.4 Dependency Management
 ❌ Circular dependencies between layers  
 ❌ UI depending on concrete service implementations  
 ❌ Missing validation for external dependencies  
@@ -325,7 +457,7 @@ Controls must:
 
 ---
 
-# 9. Structural Drift Prevention
+# 12. Structural Drift Prevention
 Before executing any structural task, the Forge must:
 
 - Detect folder drift  
@@ -342,7 +474,7 @@ If drift is detected:
 
 ---
 
-# 9. Routing Behavior
+# 13. Routing Behavior
 The Architecture Branch is invoked when:
 
 - The user requests structural changes  

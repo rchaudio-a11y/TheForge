@@ -12,6 +12,7 @@
     <OptionExplicit>On</OptionExplicit>
     <OptionInfer>Off</OptionInfer>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -66,6 +67,24 @@
     <Compile Include="Source\UI\DashboardMainForm.Designer.vb">
       <DependentUpon>DashboardMainForm.vb</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Source\UI\Controls\LogOutputControl.resx">
+      <DependentUpon>LogOutputControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\UI\Controls\ModuleListControl.resx">
+      <DependentUpon>ModuleListControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\UI\Controls\ModuleDetailsControl.resx">
+      <DependentUpon>ModuleDetailsControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\UI\Controls\TestAreaControl.resx">
+      <DependentUpon>TestAreaControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\UI\DashboardMainForm.resx">
+      <DependentUpon>DashboardMainForm.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,11 @@
 ﻿# Branch-Documentation  
 **Document Type:** Codex  
 **Purpose:** Define rules for documentation structure, metadata, taxonomy, file creation, and documentation discipline  
-**Created:** 2026-01-02  
-**Last Updated:** 2026-01-02  
+**Created:** 2025-01-02  
+**Last Updated:** 2026-01-03  
 **Status:** Final  
-**Character Count:** 7659  
-**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, ForgeAudit.md
+**Character Count:** 9847  
+**Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, ForgeAudit.md, CONSTITUTION.md
 
 ---
 
@@ -126,15 +126,26 @@ Sections must follow a logical order:
 
 ---
 
-## 4.3 Taxonomy Rules
-**Tags:** taxonomy, organization, folder-structure, file-placement
+## 4.3 Taxonomy Rules (Enhanced)
+**Tags:** taxonomy, organization, folder-structure, file-placement, constitutional-categories
 
-Documentation must follow a stable taxonomy:
+Documentation must follow this stable taxonomy (per Constitution Section 7.2):
 
-- High-level governance → ForgeCharter  
-- Branch rules → Branch-* files  
-- Audit rules → ForgeAudit  
-- Project documentation → User-defined folders  
+| Category | Purpose | Examples |
+|----------|---------|----------|
+| **Codex** | Technical references | API docs, interface specs, technical guides |
+| **Chronicle** | Version history, logs | VersionHistory.chronicle.md, audit logs, development logs |
+| **Tomes** | User guides, tutorials | ForgeTome.md, onboarding guides, user documentation |
+| **Lore** | Design philosophy, principles | NamingCanon.md, architectural philosophy, governance rationale |
+| **Grimoire** | Experimental features, research | Prototypes, proof-of-concepts, exploratory work |
+| **Scriptorium** | Templates, generated docs | Scaffolds, auto-generated documentation, templates |
+
+### Taxonomy Enforcement
+- High-level governance → ForgeCharter (Prompts/)
+- Branch rules → Branch-* files (Prompts/)
+- Audit rules → ForgeAudit (Prompts/)
+- Project documentation → Taxonomy folders (Documentation/)
+- Constitution → `.github/CONSTITUTION.md`
 - No implicit folder creation  
 - No implicit taxonomy restructuring  
 
@@ -143,6 +154,9 @@ The Forge must not:
 - Rename documentation folders implicitly  
 - Split documentation implicitly  
 - Merge documentation implicitly  
+- Create new taxonomy categories without explicit approval
+
+**Constitutional Reference:** See CONSTITUTION.md Section 7.2 for complete taxonomy definitions.
 
 ---
 
@@ -279,7 +293,48 @@ If drift is detected:
 
 ---
 
-# 8. Routing Behavior
+# 9. Documentation Workflow Efficiency
+**Tags:** workflow, build, efficiency, iteration, separation-of-concerns
+
+## 9.1 Build Verification for Documentation
+Documentation-only changes do **not** require build verification:
+- Focus on content quality, not compilation
+- Build only if code was also modified in the same change
+- Allows rapid iteration on documentation without build overhead
+
+## 9.2 Rationale
+- Documentation files (`.md`, `.txt`) are not compiled
+- Building wastes time and provides no value for docs-only changes
+- Separation of concerns: documentation quality ≠ compilation success
+- Enables fast documentation updates without waiting for builds
+
+## 9.3 When to Build Anyway
+Build if:
+- Documentation **and** code changed in same session
+- Adding code examples that should be validated
+- Updating API documentation after code changes
+- Modifying embedded code snippets that reference actual code
+
+**Examples:**
+```
+❌ Build NOT Required:
+- Updated README.md
+- Modified ForgeTome.md in /Documentation/Tomes/
+- Enhanced CONSTITUTION.md
+- Updated Branch-Documentation.md
+- Fixed typos in VersionHistory.chronicle.md
+
+✅ Build Required (Mixed Changes):
+- Updated ModuleLoaderService.vb AND updated API documentation
+- Added new IModule method AND updated interface documentation
+- Modified UI control AND updated user guide with new screenshots
+```
+
+**Constitutional Reference:** See CONSTITUTION.md Section 4.1 for complete build verification rules.
+
+---
+
+# 10. Routing Behavior
 The Documentation Branch is invoked when:
 
 - The user requests documentation  
@@ -293,6 +348,7 @@ Routing:
 If task involves documentation → Use Branch-Documentation
 Otherwise → Delegate to appropriate branch
 ForgeCharter always governs the process
+
 ---
 
 # End of Branch-Documentation.md
