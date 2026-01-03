@@ -387,6 +387,20 @@ This constitution integrates with the existing **ForgeCharter** governance syste
 5. Test in Dashboard TestAreaControl
 6. Document control purpose and usage
 
+### 6.4 Documentation Generation Rules
+
+Documentation is generated using a tiered model:
+
+1. Script-Generated (mechanical, templated)
+2. AI-Generated (structured reasoning)
+3. Human-Crafted (governance and philosophy)
+4. Hybrid (script + AI + human)
+
+All documentation must follow:
+- The 5W&H rule for event and error logs
+- The Documentation Taxonomy
+- Metadata requirements
+- Validation workflows
 ---
 
 ## 7. Documentation Requirements
