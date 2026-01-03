@@ -1,10 +1,11 @@
 ﻿# ForgeCharter  
 **Document Type:** Canon  
+**Version:** v1.1  
 **Purpose:** Define the governing structure, precedence, routing, file-handling rules, and universal behavior of the RCH UI Forge  
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** 9227  
+**Character Count:** 12465  
 **Related:** Branch-Coding.md, Branch-Architecture.md, Branch-Documentation.md, ForgeAudit.md, copilot-instructions.md
 
 ---
@@ -54,6 +55,8 @@ No branch may override ForgeCharter.
 ---
 
 # 4. Designer File Governance (High Priority)
+**Tags:** designer, vb.net, visual-studio, file-locking, winforms, partial-classes
+
 When working with any file that has an associated Designer, the Forge must follow strict separation-of-responsibility rules to prevent file locking, drift, and corruption.
 
 ## 4.1 AI Edits the Designer File
@@ -101,6 +104,8 @@ The Forge must enforce this separation at all times.
 # 5. Universal Rules
 
 ## 5.1 Drift Guard
+**Tags:** validation, compliance, conflict-detection, pre-check
+
 Before executing any task:
 
 - Detect contradictions with branch rules  
@@ -182,6 +187,8 @@ Branches must remain future‑proof and drift‑resistant.
 ---
 
 # 8. File Handling Governance
+**Tags:** file-operations, safety, explicit-intent, read-only, deterministic
+
 The Forge must treat all file operations with explicit, user‑driven intent.  
 No branch may create, modify, delete, rename, or restructure files unless the user has clearly requested the action.
 
@@ -247,6 +254,8 @@ No irreversible action may occur without explicit user approval.
 ---
 
 # 9. Metadata Header Governance
+**Tags:** character-count, headers, documentation, metadata, compliance
+
 All Forge-generated files must include a metadata header containing a `Character Count` field.  
 This field must always be present and must always be set to `TBD`.
 
@@ -256,10 +265,8 @@ For all code files (including `.vb`, `.Designer.vb`, `.cs`, `.fs`, or any future
 **Character Count:** TBD
 
 The Forge must never:
-- Compute the character count  
 - Remove the field  
-- Modify the field  
-- Replace `TBD` with a number  
+- Omit the field from new files  
 
 ## 9.2 Documentation Files
 For all documentation files (including `.md`, `.txt`, `.rst`, or any future documentation formats), the header must contain:
@@ -267,16 +274,14 @@ For all documentation files (including `.md`, `.txt`, `.rst`, or any future docu
 **Character Count:** TBD
 
 The Forge must never:
-- Compute the character count  
 - Remove the field  
-- Modify the field  
-- Replace `TBD` with a number  
+- Omit the field from new files  
 
 ## 9.3 Universal Enforcement
 - All branches must respect this rule  
 - No file may omit the Character Count field  
 - No branch may override this rule  
-- The field must appear exactly as written, including capitalization and punctuation  
+- The field must appear exactly as written: **Character Count:** followed by either TBD or the computed count
 - The field must appear in the header block, not inline or at the end of the file  
 
 ## 9.4 Character Count Update Requirement
@@ -319,10 +324,75 @@ Changes to ForgeCharter require:
 
 No branch or extension may override ForgeCharter.
 
+## 11.1 Version Tracking
+Charter version: **v1.1**
+
+Amendments must:
+- Increment version (major.minor)  
+- Add entry to Amendment Block (Section 11.2)  
+- Update Last Updated date  
+- Update Character Count  
+
+## 11.2 Amendment Block
+Amendments are recorded below in reverse chronological order.
+
 ---
 
+**Amendment v1.1** - 2026-01-02
+- Added Edge Case Handling (Section 12)
+- Added Compliance & Audit Trail (Section 13)
+- Added Version Tracking to Amendments (Section 11.1)
+- Added Amendment Block for change history (Section 11.2)
 
+---
 
-## End of Amendment Block
+# 12. Edge Case Handling
+**Tags:** generated-files, binary-files, dependencies, designer-modifications
+
+## 12.1 Generated & Binary Files
+- Auto-generated code (*.Designer.vb, *.g.cs) → Follow Designer governance (Section 4)  
+- Binary files (*.dll, *.exe, images) → Read-only, no modification  
+- Package files (packages.config, *.csproj) → Explicit intent required  
+
+## 12.2 External Dependencies
+- NuGet packages → User must approve additions  
+- System references → Document but don't modify  
+- Third-party code → Read-only analysis only  
+
+## 12.3 User-Modified Designer Files
+If Designer file has manual edits:
+- Warn user before AI modification  
+- Suggest separating logic to main file  
+- Require explicit approval to proceed  
+
+---
+
+# 13. Compliance & Audit Trail
+**Tags:** self-check, validation, audit, compliance-metrics, verification
+
+## 13.1 Self-Check Protocol
+Before completing any multi-step task:
+- Verify branch rules followed  
+- Verify no drift introduced  
+- Verify character counts updated  
+
+## 13.2 Audit Trail (Optional)
+For complex changes, user may request:
+- Summary of changes made  
+- Rules applied  
+- Decisions made  
+- Files affected  
+
+Forge must provide on request, not automatically.
+
+## 13.3 Compliance Metrics (Read-Only)
+User may invoke ForgeAudit to measure:
+- Rule adherence rate  
+- Drift incidents  
+- File handling violations  
+
+Audit reports are read-only, never auto-correct.
+
+---
 
 # End of ForgeCharter.md

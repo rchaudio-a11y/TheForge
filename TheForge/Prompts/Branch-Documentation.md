@@ -4,7 +4,7 @@
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** TBD  
+**Character Count:** 7659  
 **Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, ForgeAudit.md
 
 ---
@@ -53,6 +53,7 @@ No other source may override this branch.
 ---
 
 # 4. Documentation Rules
+**Tags:** metadata, headers, markdown, structure, character-count
 
 ## 4.1 Metadata Header Requirements
 All documentation files must begin with a metadata header containing:
@@ -66,10 +67,43 @@ All documentation files must begin with a metadata header containing:
 - **Related:** (optional but recommended)
 
 The Forge must never:
-- Compute the character count  
 - Remove the field  
-- Replace `TBD` with a number  
-- Omit the field  
+- Omit the field from new files
+
+Per ForgeCharter Section 9.4, the Character Count must be updated to the actual computed value whenever a file is edited
+
+**Examples:**
+
+```markdown
+# MyDocument.md
+
+**Document Type:** Technical Guide  
+**Purpose:** Explain module loading architecture  
+**Created:** 2026-01-02  
+**Last Updated:** 2026-01-02  
+**Status:** Draft  
+**Character Count:** 3847  
+**Related:** ModuleLoaderService.vb, Branch-Architecture.md
+
+---
+
+## Content starts here...
+```
+
+```vb
+' MyCodeFile.vb
+'
+' Document Type: Service Implementation
+' Purpose: Load and manage external modules
+' Created: 2026-01-02
+' Last Updated: 2026-01-02
+' Status: Production
+' Character Count: 5623
+' Related: IModuleLoader.vb, ModuleMetadata.vb
+
+Namespace RCH.Forge.Services
+    Public Class ModuleLoaderService
+```  
 
 ---
 
@@ -93,6 +127,8 @@ Sections must follow a logical order:
 ---
 
 ## 4.3 Taxonomy Rules
+**Tags:** taxonomy, organization, folder-structure, file-placement
+
 Documentation must follow a stable taxonomy:
 
 - High-level governance → ForgeCharter  
@@ -193,7 +229,40 @@ Documentation must use:
 
 ---
 
-# 7. Documentation Drift Prevention
+# 7. Common Mistakes
+**Tags:** errors, documentation-drift, audit-assumptions, metadata-compliance
+
+**Note:** See `Documentation/Chronicle/DevelopmentLog/IssueSummary.md` for full patterns and solutions.
+
+## 7.1 Documentation Drift
+❌ Creating parallel documentation systems (e.g., VersionHistory + DevelopmentLog)  
+❌ Scattering related files across multiple folders  
+❌ Inconsistent naming conventions within a category  
+❌ Deleting outdated files instead of deprecating  
+✅ Single source of truth for each topic  
+✅ Consolidate related docs into logical folders  
+✅ Deprecate with redirect content, don't delete  
+✅ Schedule periodic reorganization milestones  
+
+## 7.2 Audit Assumptions
+❌ Assuming files don't exist without checking  
+❌ Planning work without verifying current state  
+❌ Not crediting work done in earlier sessions  
+✅ Verify audit assumptions with searches before starting  
+✅ Check if work already exists  
+✅ Update audit methodology when gaps found  
+
+## 7.3 Metadata Headers
+❌ Omitting Character Count field  
+❌ Leaving Character Count as TBD after editing  
+❌ Missing Last Updated date after changes  
+✅ All files must have metadata headers  
+✅ Update Character Count after every edit  
+✅ Update Last Updated date when modifying  
+
+---
+
+# 8. Documentation Drift Prevention
 Before generating or modifying documentation, the Forge must:
 
 - Detect taxonomy drift  

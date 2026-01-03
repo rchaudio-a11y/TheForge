@@ -1,10 +1,11 @@
-# RCH.Forge.Dashboard — Issue Summary
+# RCH.Forge.Dashboard ï¿½ Issue Summary
 
 **Document Type:** Chronicle Analysis  
 **Purpose:** High-level categorization of recurring development issues and resolution patterns  
-**Last Updated:** 2025-01-02  
-**Scope:** All milestones (v0.1.0 - v0.8.2)  
-**Related Documents:** DevelopmentLog.index.md, VersionHistory.chronicle.md
+**Last Updated:** 2026-01-02  
+**Scope:** All milestones (v0.1.0 - v0.9.9)  
+**Character Count:** 17764  
+**Related Documents:** DevelopmentLog.index.md, DevelopmentLog/*.md
 
 ---
 
@@ -261,6 +262,118 @@ This document provides a generalized, non-technical summary of recurring develop
 
 ---
 
+### 13. Project File Synchronization Issues
+
+**Pattern:** Project file contains duplicate entries, missing references, or references to deleted files after moving/renaming operations.
+
+**Symptoms:**
+- Build errors claiming files don't exist
+- Duplicate compile entries for same file
+- References to deleted temporary files
+- Type not found errors despite file existing
+- Project file drift from actual file structure
+
+**Resolution Pattern:**
+- Verify project file before and after file operations
+- Remove old references before adding new ones
+- Use Visual Studio Solution Explorer for file operations when possible
+- Clean project file of obsolete `<None>` and temporary file references
+- Build immediately after project file changes
+
+**Frequency:** Medium (encountered in 3 milestones: v0.9.1, v0.9.3, v0.9.9)
+
+---
+
+### 14. Documentation Drift and Scattered Organization
+
+**Pattern:** Documentation files accumulate without consistent organizational strategy, creating scattered structure and outdated parallel systems.
+
+**Symptoms:**
+- Files scattered across multiple folders without clear purpose
+- Duplicate/parallel documentation systems (e.g., VersionHistory vs. DevelopmentLog)
+- Inconsistent naming conventions across related files
+- Outdated files not deprecated or removed
+- Difficult navigation due to lack of structure
+
+**Resolution Pattern:**
+- Consolidate related documentation into logical folders
+- Establish and enforce consistent naming conventions
+- Deprecate outdated files with redirect content (don't delete)
+- Create index/README files for navigation
+- Establish single source of truth for each topic
+- Periodic documentation reorganization milestones
+
+**Frequency:** Medium-High (encountered in 3 milestones: v0.9.2, v0.9.5, v0.9.9)
+
+---
+
+### 15. Temporary File Accumulation
+
+**Pattern:** Backup and temporary files (`*_old.vb`, `*_v091.vb`, `*_Todo.vb`) left in repository from refactoring work.
+
+**Symptoms:**
+- Multiple versions of same file with suffixes
+- Confusion about which file is current
+- Project file references temporary files
+- Repository bloat from obsolete files
+- Slower searches due to duplicate content
+
+**Resolution Pattern:**
+- Delete temporary files immediately after successful refactoring
+- Use comprehensive wildcard searches (`*_old`, `*_Todo`, `*_backup`, `*_v0*`)
+- Verify project file references before deleting
+- Dedicated cleanup milestones every 5-10 feature milestones
+- Use version control instead of file suffixes for backups
+
+**Frequency:** Medium (encountered in 2 milestones: v0.9.3, v0.9.9)
+
+---
+
+### 16. Audit Assumption Gaps
+
+**Pattern:** Compliance audits make assumptions about system state that don't match reality, leading to unnecessary work or missed credit for existing improvements.
+
+**Symptoms:**
+- Audit claims files missing that actually exist
+- Work already done not reflected in compliance scores
+- Milestone estimates wildly inaccurate
+- Duplicate work performed unnecessarily
+- Compliance improvements not tracked properly
+
+**Resolution Pattern:**
+- Verify audit assumptions with file searches before starting work
+- Check if work was already completed in earlier sessions
+- Update audit methodology when gaps discovered
+- Adjust estimates based on actual findings
+- Document discrepancies between audit and reality
+
+**Frequency:** Low-Medium (encountered in 2 milestones: v0.9.4, v0.9.9)
+
+---
+
+### 17. Tool/IDE File Locking Constraints
+
+**Pattern:** Visual Studio Designer locks files preventing automated editing, requiring manual intervention or alternative strategies.
+
+**Symptoms:**
+- Designer files cannot be modified by shell commands
+- File corruption when editing Designer files externally
+- Cross-thread/cross-process access violations
+- Changes require Visual Studio restart to take effect
+- Automated tools fail on Designer-managed files
+
+**Resolution Pattern:**
+- Never attempt automated edits of open Designer files
+- Close Visual Studio before running automated edits
+- Create manual intervention guides for blocked tasks
+- Use Designer-friendly approaches (Anchor/explicit sizing)
+- Document tool limitations in technical guides
+- Plan manual steps into milestone estimates
+
+**Frequency:** Medium (encountered in 3 milestones: v0.1.0, v0.5.0, v0.9.9)
+
+---
+
 ## Cross-Cutting Themes
 
 ### A. Defensive Programming
@@ -316,11 +429,15 @@ Based on this analysis, future governance should address:
 | State Management | High | v0.4.0 - v0.8.2 | High |
 | Namespace/Type Resolution | High | v0.1.0 - v0.5.0 | Medium |
 | Event Timing/Init Order | Med-High | v0.3.0 - v0.8.2 | High |
+| Documentation Drift | Med-High | v0.9.2 - v0.9.9 | Medium |
 | Interface Implementation | Medium | v0.6.0 - v0.8.0 | Low |
 | Thread Safety | Medium | v0.4.0 - v0.8.1 | High |
-| AI/Tool Limitations | Medium | v0.1.0 - v0.5.0 | Low |
+| Project File Sync | Medium | v0.9.1 - v0.9.9 | Medium |
+| Tool/IDE File Locking | Medium | v0.1.0 - v0.9.9 | High |
+| Temporary File Accumulation | Medium | v0.9.3 - v0.9.9 | Low |
 | Collection Index Shifts | Low-Med | v0.7.0 - v0.8.2 | Low |
 | Platform Limitations | Low-Med | v0.1.0 - v0.8.0 | Medium |
+| Audit Assumption Gaps | Low-Med | v0.9.4 - v0.9.9 | Low |
 | Nullable Type Handling | Low | v0.7.0 | Low |
 | Dependency Validation | Low | v0.8.0 | High |
 | Filter Logic Ambiguity | Low | v0.8.2 | Low |
@@ -331,6 +448,7 @@ Based on this analysis, future governance should address:
 
 ## Recommendations for Future Projects
 
+### From v0.1.0 - v0.8.2
 1. **Establish layout standards early** before complex UI work begins
 2. **Design state management architecture** before implementing features
 3. **Create namespace/naming guidelines** in project setup phase
@@ -343,6 +461,16 @@ Based on this analysis, future governance should address:
 10. **Establish null-handling standards** in coding guidelines
 11. **Build validation frameworks** before feature implementation
 12. **Define architectural boundaries** in initial design phase
+
+### From v0.9.1 - v0.9.9 (New)
+13. **Keep project file synchronized** - Verify after every file operation
+14. **Delete temporary files immediately** - Don't accumulate backups with suffixes
+15. **Consolidate documentation early** - Establish organization before it scales
+16. **Deprecate, don't delete** - Keep old files as redirects for external links
+17. **Verify audit assumptions** - Check reality before planning work
+18. **Plan for tool limitations** - Document Designer file constraints upfront
+19. **Schedule cleanup milestones** - Every 5-10 features, consolidate/cleanup
+20. **Use version control for backups** - Not file suffixes (_old, _v091, etc.)
 
 ---
 

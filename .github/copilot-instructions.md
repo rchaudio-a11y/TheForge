@@ -4,7 +4,7 @@
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** 2879  
+**Character Count:** 2793  
 **Related:** TheForge/Prompts/ForgeCharter.md, TheForge/Prompts/Branch-Coding.md, TheForge/Prompts/Branch-Architecture.md, TheForge/Prompts/Branch-Documentation.md, TheForge/Prompts/ForgeAudit.md
 
 ---

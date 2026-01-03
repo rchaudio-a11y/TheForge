@@ -1,4 +1,4 @@
-# RCH.Forge.Dashboard — Naming Canon
+# RCH.Forge.Dashboard ï¿½ Naming Canon
 **Document Type:** Lore  
 **Purpose:** Define naming conventions for the Dashboard project  
 **Last Updated:** 2025-01-02  
@@ -11,7 +11,7 @@ This document defines the authoritative naming conventions for the RCH.Forge.Das
 
 ---
 
-## Global Naming Rules (from File6.md)
+## Global Naming Rules ()
 - Names must reflect purpose and eliminate ambiguity
 - No abbreviations unless industry-standard
 - No overloaded or vague names
@@ -135,15 +135,15 @@ This document defines the authoritative naming conventions for the RCH.Forge.Das
 
 ### Vocabulary
 When appropriate, use Forge-themed terms:
-- **Forge** — The ecosystem or creation environment
-- **Anvil** — Where components are shaped
-- **Smith** — A creator or builder
-- **Codex** — Technical references
-- **Chronicle** — Historical records
-- **Tome** — Instructional guides
-- **Lore** — Philosophy and principles
-- **Grimoire** — Advanced or experimental knowledge
-- **Scriptorium** — Documentation engine
+- **Forge** ï¿½ The ecosystem or creation environment
+- **Anvil** ï¿½ Where components are shaped
+- **Smith** ï¿½ A creator or builder
+- **Codex** ï¿½ Technical references
+- **Chronicle** ï¿½ Historical records
+- **Tome** ï¿½ Instructional guides
+- **Lore** ï¿½ Philosophy and principles
+- **Grimoire** ï¿½ Advanced or experimental knowledge
+- **Scriptorium** ï¿½ Documentation engine
 
 ### Examples
 - `ForgeModuleLoader` ?

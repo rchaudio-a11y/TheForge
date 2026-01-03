@@ -4,6 +4,7 @@
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
+**Character Count:** 8828  
 **Related:** ForgeCharter.md, Branch-Coding.md, Branch-Documentation.md, ForgeAudit.md
 
 ---
@@ -57,6 +58,7 @@ No other source may override this branch.
 ---
 
 # 4. Structural Rules
+**Tags:** folder-structure, file-placement, modularity, explicit-design
 
 ## 4.1 Project Structure Must Be Explicit
 The Forge must never assume:
@@ -105,6 +107,29 @@ Namespaces must:
 - Follow Forge‑themed naming where appropriate  
 - Avoid deep nesting unless justified  
 
+**Examples:**
+
+```vb
+' ✅ CORRECT: Namespace matches folder path
+' File: Source/Services/Implementations/ModuleLoaderService.vb
+Namespace RCH.Forge.Services.Implementations
+    Public Class ModuleLoaderService
+
+' File: Source/Models/ModuleMetadata.vb
+Namespace RCH.Forge.Models
+    Public Class ModuleMetadata
+
+' ❌ WRONG: Namespace doesn't match folder
+' File: Source/Models/ModuleMetadata.vb
+Namespace RCH.Forge.Core  ' Should be .Models
+    Public Class ModuleMetadata
+
+' ❌ WRONG: File in wrong folder for namespace
+' File: Source/Core/ModuleMetadata.vb  ' Wrong folder
+Namespace RCH.Forge.Models  ' Correct namespace, wrong location
+    Public Class ModuleMetadata
+```  
+
 ---
 
 ## 4.5 Module & Service Placement
@@ -123,6 +148,7 @@ Services must be:
 ---
 
 # 5. Naming Canon
+**Tags:** naming-conventions, pascalcase, descriptive-names, anti-patterns
 
 ## 5.1 General Naming Rules
 All names must be:
@@ -137,6 +163,30 @@ Avoid:
 - Utils  
 - Misc  
 - Generic prefixes or suffixes  
+
+**Examples:**
+
+```vb
+' ✅ CORRECT: Explicit, descriptive names
+Namespace RCH.Forge.Services.Module
+    Public Class ModuleLoaderService
+    Public Class ModuleMetadataReader
+    Public Interface IModuleLifecycleManager
+
+' ✅ CORRECT: Disambiguation with suffixes
+Dim moduleInterface As IModule  ' Not "module" (keyword conflict)
+Dim loggingService As ILoggingService  ' Clear purpose
+
+' ❌ WRONG: Vague, generic names
+Namespace RCH.Forge.Common  ' What's "common"?
+    Public Class Helper  ' Helper for what?
+    Public Class Utils  ' Which utilities?
+    Public Class Manager  ' Manages what?
+
+' ❌ WRONG: Keyword conflicts
+Dim module As IModule  ' "module" is VB keyword
+Dim interface As Type  ' "interface" is keyword
+```  
 
 ---
 
@@ -174,6 +224,7 @@ Examples:
 ---
 
 # 6. Dependency Rules
+**Tags:** dependencies, layering, interfaces, circular-dependencies, architecture
 
 ## 6.1 No Circular Dependencies
 The Forge must detect and prevent:
@@ -236,7 +287,45 @@ Controls must:
 
 ---
 
-# 8. Structural Drift Prevention
+# 8. Common Mistakes
+**Tags:** errors, namespace-issues, project-file, temp-files, troubleshooting
+
+**Note:** See `Documentation/Chronicle/DevelopmentLog/IssueSummary.md` for full patterns and solutions.
+
+## 8.1 Namespace Issues
+❌ Using variable names that match keywords (`module`, `interface`)  
+❌ Namespace doesn't match folder structure  
+❌ Ambiguous type references without qualification  
+✅ Fully qualify ambiguous names  
+✅ Keep namespace aligned with folder path  
+✅ Use descriptive suffixes for disambiguation  
+
+## 8.2 Project File Sync
+❌ Moving files without updating project file  
+❌ Duplicate compile entries after refactoring  
+❌ References to deleted temporary files  
+✅ Verify project file before AND after file operations  
+✅ Build immediately after project changes  
+✅ Remove old references before adding new ones  
+
+## 8.3 Temporary File Management
+❌ Creating `*_old.vb`, `*_backup.vb`, `*_v091.vb` files  
+❌ Leaving temporary files in repository  
+✅ Use version control for backups, not suffixes  
+✅ Delete temp files immediately after refactoring  
+✅ Search with wildcards before declaring cleanup complete  
+
+## 8.4 Dependency Management
+❌ Circular dependencies between layers  
+❌ UI depending on concrete service implementations  
+❌ Missing validation for external dependencies  
+✅ Interface-first architecture  
+✅ Validate dependencies early (at load time)  
+✅ No upward dependencies in layered architecture  
+
+---
+
+# 9. Structural Drift Prevention
 Before executing any structural task, the Forge must:
 
 - Detect folder drift  

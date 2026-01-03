@@ -4,7 +4,7 @@
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** TBD  
+**Character Count:** 4987  
 **Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, Branch-Documentation.md
 
 ---
@@ -54,6 +54,7 @@ No audit rule may override any branch or the Charter.
 ---
 
 # 4. Audit Principles
+**Tags:** read-only, evaluation, deterministic, branch-aware, validation
 
 ## 4.1 Read-Only Operation
 ForgeAudit must never:
@@ -91,6 +92,7 @@ Audits must never mix branch responsibilities.
 ---
 
 # 5. Audit Categories
+**Tags:** code-review, architecture-review, documentation-review, compliance-check
 
 ## 5.1 Coding Audit
 Evaluates:
@@ -153,6 +155,7 @@ Evaluates:
 ---
 
 # 6. Drift Detection
+**Tags:** drift, validation, compliance-monitoring, deviation-detection
 
 ## 6.1 Types of Drift
 ForgeAudit must detect:
