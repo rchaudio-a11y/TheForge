@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "governanceFiles": {
+    "constitution": ".github/CONSTITUTION.md",
+    "forgeCharter": "TheForge/Prompts/ForgeCharter.md",
+    "branches": [
+      "TheForge/Prompts/Branch-Architecture.md",
+      "TheForge/Prompts/Branch-Coding.md",
+      "TheForge/Prompts/Branch-Documentation.md"
+    ],
+    "audit": "TheForge/Prompts/ForgeAudit.md",
+    "router": ".github/copilot-instructions.md",
+    "speckitAgents": ".github/agents/*.agent.md",
+    "speckitPrompts": ".github/prompts/*.prompt.md"
+  },
+  "thresholds": {
+    "redundancyWarning": 15,
+    "redundancyCritical": 30,
+    "tokenLoadWarning": 50000,
+    "tokenLoadCritical": 75000,
+    "conflictTolerance": 0
+  },
+  "validation": {
+    "checkConsistency": true,
+    "checkConflicts": true,
+    "analyzeTokens": true,
+    "scanRedundancy": true,
+    "validateCrossReferences": true,
+    "verifyCharacterCounts": true
+  },
+  "autoFix": {
+    "characterCounts": true,
+    "dates": false,
+    "crossReferences": false
+  }
+}
