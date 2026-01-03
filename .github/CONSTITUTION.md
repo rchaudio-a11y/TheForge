@@ -445,6 +445,25 @@ All documentation must follow:
 
 ## 8. Amendment Block
 
+### 5W&H Documentation Rule
+
+All documentation describing events, errors, decisions, or project phases MUST follow the 5W&H structure:
+
+1. **Who** – The actor responsible (human, AI, or system)
+2. **What** – The action taken or event that occurred
+3. **When** – The date and time of the event
+4. **Where** – The file, directory, or subsystem involved
+5. **Why** – The reason or motivation behind the event
+6. **How** – The method or steps used to perform or resolve the event
+
+This rule applies to:
+- Chronicle logs
+- Revision documents
+- Error documentation
+- Migration reports
+- Validation reports
+- Integration documentation
+
 ### Version 1.0.0 - 2025-01-18
 - Initial constitution created
 - Integrated with ForgeCharter governance
@@ -508,6 +527,7 @@ Once this constitution is validated and accepted:
 ---
 
 ## Glossary
+
 
 - **Forge** - The RCH UI ecosystem and governance framework
 - **Module** - A self-contained component implementing IModule
