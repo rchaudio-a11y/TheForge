@@ -4,7 +4,7 @@
 **Created:** 2025-01-02  
 **Last Updated:** 2026-01-03  
 **Status:** Final  
-**Character Count:** 9847  
+$110440  
 **Related:** ForgeCharter.md, Branch-Coding.md, Branch-Architecture.md, ForgeAudit.md, CONSTITUTION.md
 
 ---
@@ -134,7 +134,7 @@ Documentation must follow this stable taxonomy (per Constitution Section 7.2):
 | Category | Purpose | Examples |
 |----------|---------|----------|
 | **Codex** | Technical references | API docs, interface specs, technical guides |
-| **Chronicle** | Version history, logs | VersionHistory.chronicle.md, audit logs, development logs |
+| **Chronicle** | Version history, logs, session records | SESSION_*.md, VersionHistory.chronicle.md, development logs |
 | **Tomes** | User guides, tutorials | ForgeTome.md, onboarding guides, user documentation |
 | **Lore** | Design philosophy, principles | NamingCanon.md, architectural philosophy, governance rationale |
 | **Grimoire** | Experimental features, research | Prototypes, proof-of-concepts, exploratory work |
@@ -146,6 +146,7 @@ Documentation must follow this stable taxonomy (per Constitution Section 7.2):
 - Audit rules → ForgeAudit (Prompts/)
 - Project documentation → Taxonomy folders (Documentation/)
 - Constitution → `.github/CONSTITUTION.md`
+- Session chronicles → `.github/chronicle/` (development session logs)
 - No implicit folder creation  
 - No implicit taxonomy restructuring  
 
@@ -160,7 +161,256 @@ The Forge must not:
 
 ---
 
-## 4.4 Naming Canon for Documentation
+## 4.4 Chronicle Style Guide (Session Documentation)
+**Tags:** chronicles, session-logs, development-history, activity-tracking
+
+### 4.4.1 Purpose of Chronicles
+Chronicles document development sessions to:
+- Track progress across sessions
+- Preserve context for future AI assistants
+- Document decisions and rationale
+- Measure efficiency and value
+- Enable session resume without memory loss
+
+### 4.4.2 Chronicle File Naming
+Format: `SESSION_YYYYMMDD_vXXXX.md`
+
+**Examples:**
+- `SESSION_20260103_v0910.md` (Session on Jan 3, 2026, version 0.9.1.0)
+- `SESSION_20260104_v0930.md` (Session on Jan 4, 2026, version 0.9.3.0)
+
+### 4.4.3 Required Chronicle Structure
+Every chronicle must contain:
+
+```markdown
+# Development Session Chronicle - Version X.X.X.X
+
+**Document Type:** Chronicle (Development Log)
+**Session Date:** YYYY-MM-DD
+**Session Duration:** ~X hours
+**Version:** X.X.X.X
+**Previous Version:** X.X.X.X
+**Next Version:** X.X.X.X
+**Character Count:** TBD
+**Related:** [related files]
+
+---
+
+## Session Activity Summary
+
+### GitHub Copilot Usage Metrics
+- Total messages used
+- Session efficiency rating
+- Remaining quota
+
+### Detailed Activity Breakdown
+1. File Creation: X files
+2. File Modifications: X edits
+3. Terminal Commands: X executions
+4. File Reads: X operations
+5. Documentation: X characters written
+6. Bug Fixes: X issues resolved
+7. Features Implemented: X features
+
+### Cost-Benefit Analysis
+- Messages invested: ~X
+- Value delivered: [summary]
+- ROI Assessment: [HIGH/MEDIUM/LOW]
+
+---
+
+## Session Overview
+- Primary Objective
+- Secondary Objectives
+- Overall Project Success metrics
+
+---
+
+## Session Timeline
+### Phase 1: [Name] (duration)
+[Detailed breakdown]
+
+### Phase 2: [Name] (duration)
+[Detailed breakdown]
+
+---
+
+## Key Decisions Made
+### Decision 1: [Name]
+- Context
+- Options considered
+- Decision made
+- Rationale
+- Outcome
+
+---
+
+## Technical Learnings
+### Learning 1: [Name]
+- Discovery
+- Implication
+- Solution
+
+---
+
+## Files Modified/Created This Session
+### Created Files (X)
+[List with purpose]
+
+### Modified Files (X)
+[List with changes]
+
+---
+
+## Phase Completion Summary
+- Tasks completed
+- Success criteria met
+- Status
+
+---
+
+## Outstanding Questions
+[Technical and process questions]
+
+---
+
+## Lessons Learned
+- What Went Well
+- What Could Be Improved
+- Risks Identified
+
+---
+
+## Next Steps
+- Immediate (next session)
+- Short-term (week)
+- Long-term (project)
+
+---
+
+## Version Metadata
+- Current version
+- Version history
+- Increment rules
+
+---
+
+## Session Statistics
+- Time breakdown
+- Token/message usage
+- File statistics
+- Git status
+
+---
+
+## Appendices
+- Command history
+- File paths
+- Glossary
+```
+
+### 4.4.4 Chronicle Content Rules
+Chronicles must:
+- ✅ Include activity summary at the top (file creation, edits, commands, reads)
+- ✅ Track GitHub Copilot message usage and ROI
+- ✅ Document all decisions with context and rationale
+- ✅ Record technical learnings and discoveries
+- ✅ List all files created/modified with purpose
+- ✅ Include version progression (previous → current → next)
+- ✅ Provide phase completion summaries
+- ✅ Document lessons learned (what worked, what didn't)
+- ✅ Include concrete next steps
+- ✅ Track session statistics (time, tokens, files)
+- ✅ Use semantic versioning for session versions
+
+Chronicles must not:
+- ❌ Be vague about decisions ("we decided to..." without why)
+- ❌ Omit activity tracking (makes ROI analysis impossible)
+- ❌ Skip technical learnings (loses valuable knowledge)
+- ❌ Forget to update character counts after editing
+- ❌ Leave version metadata as "TBD" or incomplete
+
+### 4.4.5 Chronicle Updates During Session
+When validation runs auto-update chronicles, append:
+
+```markdown
+---
+
+## Validation Run: YYYY-MM-DD HH:MM:SS
+
+**Duration:** X.XX seconds
+**Overall Status:** [status with emoji]
+
+### Quick Results:
+- **Consistency:** Status (X conflicts)
+- **Conflicts:** Status (X issues)
+- **Token Usage:** Status (X chars / ~X tokens)
+- **Redundancy:** Status (X.XX% duplicate rules)
+- **Cross-References:** Status (X broken)
+- **Character Counts:** Status (X inaccurate, X fixed)
+
+### Key Findings:
+- [emoji] **Finding 1:** Description
+- [emoji] **Finding 2:** Description
+```
+
+### 4.4.6 Chronicle Emoji Usage
+Chronicles use emojis for quick visual scanning:
+
+**Status Indicators:**
+- ✅ Pass / Complete / Success
+- ⚠️ Warning / Review Needed
+- ❌ Fail / Error / Block
+- 🔴 Critical / Urgent
+- 🔧 Fixed / Repaired
+- 🔄 In Progress
+- ⏸️ Pending / Waiting
+- 📊 Metrics / Data
+- 💡 Insight / Learning
+- 🎯 Goal / Target
+- 🚀 Launch / Deploy
+
+**Activity Types:**
+- 📝 Documentation
+- 💻 Code
+- 🐛 Bug Fix
+- ✨ New Feature
+- 🔍 Investigation
+- 📦 Dependency
+- 🔒 Security
+
+### 4.4.7 Version Numbering in Chronicles
+Chronicles follow semantic versioning:
+- **Build (+0.0.0.1):** Single task completion
+- **Patch (+0.0.1.0):** Phase completion
+- **Minor (+0.1.0.0):** Major feature complete
+- **Major (+1.0.0.0):** Production ready
+
+**Example Progression:**
+```
+0.9.1.0 → Phase 1 complete (Foundation)
+0.9.2.0 → Phase 2 complete (Core Validation)
+0.9.2.1 → Phase 3, Task 3.1 complete (Report Generation)
+0.9.2.2 → Phase 3, Task 3.2 complete (Chronicle Integration)
+0.9.3.0 → Phase 3 complete (Reporting & Integration)
+1.0.0.0 → Production ready
+```
+
+### 4.4.8 Chronicle Maintenance
+- Update character count after every edit
+- Update "Last Updated" date
+- Increment version number for significant updates
+- Append validation results (auto-generated)
+- Commit chronicles at major milestones
+
+### 4.4.9 Chronicle Location
+- **Development session chronicles:** `.github/chronicle/SESSION_*.md`
+- **Resume guides:** `.github/chronicle/RESUME_*.md`
+- **Historical records:** Can be moved to `Documentation/Chronicle/` for long-term storage
+
+---
+
+## 4.5 Naming Canon for Documentation
 Documentation file names must:
 
 - Use PascalCase  

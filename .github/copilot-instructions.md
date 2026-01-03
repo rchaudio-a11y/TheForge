@@ -1,10 +1,10 @@
-# copilot-instructions  
+﻿# copilot-instructions  
 **Document Type:** Router  
 **Purpose:** Route all tasks to the correct Forge branch based on user intent  
 **Created:** 2026-01-02  
 **Last Updated:** 2026-01-02  
 **Status:** Final  
-**Character Count:** 2793  
+$12890  
 **Related:** TheForge/Prompts/ForgeCharter.md, TheForge/Prompts/Branch-Coding.md, TheForge/Prompts/Branch-Architecture.md, TheForge/Prompts/Branch-Documentation.md, TheForge/Prompts/ForgeAudit.md
 
 ---
@@ -27,10 +27,10 @@ All tasks must be routed according to the governance defined in **ForgeCharter**
 - **ForgeAudit:** `TheForge/Prompts/ForgeAudit.md`
 
 **Routing:**
-- If the task involves **code** → Use `TheForge/Prompts/Branch-Coding.md`
-- If the task involves **structure or design** → Use `TheForge/Prompts/Branch-Architecture.md`
-- If the task involves **documentation** → Use `TheForge/Prompts/Branch-Documentation.md`
-- If the task involves **evaluation or drift detection** → Use `TheForge/Prompts/ForgeAudit.md`
+- If the task involves **code** â†’ Use `TheForge/Prompts/Branch-Coding.md`
+- If the task involves **structure or design** â†’ Use `TheForge/Prompts/Branch-Architecture.md`
+- If the task involves **documentation** â†’ Use `TheForge/Prompts/Branch-Documentation.md`
+- If the task involves **evaluation or drift detection** â†’ Use `TheForge/Prompts/ForgeAudit.md`
 
 **ForgeCharter always governs the process:** `TheForge/Prompts/ForgeCharter.md`
 

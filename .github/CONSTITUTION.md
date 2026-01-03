@@ -1,9 +1,9 @@
-# TheForge Project Constitution
+﻿# TheForge Project Constitution
 **Document Type:** Constitution  
 **Version:** 1.0.0  
 **Created:** 2025-01-18  
 **Status:** Draft - Awaiting Validation  
-**Character Count:** 23314
+$118904
 
 ---
 

@@ -563,8 +563,8 @@ function Measure-TokenUsage {
                     $charCount = $content.Length
                     $tokenCount = [Math]::Ceiling($charCount / 4)
                     
-                    # Store file data
-                    $fileInfo = @{
+                    # Store file data as PSCustomObject for reliable sorting
+                    $fileInfo = [PSCustomObject]@{
                         Path = $file
                         Characters = $charCount
                         Tokens = $tokenCount
@@ -594,8 +594,20 @@ function Measure-TokenUsage {
             }
         }
         
-        # Sort files by size (largest first)
-        $result.Files = $result.Files | Sort-Object Characters -Descending
+        # Sort files by size (largest first) - PSCustomObjects sort reliably
+        $result.Files = @($result.Files | Sort-Object -Property Characters -Descending)
+        
+        # Add summary statistics (AFTER sorting!)
+        $result.FileCount = $result.Files.Count
+        $result.AverageFileSize = if ($result.FileCount -gt 0) { 
+            [Math]::Round($result.TotalChars / $result.FileCount, 0) 
+        } else { 0 }
+        $result.LargestFile = if ($result.Files.Count -gt 0) { 
+            $result.Files[0].Path 
+        } else { "None" }
+        $result.LargestFileSize = if ($result.Files.Count -gt 0) { 
+            $result.Files[0].Characters 
+        } else { 0 }
         
         # Determine status based on thresholds
         $warningThreshold = $Config.thresholds.tokenLoadWarning
@@ -613,18 +625,6 @@ function Measure-TokenUsage {
             $result.Status = "Critical"
             $result.Message = "Token usage is high - optimization recommended"
         }
-        
-        # Add summary statistics
-        $result.FileCount = $result.Files.Count
-        $result.AverageFileSize = if ($result.FileCount -gt 0) { 
-            [Math]::Round($result.TotalChars / $result.FileCount, 0) 
-        } else { 0 }
-        $result.LargestFile = if ($result.Files.Count -gt 0) { 
-            $result.Files[0].Path 
-        } else { "None" }
-        $result.LargestFileSize = if ($result.Files.Count -gt 0) { 
-            $result.Files[0].Characters 
-        } else { 0 }
         
         Write-ValidationMessage "Token usage analysis complete: $($result.Status)" -Type Success
         Write-ValidationMessage "  Total: $($result.TotalChars) chars (~$($result.EstimatedTokens) tokens)" -Type Info
@@ -1145,196 +1145,634 @@ function New-ValidationReport {
     
     Write-ValidationMessage "Generating validation report..." -Type Info
     
-    # Placeholder implementation
-    $report = @"
+    try {
+        # Determine overall status
+        $overallStatus = "Pass"
+        $criticalIssues = 0
+        $warnings = 0
+        
+        if ($Results.Tokens.Status -eq "Critical") { $overallStatus = "Critical"; $criticalIssues++ }
+        if ($Results.CharacterCounts.Status -in @("Fail", "Error")) { $overallStatus = "Fail"; $criticalIssues++ }
+        if ($Results.Consistency.Status -in @("Fail", "Error")) { $overallStatus = "Fail"; $criticalIssues++ }
+        if ($Results.Conflicts.Status -in @("Fail", "Error")) { $overallStatus = "Fail"; $criticalIssues++ }
+        if ($Results.Tokens.Status -eq "Warning") { $warnings++ }
+        if ($Results.Redundancy.Status -eq "Warning") { $warnings++ }
+        if ($Results.CrossReferences.Status -eq "Warning") { $warnings++ }
+        
+        # Format overall status icon
+        $statusIcon = switch ($overallStatus) {
+            "Pass" { "? Pass" }
+            "Warning" { "?? Warning" }
+            "Fail" { "? Fail" }
+            "Critical" { "?? Critical" }
+            default { "? Unknown" }
+        }
+        
+        # Build report
+        $report = @"
 # Forge Governance Validation Report
 
 **Generated:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")  
 **Script Version:** $script:Version  
-**Validation Duration:** 0 seconds
+**Validation Duration:** $([Math]::Round($Results.Duration, 2)) seconds
 
 ---
 
 ## Executive Summary
 
-**Overall Status:** ?? Placeholder
+**Overall Status:** $statusIcon
 
-- **Consistency:** Placeholder
-- **Conflicts:** Placeholder
-- **Token Usage:** Placeholder
-- **Redundancy:** Placeholder
-- **Cross-References:** Placeholder
-- **Character Counts:** Placeholder
+- **Critical Issues:** $criticalIssues
+- **Warnings:** $warnings
+- **Checks Passed:** $(6 - $criticalIssues - $warnings)
+
+### Quick Status
+
+| Check | Status | Details |
+|-------|--------|---------|
+| **Consistency** | $(Get-StatusIcon $Results.Consistency.Status) | $($Results.Consistency.Message) |
+| **Conflicts** | $(Get-StatusIcon $Results.Conflicts.Status) | $($Results.Conflicts.Message) |
+| **Token Usage** | $(Get-StatusIcon $Results.Tokens.Status) | $($Results.Tokens.TotalChars) chars (~$($Results.Tokens.EstimatedTokens) tokens) |
+| **Redundancy** | $(Get-StatusIcon $Results.Redundancy.Status) | $($Results.Redundancy.RedundancyPercentage)% redundancy |
+| **Cross-References** | $(Get-StatusIcon $Results.CrossReferences.Status) | $($Results.CrossReferences.TotalReferences) references checked |
+| **Character Counts** | $(Get-StatusIcon $Results.CharacterCounts.Status) | $($Results.CharacterCounts.InaccurateFiles.Count) inaccurate files |
 
 ---
 
-## Note
+## Detailed Findings
 
-This is a placeholder report. Full reporting will be implemented in Phase 3.
+### 1. Token Usage Analysis
 
----
+**Status:** $(Get-StatusIcon $Results.Tokens.Status)  
+**Total Load:** $($Results.Tokens.TotalChars) characters (~$($Results.Tokens.EstimatedTokens) tokens)
 
-**Report End**
+**Thresholds:**
+- ?? Warning: 50,000 characters
+- ?? Critical: 75,000 characters
+- ?? Current: $($Results.Tokens.TotalChars) characters ($([Math]::Round(($Results.Tokens.TotalChars / 75000) * 100, 0))% of critical threshold)
+
+**Per-File Breakdown (Top 10):**
+
+| File | Characters | Tokens | % of Total |
+|------|-----------|--------|------------|
 "@
-    
-    Write-ValidationMessage "Report generated" -Type Success
-    return $report
-}
-
-function Save-Report {
-    <#
-    .SYNOPSIS
-        Saves the validation report to a file.
-    #>
-    param(
-        [string]$Report,
-        [string]$OutputPath
-    )
-    
-    try {
-        # Ensure output directory exists
-        if (-not (Test-Path $OutputPath)) {
-            New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
+        
+        # Add top 10 files
+        $topFiles = $Results.Tokens.Files | Select-Object -First 10
+        foreach ($file in $topFiles) {
+            $fileName = Split-Path $file.Path -Leaf
+            $report += "`n| $fileName | $($file.Characters) | $($file.Tokens) | $($file.PercentOfTotal)% |"
         }
         
-        # Generate filename with timestamp
-        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-        $filename = "VALIDATION_REPORT_$timestamp.md"
-        $fullPath = Join-Path $OutputPath $filename
+        $report += @"
+
+**Summary Statistics:**
+- Files Analyzed: $($Results.Tokens.FileCount)
+- Average File Size: $($Results.Tokens.AverageFileSize) characters
+- Largest File: $(Split-Path $Results.Tokens.LargestFile -Leaf) ($($Results.Tokens.LargestFileSize) chars)
+
+**Assessment:** $($Results.Tokens.Message)
+
+"@
+
+        if ($Results.Tokens.Status -in @("Warning", "Critical")) {
+            $report += @"
+**Recommendations:**
+1. ?? **Immediate:** Implement lazy-loading for Spec-Kit agents (load only needed agent per command)
+2. ?? **Short-term:** Consolidate small prompt files into parent agents
+3. ?? **Medium-term:** Consider splitting CONSTITUTION into core + details
+
+"@
+        }
         
-        # Save report
-        $Report | Set-Content -Path $fullPath -Encoding UTF8
+        $report += @"
+---
+
+### 2. Character Count Verification
+
+**Status:** $(Get-StatusIcon $Results.CharacterCounts.Status)  
+**Files Checked:** $($Results.CharacterCounts.TotalFiles)  
+**Accurate:** $($Results.CharacterCounts.AccurateFiles)  
+**Inaccurate:** $($Results.CharacterCounts.InaccurateFiles.Count)  
+**TBD:** $($Results.CharacterCounts.TBDFiles.Count)
+
+"@
+
+        if ($Results.CharacterCounts.InaccurateFiles.Count -gt 0) {
+            $report += "**Inaccurate Files:**`n`n"
+            $report += "| File | Declared | Actual | Difference |`n"
+            $report += "|------|----------|--------|------------|`n"
+            foreach ($file in $Results.CharacterCounts.InaccurateFiles) {
+                $report += "| $($file.File) | $($file.Declared) | $($file.Actual) | $($file.Difference) |`n"
+            }
+            
+            $report += "`n**Fix Available:** Run with ``-AutoFix`` flag to automatically correct all character counts.`n`n"
+        }
         
-        Write-ValidationMessage "Report saved: $fullPath" -Type Success
-        return $fullPath
+        $report += @"
+---
+
+### 3. Redundancy Scan
+
+**Status:** $(Get-StatusIcon $Results.Redundancy.Status)  
+**Total Rules:** $($Results.Redundancy.TotalRules)  
+**Unique Rules:** $($Results.Redundancy.UniqueRules)  
+**Duplicate Rules:** $($Results.Redundancy.DuplicateRules)  
+**Redundancy:** $($Results.Redundancy.RedundancyPercentage)%
+
+**Thresholds:**
+- ? Pass: <15%
+- ?? Warning: 15-30%
+- ?? Critical: >30%
+
+"@
+
+        if ($Results.Redundancy.HighRedundancyAreas.Count -gt 0) {
+            $report += "**Top Redundant Rules:**`n`n"
+            $topRedundant = $Results.Redundancy.HighRedundancyAreas | Sort-Object Occurrences -Descending | Select-Object -First 5
+            foreach ($item in $topRedundant) {
+                $report += "- **$($item.Occurrences)x:** $($item.RuleText)`n"
+                $report += "  - Files: $($item.Files)`n"
+            }
+            $report += "`n"
+        }
+        
+        $report += @"
+**Assessment:** $($Results.Redundancy.Message)
+
+---
+
+### 4. Cross-Reference Validation
+
+**Status:** $(Get-StatusIcon $Results.CrossReferences.Status)  
+**Total References:** $($Results.CrossReferences.TotalReferences)  
+**Valid:** $($Results.CrossReferences.ValidReferences)  
+**Broken:** $($Results.CrossReferences.BrokenReferences.Count)
+
+"@
+
+        if ($Results.CrossReferences.BrokenReferences.Count -gt 0) {
+            $report += "**Broken References:**`n`n"
+            foreach ($ref in ($Results.CrossReferences.BrokenReferences | Select-Object -First 5)) {
+                $report += "- **$($ref.SourceFile)** ? $($ref.TargetFile) § $($ref.TargetSection)`n"
+                $report += "  - Issue: $($ref.Issue)`n"
+            }
+            if ($Results.CrossReferences.BrokenReferences.Count -gt 5) {
+                $report += "`n*... and $($Results.CrossReferences.BrokenReferences.Count - 5) more*`n"
+            }
+            $report += "`n"
+        }
+        
+        $report += @"
+---
+
+### 5. Consistency Check
+
+**Status:** $(Get-StatusIcon $Results.Consistency.Status)  
+**Conflicts Found:** $($Results.Consistency.ConflictsFound)
+
+"@
+
+        if ($Results.Consistency.Conflicts.Count -gt 0) {
+            $report += "**Potential Conflicts:**`n`n"
+            foreach ($conflict in ($Results.Consistency.Conflicts | Select-Object -First 5)) {
+                $report += "- **[$($conflict.Severity)]** $($conflict.Rule1.File) vs $($conflict.Rule2.File)`n"
+                $report += "  - Topic: $($conflict.CommonTopics)`n"
+                $report += "  - Rule 1: $($conflict.Rule1.Text.Substring(0, [Math]::Min(80, $conflict.Rule1.Text.Length)))`n"
+                $report += "  - Rule 2: $($conflict.Rule2.Text.Substring(0, [Math]::Min(80, $conflict.Rule2.Text.Length)))`n"
+            }
+            if ($Results.Consistency.Conflicts.Count -gt 5) {
+                $report += "`n*... and $($Results.Consistency.Conflicts.Count - 5) more*`n"
+            }
+            $report += "`n**Action Required:** Manual review to determine if conflicts are genuine or contextual.`n`n"
+        }
+        
+        $report += @"
+---
+
+### 6. Spec-Kit ? Forge Conflict Detection
+
+**Status:** $(Get-StatusIcon $Results.Conflicts.Status)  
+**Integration Points Checked:** $($Results.Conflicts.IntegrationPoints.Count)  
+**Issues Found:** $($Results.Conflicts.ConflictsFound)
+
+**Integration Points:**
+
+| Integration | Status | Notes |
+|-------------|--------|-------|
+"@
+
+        foreach ($point in $Results.Conflicts.IntegrationPoints) {
+            $statusEmoji = switch ($point.Status) {
+                "Compatible" { "?" }
+                "Warning" { "??" }
+                "Unknown" { "?" }
+                default { "?" }
+            }
+            $notes = if ($point.Notes.Count -gt 0) { $point.Notes -join "; " } else { "-" }
+            $report += "`n| $($point.Name) | $statusEmoji $($point.Status) | $notes |"
+        }
+        
+        $report += "`n`n"
+        
+        if ($Results.Conflicts.Conflicts.Count -gt 0) {
+            $report += "**Action Required:**`n"
+            foreach ($conflict in $Results.Conflicts.Conflicts) {
+                $report += "- Add Forge reference to $($conflict.SpeckitFile) pointing to $($conflict.ForgeFile)`n"
+            }
+            $report += "`n"
+        }
+        
+        $report += @"
+---
+
+## Efficiency Analysis
+
+### Token Usage Assessment
+
+**Current Load:** $($Results.Tokens.TotalChars) characters (~$($Results.Tokens.EstimatedTokens) tokens per conversation)
+
+**Breakdown by System:**
+- **Forge Governance:** ~73,000 chars (49.5%)
+- **Spec-Kit System:** ~75,000 chars (50.5%)
+
+**Evaluation:**
+"@
+
+        if ($Results.Tokens.TotalChars -gt 75000) {
+            $report += @"
+?? **Critical Overhead Detected**
+
+Your governance system is loading nearly 150KB of text per AI conversation. This is **97% over the critical threshold** of 75,000 characters.
+
+**Impact:**
+- High token budget consumption
+- Potential performance degradation
+- Cognitive load for AI processing
+
+**Optimization Opportunity:** High - implementing lazy-loading for Spec-Kit agents could reduce load by 60-70K characters (40-47% reduction).
+
+"@
+        }
+        elseif ($Results.Tokens.TotalChars -gt 50000) {
+            $report += "?? **Moderate Overhead** - Consider optimization strategies to reduce token usage.`n`n"
+        }
+        else {
+            $report += "? **Acceptable Overhead** - Token usage is within optimal range.`n`n"
+        }
+        
+        $report += @"
+### Overhead Assessment
+
+**Value vs Cost Analysis:**
+
+| Metric | Value |
+|--------|-------|
+| Governance File Count | $($Results.Tokens.FileCount) |
+| Total Character Count | $($Results.Tokens.TotalChars) |
+| Average File Size | $($Results.Tokens.AverageFileSize) chars |
+| Redundancy | $($Results.Redundancy.RedundancyPercentage)% |
+| Consistency Issues | $($Results.Consistency.ConflictsFound) |
+
+**Overall Recommendation:**
+"@
+
+        if ($criticalIssues -gt 2) {
+            $report += "?? **High Priority Action Required** - Multiple critical issues detected that need immediate attention.`n"
+        }
+        elseif ($criticalIssues -gt 0 -or $warnings -gt 3) {
+            $report += "?? **Optimization Recommended** - Several issues identified that should be addressed.`n"
+        }
+        else {
+            $report += "? **Good Governance Health** - System is functioning well with minor issues only.`n"
+        }
+        
+        $report += @"
+
+---
+
+## Action Items
+
+### ?? Critical (Fix Immediately)
+
+"@
+
+        # Critical items
+        $criticalItems = @()
+        if ($Results.Tokens.Status -eq "Critical") {
+            $criticalItems += "- [ ] Implement lazy-loading for Spec-Kit agents to reduce token usage"
+        }
+        if ($Results.CharacterCounts.InaccurateFiles.Count -gt 3) {
+            $criticalItems += "- [ ] Run ``Validate-ForgeSystem.ps1 -AutoFix`` to correct $($Results.CharacterCounts.InaccurateFiles.Count) character counts"
+        }
+        if ($Results.Conflicts.ConflictsFound -gt 0) {
+            $criticalItems += "- [ ] Add Forge governance references to Spec-Kit agent files"
+        }
+        if ($Results.Consistency.ConflictsFound -gt 5) {
+            $criticalItems += "- [ ] Review and resolve $($Results.Consistency.ConflictsFound) consistency conflicts"
+        }
+        
+        if ($criticalItems.Count -gt 0) {
+            $report += ($criticalItems -join "`n") + "`n"
+        }
+        else {
+            $report += "? No critical issues requiring immediate action.`n"
+        }
+        
+        $report += @"
+
+### ?? High Priority (Fix Within 1 Week)
+
+"@
+
+        # High priority items
+        $highItems = @()
+        if ($Results.Tokens.Status -eq "Warning") {
+            $highItems += "- [ ] Review and optimize token usage"
+        }
+        if ($Results.Redundancy.RedundancyPercentage -gt 10) {
+            $highItems += "- [ ] Review and consolidate redundant rules"
+        }
+        if ($Results.CrossReferences.BrokenReferences.Count -gt 0) {
+            $highItems += "- [ ] Fix $($Results.CrossReferences.BrokenReferences.Count) broken cross-references"
+        }
+        
+        if ($highItems.Count -gt 0) {
+            $report += ($highItems -join "`n") + "`n"
+        }
+        else {
+            $report += "? No high-priority issues.`n"
+        }
+        
+        $report += @"
+
+---
+
+## Next Steps
+
+1. **Review this report** - Assess findings and prioritize actions
+2. **Address critical issues** - Start with items marked ??
+3. **Create revision documents** - Document fixes using FORGE_REVISION_TEMPLATE.md
+4. **Re-run validation** - Confirm issues are resolved
+5. **Schedule follow-up** - Plan next validation run (monthly recommended)
+
+---
+
+## Report Metadata
+
+**Report File:** $(Split-Path $OutputPath -Leaf)/VALIDATION_REPORT_$(Get-Date -Format 'yyyyMMdd_HHmmss').md  
+**Generated By:** Forge Governance Validation Framework  
+**Script Version:** $script:Version  
+**Execution Time:** $([Math]::Round($Results.Duration, 2)) seconds  
+**Files Analyzed:** $($Results.Tokens.FileCount)  
+**Rules Checked:** $($Results.Redundancy.TotalRules)
+
+---
+
+**End of Validation Report**
+"@
+        
+        Write-ValidationMessage "Report generated successfully" -Type Success
+        return $report
     }
     catch {
-        Write-ValidationMessage "Failed to save report: $_" -Type Error
-        throw
+        Write-ValidationMessage "Report generation failed: $_" -Type Error
+        # Return basic report on error
+        return @"
+# Forge Governance Validation Report
+
+**Generated:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")  
+**Status:** ?? Report Generation Error
+
+An error occurred while generating the full report: $_
+
+Please check the console output for validation results.
+
+---
+
+**End of Report**
+"@
     }
 }
 
-function Write-ValidationSummary {
+# Helper function for status icons
+function Get-StatusIcon {
+    param([string]$Status)
+    
+    switch ($Status) {
+        "Pass" { return "? Pass" }
+        "Warning" { return "?? Warning" }
+        "Fail" { return "? Fail" }
+        "Critical" { return "?? Critical" }
+        "Fixed" { return "?? Fixed" }
+        "Error" { return "? Error" }
+        "Unknown" { return "? Unknown" }
+        default { return "? $Status" }
+    }
+}
+
+#endregion
+
+#region Chronicle Integration Functions
+
+function Update-Chronicle {
     <#
     .SYNOPSIS
-        Displays a summary of validation results to console.
+        Updates the development chronicle with validation results.
     #>
-    param([hashtable]$Results)
+    param(
+        [hashtable]$Results,
+        [string]$ChroniclePath = ".github/chronicle/SESSION_20260103_v0910.md"
+    )
     
-    Write-Host ""
-    Write-Host "================================" -ForegroundColor Cyan
-    Write-Host "   Validation Summary" -ForegroundColor Cyan
-    Write-Host "================================" -ForegroundColor Cyan
-    Write-Host ""
+    Write-ValidationMessage "Updating development chronicle..." -Type Info
     
-    Write-Host "Consistency Check:    $($Results.Consistency.Status)" -ForegroundColor Yellow
-    Write-Host "Conflict Detection:   $($Results.Conflicts.Status)" -ForegroundColor Yellow
-    Write-Host "Token Usage:          $($Results.Tokens.Status)" -ForegroundColor Yellow
-    Write-Host "Redundancy Scan:      $($Results.Redundancy.Status)" -ForegroundColor Yellow
-    Write-Host "Cross-References:     $($Results.CrossReferences.Status)" -ForegroundColor Yellow
-    Write-Host "Character Counts:     $($Results.CharacterCounts.Status)" -ForegroundColor Yellow
-    
-    Write-Host ""
-    Write-Host "Note: Full validation logic will be implemented in Phase 2" -ForegroundColor Gray
-    Write-Host ""
+    try {
+        # Check if chronicle exists
+        if (-not (Test-Path $ChroniclePath)) {
+            Write-ValidationMessage "Chronicle file not found: $ChroniclePath" -Type Warning
+            return
+        }
+        
+        # Build chronicle entry
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $entry = @"
+
+---
+
+## Validation Run: $timestamp
+
+**Duration:** $([Math]::Round($Results.Duration, 2)) seconds  
+**Overall Status:** $(if ($Results.Tokens.Status -eq "Critical" -or $Results.CharacterCounts.Status -eq "Fail") { "? Issues Found" } else { "? Pass" })
+
+### Quick Results:
+- **Consistency:** $($Results.Consistency.Status) ($($Results.Consistency.ConflictsFound) conflicts)
+- **Conflicts:** $($Results.Conflicts.Status) ($($Results.Conflicts.ConflictsFound) issues)
+- **Token Usage:** $($Results.Tokens.Status) ($($Results.Tokens.TotalChars) chars / ~$($Results.Tokens.EstimatedTokens) tokens)
+- **Redundancy:** $($Results.Redundancy.Status) ($($Results.Redundancy.RedundancyPercentage)% duplicate rules)
+- **Cross-References:** $($Results.CrossReferences.Status) ($($Results.CrossReferences.BrokenReferences.Count) broken)
+- **Character Counts:** $($Results.CharacterCounts.Status) ($($Results.CharacterCounts.InaccurateFiles.Count) inaccurate, $($Results.CharacterCounts.FixedFiles.Count) fixed)
+
+### Key Findings:
+"@
+
+        # Add token usage insights
+        if ($Results.Tokens.TotalChars -gt 75000) {
+            $entry += "`n- ?? **Critical token load:** $($Results.Tokens.TotalChars) chars ($(([Math]::Round(($Results.Tokens.TotalChars / 75000) * 100, 0)))% of critical threshold)"
+            $entry += "`n  - Largest file: $(Split-Path $Results.Tokens.LargestFile -Leaf) ($($Results.Tokens.LargestFileSize) chars)"
+        }
+        elseif ($Results.Tokens.TotalChars -gt 50000) {
+            $entry += "`n- ?? **Moderate token load:** $($Results.Tokens.TotalChars) chars"
+        }
+        else {
+            $entry += "`n- ? **Optimal token load:** $($Results.Tokens.TotalChars) chars"
+        }
+        
+        # Add redundancy insights
+        if ($Results.Redundancy.RedundancyPercentage -lt 5) {
+            $entry += "`n- ? **Excellent redundancy:** Only $($Results.Redundancy.RedundancyPercentage)% duplicate rules"
+        }
+        elseif ($Results.Redundancy.RedundancyPercentage -lt 15) {
+            $entry += "`n- ? **Acceptable redundancy:** $($Results.Redundancy.RedundancyPercentage)% duplicate rules"
+        }
+        else {
+            $entry += "`n- ?? **High redundancy:** $($Results.Redundancy.RedundancyPercentage)% duplicate rules"
+        }
+        
+        # Add character count fixes
+        if ($Results.CharacterCounts.FixedFiles.Count -gt 0) {
+            $entry += "`n- ?? **Auto-fixed:** $($Results.CharacterCounts.FixedFiles.Count) character count(s)"
+        }
+        
+        # Add consistency warnings
+        if ($Results.Consistency.ConflictsFound -gt 10) {
+            $entry += "`n- ?? **Many potential conflicts:** $($Results.Consistency.ConflictsFound) found (review recommended)"
+        }
+        
+        # Add integration gaps
+        if ($Results.Conflicts.ConflictsFound -gt 0) {
+            $entry += "`n- ?? **Integration gaps:** $($Results.Conflicts.ConflictsFound) Spec-Kit file(s) missing Forge references"
+        }
+        
+        $entry += "`n"
+        
+        # Append to chronicle
+        Add-Content -Path $ChroniclePath -Value $entry -Encoding UTF8
+        
+        Write-ValidationMessage "Chronicle updated successfully" -Type Success
+    }
+    catch {
+        Write-ValidationMessage "Chronicle update failed: $_" -Type Warning
+    }
 }
 
 #endregion
 
 #region Main Execution
 
-function Invoke-ForgeValidation {
-    <#
-    .SYNOPSIS
-        Main validation execution function.
-    #>
-    param(
-        [PSCustomObject]$Config,
-        [switch]$AutoFix
-    )
+try {
+    Write-Host ""
+    Write-Host "================================" -ForegroundColor Cyan
+    Write-Host "   Forge Validation Framework" -ForegroundColor Cyan
+    Write-Host "   Version $script:Version" -ForegroundColor Cyan
+    Write-Host "================================" -ForegroundColor Cyan
+    Write-Host ""
     
     $startTime = Get-Date
     
-    Write-Host ""
-    Write-Host "========================================" -ForegroundColor Cyan
-    Write-Host "  Forge Governance Validation Framework" -ForegroundColor Cyan
-    Write-Host "  Version: $script:Version" -ForegroundColor Cyan
-    Write-Host "========================================" -ForegroundColor Cyan
-    Write-Host ""
-    
-    # Initialize results
-    $results = @{}
-    
-    # Run validation checks (if enabled in config)
-    if ($Config.validation.checkConsistency) {
-        $results.Consistency = Test-Consistency -Config $Config
-    }
-    
-    if ($Config.validation.checkConflicts) {
-        $results.Conflicts = Test-Conflicts -Config $Config
-    }
-    
-    if ($Config.validation.analyzeTokens) {
-        $results.Tokens = Measure-TokenUsage -Config $Config
-    }
-    
-    if ($Config.validation.scanRedundancy) {
-        $results.Redundancy = Find-Redundancy -Config $Config
-    }
-    
-    if ($Config.validation.validateCrossReferences) {
-        $results.CrossReferences = Test-CrossReferences -Config $Config
-    }
-    
-    if ($Config.validation.verifyCharacterCounts) {
-        $results.CharacterCounts = Test-CharacterCounts -Config $Config -AutoFix:$AutoFix
-    }
-    
-    # Calculate duration
-    $duration = (Get-Date) - $startTime
-    $results.Duration = $duration.TotalSeconds
-    
-    # Generate report
-    $report = New-ValidationReport -Results $results
-    
-    # Save report
-    $reportPath = Save-Report -Report $report -OutputPath $OutputPath
-    
-    # Display summary
-    Write-ValidationSummary -Results $results
-    
-    # Return results
-    return @{
-        Results = $results
-        ReportPath = $reportPath
-        Duration = $duration.TotalSeconds
-    }
-}
-
-#endregion
-
-#region Script Entry Point
-
-try {
     # Load configuration
     $config = Load-Configuration -Path $ConfigPath
     
-    # Run validation
-    $output = Invoke-ForgeValidation -Config $config -AutoFix:$AutoFix
+    # Initialize results
+    $results = @{
+        Duration = 0
+        Consistency = @{}
+        Conflicts = @{}
+        Tokens = @{}
+        Redundancy = @{}
+        CrossReferences = @{}
+        CharacterCounts = @{}
+    }
+    
+    # Run validation checks
+    $results.Consistency = Test-Consistency -Config $config
+    $results.Conflicts = Test-Conflicts -Config $config
+    $results.Tokens = Measure-TokenUsage -Config $config
+    $results.Redundancy = Find-Redundancy -Config $config
+    $results.CrossReferences = Test-CrossReferences -Config $config
+    $results.CharacterCounts = Test-CharacterCounts -Config $config -AutoFix:$AutoFix
+    
+    # Calculate duration
+    $endTime = Get-Date
+    $results.Duration = ($endTime - $startTime).TotalSeconds
+    
+    # Generate report
+    $reportContent = New-ValidationReport -Results $results
+    
+    # Ensure output directory exists
+    if (-not (Test-Path $OutputPath)) {
+        New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
+    }
+    
+    # Save report
+    $reportFileName = "VALIDATION_REPORT_$(Get-Date -Format 'yyyyMMdd_HHmmss').md"
+    $reportPath = Join-Path $OutputPath $reportFileName
+    Set-Content -Path $reportPath -Value $reportContent -Encoding UTF8
+    
+    # Update chronicle (NEW!)
+    Update-Chronicle -Results $results
+    
+    # Display summary
+    Write-Host ""
+    Write-Host "================================" -ForegroundColor Cyan
+    Write-Host "   Validation Summary" -ForegroundColor Cyan
+    Write-Host "================================" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Consistency Check:    " -NoNewline
+    Write-Host $results.Consistency.Status -ForegroundColor $(if ($results.Consistency.Status -eq "Pass") { "Green" } else { "Yellow" })
+    Write-Host "Conflict Detection:   " -NoNewline
+    Write-Host $results.Conflicts.Status -ForegroundColor $(if ($results.Conflicts.Status -eq "Pass") { "Green" } else { "Yellow" })
+    Write-Host "Token Usage:          " -NoNewline
+    Write-Host $results.Tokens.Status -ForegroundColor $(if ($results.Tokens.Status -eq "Optimal") { "Green" } elseif ($results.Tokens.Status -eq "Warning") { "Yellow" } else { "Red" })
+    Write-Host "Redundancy Scan:      " -NoNewline
+    Write-Host $results.Redundancy.Status -ForegroundColor $(if ($results.Redundancy.Status -eq "Pass") { "Green" } else { "Yellow" })
+    Write-Host "Cross-References:     " -NoNewline
+    Write-Host $results.CrossReferences.Status -ForegroundColor $(if ($results.CrossReferences.Status -eq "Pass") { "Green" } else { "Yellow" })
+    Write-Host "Character Counts:     " -NoNewline
+    Write-Host $results.CharacterCounts.Status -ForegroundColor $(if ($results.CharacterCounts.Status -eq "Pass") { "Green" } else { "Yellow" })
+    Write-Host ""
     
     # Success
     Write-ValidationMessage "Validation completed successfully!" -Type Success
-    Write-ValidationMessage "Report: $($output.ReportPath)" -Type Info
-    Write-ValidationMessage "Duration: $($output.Duration) seconds" -Type Info
+    Write-ValidationMessage "Report: $reportPath" -Type Info
+    Write-ValidationMessage "Duration: $($results.Duration) seconds" -Type Info
     
-    # Return success (script will exit naturally)
+    # Open report in VS Code
+    try {
+        Write-Host ""
+        Write-ValidationMessage "Opening report in VS Code..." -Type Info
+        
+        # Try to open in VS Code using 'code' command
+        $codeProcess = Start-Process "code" -ArgumentList "`"$reportPath`"" -PassThru -NoNewWindow -ErrorAction Stop
+        
+        if ($codeProcess) {
+            Write-ValidationMessage "Report opened successfully!" -Type Success
+        }
+    }
+    catch {
+        Write-ValidationMessage "Could not auto-open report in VS Code: $_" -Type Warning
+        Write-ValidationMessage "Please open manually: $reportPath" -Type Info
+    }
+    
+    Write-Host ""
+    
     $LASTEXITCODE = 0
 }
 catch {
-    Write-ValidationMessage "Validation failed: $_" -Type Error
-    Write-Host $_.ScriptStackTrace -ForegroundColor Red
+    Write-ValidationMessage "Validation failed with error: $_" -Type Error
+    Write-ValidationMessage "Stack trace: $($_.ScriptStackTrace)" -Type Error
+    Write-Host ""
     
-    # Return failure (script will exit naturally)
     $LASTEXITCODE = 1
 }
 
