@@ -1,10 +1,10 @@
-# RCH.Forge.Dashboard � Issue Summary
+# RCH.Forge.Dashboard – Issue Summary
 
 **Document Type:** Chronicle Analysis  
 **Purpose:** High-level categorization of recurring development issues and resolution patterns  
-**Last Updated:** 2026-01-02  
+**Last Updated:** 2025-01-02  
 **Scope:** All milestones (v0.1.0 - v0.9.9)  
-**Character Count:** 17764  
+**Character Count:** 18664  
 **Related Documents:** DevelopmentLog.index.md, DevelopmentLog/*.md
 
 ---
@@ -374,6 +374,32 @@ This document provides a generalized, non-technical summary of recurring develop
 
 ---
 
+### 18. AI/Terminal Interaction Failures
+
+**Pattern:** AI-powered tools get stuck when executing terminal commands that wait for user input or use interactive pagers.
+
+**Symptoms:**
+- Terminal commands hang indefinitely
+- Git commands with pagers (`git log`) never complete
+- Commands waiting for user input (spacebar, 'q') timeout
+- Tool processing must be manually stopped
+- PowerShell commands with `&&` operator fail (bash syntax in PowerShell context)
+
+**Resolution Pattern:**
+- Avoid terminal commands for git history (use file_search or code_search instead)
+- Never use commands that might paginate output (`git log`, `less`, `more`)
+- Calculate character counts from file content, not terminal commands
+- Use file system tools instead of terminal for status checks
+- When terminal is required, use simple, non-interactive commands only
+- Document forbidden terminal operations (git log, any pager-using command)
+- Use proper PowerShell syntax (`;` not `&&` for command chaining)
+
+**Frequency:** Low-Medium (encountered in 2 sessions: Compliance Journey Session 2, Session 6)
+
+**Critical Impact:** High - Blocks AI workflow entirely when triggered, requires human intervention to cancel
+
+---
+
 ## Cross-Cutting Themes
 
 ### A. Defensive Programming
@@ -400,6 +426,12 @@ This document provides a generalized, non-technical summary of recurring develop
 - Avoid caching unless necessary
 - Preserve state intentionally, not accidentally
 
+### E. Tool Awareness
+- Understand limitations of automation tools
+- Plan manual fallbacks for blocked operations
+- Avoid interactive commands in AI workflows
+- Document tool constraints for future reference
+
 ---
 
 ## Patterns for Future Rule Derivation
@@ -418,6 +450,7 @@ Based on this analysis, future governance should address:
 10. **Null Handling:** Mandatory null checks, display formatting standards
 11. **Dependency Validation:** Early validation requirements, error messaging standards
 12. **Architectural Boundaries:** Layer responsibility definitions, logic placement rules
+13. **Terminal Command Restrictions:** Forbidden operations, alternative approaches for AI workflows
 
 ---
 
@@ -435,6 +468,7 @@ Based on this analysis, future governance should address:
 | Project File Sync | Medium | v0.9.1 - v0.9.9 | Medium |
 | Tool/IDE File Locking | Medium | v0.1.0 - v0.9.9 | High |
 | Temporary File Accumulation | Medium | v0.9.3 - v0.9.9 | Low |
+| AI/Terminal Interaction | Low-Med | v0.9.9 (Sessions 2, 6) | High |
 | Collection Index Shifts | Low-Med | v0.7.0 - v0.8.2 | Low |
 | Platform Limitations | Low-Med | v0.1.0 - v0.8.0 | Medium |
 | Audit Assumption Gaps | Low-Med | v0.9.4 - v0.9.9 | Low |
@@ -442,7 +476,7 @@ Based on this analysis, future governance should address:
 | Dependency Validation | Low | v0.8.0 | High |
 | Filter Logic Ambiguity | Low | v0.8.2 | Low |
 
-**Key Insight:** High-frequency issues (Layout, State, Namespace) had medium impact because patterns were established early. Low-frequency issues with high impact (Event Timing, Thread Safety, Dependencies) required careful architectural decisions.
+**Key Insight:** High-frequency issues (Layout, State, Namespace) had medium impact because patterns were established early. Low-frequency issues with high impact (Event Timing, Thread Safety, Dependencies, AI/Terminal) required careful architectural decisions or workflow changes.
 
 ---
 
@@ -471,6 +505,9 @@ Based on this analysis, future governance should address:
 18. **Plan for tool limitations** - Document Designer file constraints upfront
 19. **Schedule cleanup milestones** - Every 5-10 features, consolidate/cleanup
 20. **Use version control for backups** - Not file suffixes (_old, _v091, etc.)
+21. **Restrict AI terminal usage** - Avoid git commands, pagers, interactive prompts
+22. **Use file system over terminal** - File searches instead of git log for AI workflows
+23. **Document command restrictions** - Maintain forbidden command list for AI agents
 
 ---
 
