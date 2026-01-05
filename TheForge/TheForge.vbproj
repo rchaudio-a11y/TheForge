@@ -104,6 +104,7 @@
     <Folder Include="Documentation\Lore\" />
     <Folder Include="Documentation\Grimoire\" />
     <Folder Include="Documentation\Scriptorium\" />
+    <Folder Include="Prompts\specify\features\extract-controls-library\" />
     <Folder Include="Source\Modules\Interfaces\" />
     <Folder Include="Source\Services\Interfaces\" />
     <Folder Include="Resources\Images\" />
