@@ -21,7 +21,8 @@
 The following structure was created in your project:
 
 ```
-TheForge/Prompts/SpecKit/
+.github/
+??? copilot-instructions.md (preserved - your existing file)
 ??? agents/ (Spec-Kit agent definitions)
 ?   ??? speckit.analyze.agent.md
 ?   ??? speckit.checklist.agent.md
@@ -33,34 +34,15 @@ TheForge/Prompts/SpecKit/
 ?   ??? speckit.tasks.agent.md
 ?   ??? speckit.taskstoissues.agent.md
 ??? prompts/ (Spec-Kit prompt templates)
-?   ??? speckit.analyze.prompt.md
-?   ??? speckit.checklist.prompt.md
-?   ??? speckit.clarify.prompt.md
-?   ??? speckit.constitution.prompt.md
-?   ??? speckit.implement.prompt.md
-?   ??? speckit.plan.prompt.md
-?   ??? speckit.specify.prompt.md
-?   ??? speckit.tasks.prompt.md
-?   ??? speckit.taskstoissues.prompt.md
-??? templates/ (Spec-Kit templates)
-?   ??? agent-file-template.md
-?   ??? checklist-template.md
-?   ??? plan-template.md
-?   ??? spec-template.md
-?   ??? tasks-template.md
-??? scripts/powershell/ (PowerShell scripts)
-?   ??? check-prerequisites.ps1
-?   ??? common.ps1
-?   ??? create-new-feature.ps1
-?   ??? setup-plan.ps1
-?   ??? update-agent-context.ps1
-??? memory/ (Project memory)
-?   ??? constitution.md
-??? features/ (Your feature specifications)
-    ??? add-readme-files/
-        ??? spec.md
-        ??? plan.md
-        ??? tasks.md
+    ??? speckit.analyze.prompt.md
+    ??? speckit.checklist.prompt.md
+    ??? speckit.clarify.prompt.md
+    ??? speckit.constitution.prompt.md
+    ??? speckit.implement.prompt.md
+    ??? speckit.plan.prompt.md
+    ??? speckit.specify.prompt.md
+    ??? speckit.tasks.prompt.md
+    ??? speckit.taskstoissues.prompt.md
 ```
 
 ---
@@ -92,7 +74,7 @@ Use these slash commands with GitHub Copilot (or other AI agents):
 
 ---
 
-## ??? Running Spec-Kit CLI
+## ?? Running Spec-Kit CLI
 
 To run any spec-kit command:
 
@@ -117,22 +99,21 @@ uvx --from git+https://github.com/github/spec-kit.git specify version
 
 ## ?? Configuration
 
-### File Locations
+### .gitignore Recommendation
 
-All Spec-Kit files are organized in: `TheForge/Prompts/SpecKit/`
+Consider adding `.github/agents/` to your `.gitignore` if agents store sensitive data:
 
-- **Agent Files:** `TheForge/Prompts/SpecKit/agents/*.agent.md`
-- **Prompt Templates:** `TheForge/Prompts/SpecKit/prompts/*.prompt.md`
-- **Templates:** `TheForge/Prompts/SpecKit/templates/`
-- **Scripts:** `TheForge/Prompts/SpecKit/scripts/powershell/`
-- **Features:** `TheForge/Prompts/SpecKit/features/`
+```gitignore
+# Spec-Kit agents (may contain credentials)
+.github/agents/
+```
 
 ### Integration with Your Existing Forge System
 
 Your existing Forge governance system remains intact:
 - `TheForge/Prompts/ForgeCharter.md` - Master governance
 - `TheForge/Prompts/Branch-*.md` - Branch-specific rules
-- `.github/copilot-instructions.md` - Router (references new locations)
+- `.github/copilot-instructions.md` - Router (preserved)
 
 **Spec-Kit complements your Forge system** by providing structured spec-driven development workflows.
 
@@ -141,29 +122,24 @@ Your existing Forge governance system remains intact:
 ## ?? Documentation
 
 - **Official Repo:** https://github.com/github/spec-kit
-- **Agent Files:** `TheForge/Prompts/SpecKit/agents/*.agent.md`
-- **Prompt Templates:** `TheForge/Prompts/SpecKit/prompts/*.prompt.md`
-- **Reference Hub:** `TheForge/Documentation/Reference/README.md`
+- **Agent Files:** `.github/agents/*.agent.md`
+- **Prompt Templates:** `.github/prompts/*.prompt.md`
 
 ---
 
 ## ?? Next Steps
 
-1. **Review the Reference Hub:**
-   - Open `TheForge/Documentation/Reference/README.md`
-   - Contains all Spec-Kit and Forge documentation links
-
-2. **Try the constitution command:**
+1. **Try the constitution command:**
    ```
    /speckit.constitution
    ```
 
-3. **Create your first spec:**
+2. **Create your first spec:**
    ```
    /speckit.specify
    ```
 
-4. **Integrate with your workflow:**
+3. **Integrate with your workflow:**
    - Use spec-kit for new features
    - Reference ForgeCharter for architectural decisions
    - Use branch files for implementation rules
@@ -172,11 +148,10 @@ Your existing Forge governance system remains intact:
 
 ## ?? Important Notes
 
-- All Spec-Kit files are now in `TheForge/Prompts/SpecKit/` for easy access
+- Spec-kit agents are stored in `.github/agents/` and may contain session data
 - Your existing Forge governance files are untouched
 - Both systems can work together - Spec-Kit for planning, Forge for execution
 - The CLI requires `uvx` to run (already installed)
-- `.github/copilot-instructions.md` has been updated to reference new locations
 
 ---
 
@@ -188,10 +163,8 @@ To update to the latest version, simply re-run:
 uvx --from git+https://github.com/github/spec-kit.git specify init --here
 ```
 
-**Note:** After updating, copy the updated files from `.github/` and `.specify/` to `TheForge/Prompts/SpecKit/` to maintain consistency.
+The tool will update agent and prompt files while preserving your custom configurations.
 
 ---
 
-**Setup completed successfully! ?**
-
-**All files are now organized in `TheForge/Prompts/SpecKit/` for easy access and review.**
+**Setup completed successfully! ??**

@@ -5,7 +5,7 @@
 **Last Updated:** 2025-01-04  
 **Status:** Final  
 **Character Count:** TBD  
-**Related:** TheForge/Prompts/ForgeCharter.md, TheForge/Prompts/SpecKit/agents/speckit.*.agent.md
+**Related:** TheForge/Prompts/ForgeCharter.md, .github/agents/speckit.*.agent.md
 
 ---
 
@@ -41,18 +41,15 @@ All tasks must be routed according to the governance defined in **ForgeCharter**
 The following Spec-Kit workflow agents are available:
 
 **Spec-Kit Agent Files:**
-- `TheForge/Prompts/SpecKit/agents/speckit.specify.agent.md` - Create specifications
-- `TheForge/Prompts/SpecKit/agents/speckit.plan.agent.md` - Generate implementation plans
-- `TheForge/Prompts/SpecKit/agents/speckit.tasks.agent.md` - Generate task breakdowns
-- `TheForge/Prompts/SpecKit/agents/speckit.implement.agent.md` - Execute tasks
-- `TheForge/Prompts/SpecKit/agents/speckit.clarify.agent.md` - Ask clarifying questions
-- `TheForge/Prompts/SpecKit/agents/speckit.analyze.agent.md` - Analyze consistency
-- `TheForge/Prompts/SpecKit/agents/speckit.checklist.agent.md` - Generate checklists
-- `TheForge/Prompts/SpecKit/agents/speckit.constitution.agent.md` - Project constitution
-- `TheForge/Prompts/SpecKit/agents/speckit.taskstoissues.agent.md` - Convert tasks to issues
-
-**Spec-Kit Prompt Files:**
-- `TheForge/Prompts/SpecKit/prompts/speckit.*.prompt.md` - CLI templates
+- `.github/agents/speckit.specify.agent.md` - Create specifications
+- `.github/agents/speckit.plan.agent.md` - Generate implementation plans
+- `.github/agents/speckit.tasks.agent.md` - Generate task breakdowns
+- `.github/agents/speckit.implement.agent.md` - Execute tasks
+- `.github/agents/speckit.clarify.agent.md` - Ask clarifying questions
+- `.github/agents/speckit.analyze.agent.md` - Analyze consistency
+- `.github/agents/speckit.checklist.agent.md` - Generate checklists
+- `.github/agents/speckit.constitution.agent.md` - Project constitution
+- `.github/agents/speckit.taskstoissues.agent.md` - Convert tasks to issues
 
 **To use Spec-Kit agents, invoke them with:**
 - `/speckit.specify` - Define feature requirements
@@ -68,8 +65,6 @@ The following Spec-Kit workflow agents are available:
 specify → plan → tasks → implement
 ```
 
-**Spec-Kit workspace location:** `TheForge/Prompts/SpecKit/features/`
-
 **Integration:** Spec-Kit handles planning, Forge handles governance.
 
 ---
@@ -78,7 +73,7 @@ specify → plan → tasks → implement
 This router must:
 
 - Load `TheForge/Prompts/ForgeCharter.md`
-- Enable Spec-Kit agents from `TheForge/Prompts/SpecKit/agents/`
+- Enable Spec-Kit agents from `.github/agents/`
 - Identify the task type  
 - Delegate to the correct branch file  
 - Never interpret rules  
@@ -130,16 +125,10 @@ If routing is ambiguous:
 - `TheForge/Prompts/ForgeAudit.md` - Compliance evaluation
 
 **Spec-Kit Agents:**
-- `TheForge/Prompts/SpecKit/agents/` directory - All Spec-Kit workflow agents
-
-**Spec-Kit Prompts:**
-- `TheForge/Prompts/SpecKit/prompts/` directory - CLI templates
-
-**Spec-Kit Workspace:**
-- `TheForge/Prompts/SpecKit/features/` - Feature specifications and plans
+- `.github/agents/` directory - All Spec-Kit workflow agents
 
 **All Forge files located in:** `TheForge/Prompts/` directory  
-**All Spec-Kit files located in:** `TheForge/Prompts/SpecKit/` directory
+**All Spec-Kit agents located in:** `.github/agents/` directory
 
 ---
 
