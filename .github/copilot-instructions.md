@@ -1,5 +1,5 @@
 ﻿## 1. Charter Access
-When you're asked to do something and repos/TheForge/Prompts/ForgeCharter.md isn’t already open, open it using “Open ForgeCharter.md with edit_file. Confirm only, no retry.” before continuing.
+Before performing any task, open ForgeCharter.md using “Open ForgeCharter.md with edit_file. Confirm only, no retry.” unless it is already open.
 
 ## 2. Output Size
 Keep any single output under roughly 10,000 characters and split longer work into smaller, well‑organized parts.
