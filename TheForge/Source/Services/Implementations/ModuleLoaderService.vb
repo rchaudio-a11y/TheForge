@@ -154,8 +154,14 @@ Namespace Services.Implementations
             Dim moduleInstance As Object = Activator.CreateInstance(moduleType)
             Dim moduleInterface As Modules.Interfaces.IModule = TryCast(moduleInstance, Modules.Interfaces.IModule)
 
+            ' If direct cast fails, try wrapping as duck-typed module
             If moduleInterface Is Nothing Then
-                Dim errorMsg As String = String.Format("Failed to cast module instance to IModule: {0}", moduleType.FullName)
+                _loggingService.LogInfo(String.Format("Module uses duck typing, wrapping: {0}", moduleType.FullName))
+                moduleInterface = New Modules.Implementations.DuckTypedModuleWrapper(moduleInstance)
+            End If
+
+            If moduleInterface Is Nothing Then
+                Dim errorMsg As String = String.Format("Failed to load module (neither direct nor duck-typed): {0}", moduleType.FullName)
                 _loggingService.LogError(errorMsg)
                 Throw New InvalidOperationException(errorMsg)
             End If
@@ -261,8 +267,23 @@ Namespace Services.Implementations
             Dim moduleInterfaceType As Type = GetType(Modules.Interfaces.IModule)
 
             For Each type As Type In assembly.GetTypes()
-                If type.IsClass AndAlso Not type.IsAbstract AndAlso moduleInterfaceType.IsAssignableFrom(type) Then
-                    Return type
+                If type.IsClass AndAlso Not type.IsAbstract Then
+                    ' Check if directly implements IModule interface
+                    If moduleInterfaceType.IsAssignableFrom(type) Then
+                        Return type
+                    End If
+                    
+                    ' Duck typing: Check if has required method signatures (for plugins without direct reference)
+                    Dim hasInitialize As Boolean = type.GetMethod("Initialize") IsNot Nothing
+                    Dim hasLoadConfig As Boolean = type.GetMethod("LoadConfiguration") IsNot Nothing
+                    Dim hasExecute As Boolean = type.GetMethod("Execute") IsNot Nothing
+                    Dim hasOnUnload As Boolean = type.GetMethod("OnUnload") IsNot Nothing
+                    Dim hasDispose As Boolean = type.GetMethod("Dispose") IsNot Nothing
+                    
+                    If hasInitialize AndAlso hasLoadConfig AndAlso hasExecute AndAlso hasOnUnload AndAlso hasDispose Then
+                        _loggingService.LogInfo(String.Format("Found module via duck typing: {0}", type.FullName))
+                        Return type
+                    End If
                 End If
             Next
 

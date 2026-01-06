@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>RCH.TemplateStorage</RootNamespace>
+    <AssemblyName>RCH.TemplateStorage</AssemblyName>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="10.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewDatabaseGenerator\RCHAutomation.Controls\RCHAutomation.Controls.vbproj" />
+  </ItemGroup>
+
+  <!-- Post-build event to copy module to TheForge Modules directory -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <PropertyGroup>
+      <ModulesDir>$(SolutionDir)TheForge\bin\$(Configuration)\net8.0-windows\Modules</ModulesDir>
+    </PropertyGroup>
+    
+    <!-- Create Modules directory if it doesn't exist -->
+    <MakeDir Directories="$(ModulesDir)" Condition="!Exists('$(ModulesDir)')" />
+    
+    <!-- Copy the compiled DLL -->
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModulesDir)" />
+    
+    <!-- Copy dependencies -->
+    <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.dll" DestinationFolder="$(ModulesDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.dll')" />
+    <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.Schema.dll" DestinationFolder="$(ModulesDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.Schema.dll')" />
+    <Copy SourceFiles="$(TargetDir)System.Data.OleDb.dll" DestinationFolder="$(ModulesDir)" Condition="Exists('$(TargetDir)System.Data.OleDb.dll')" />
+    
+    <!-- Copy config file -->
+    <Copy SourceFiles="Modules\RCH.TemplateStorage.config" DestinationFolder="$(ModulesDir)" Condition="Exists('Modules\RCH.TemplateStorage.config')" />
+    
+    <!-- Copy JSON schema file -->
+    <Copy SourceFiles="DatabaseSchema\TemplateDefinition.schema.json" DestinationFolder="$(ModulesDir)\DatabaseSchema\" Condition="Exists('DatabaseSchema\TemplateDefinition.schema.json')" />
+    <MakeDir Directories="$(ModulesDir)\DatabaseSchema" Condition="!Exists('$(ModulesDir)\DatabaseSchema')" />
+    
+    <Message Text="Copied RCH.TemplateStorage module to TheForge" Importance="high" />
+  </Target>
+
+</Project>

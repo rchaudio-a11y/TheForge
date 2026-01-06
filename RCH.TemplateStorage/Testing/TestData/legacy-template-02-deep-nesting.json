@@ -1,0 +1,35 @@
+{
+  "Name": "Deep Nested Project",
+  "Description": "Template with deep folder nesting (5 levels)",
+  "Folders": [
+    {
+      "Name": "Level1",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "Level2",
+          "IsSelected": true,
+          "SubFolders": [
+            {
+              "Name": "Level3",
+              "IsSelected": true,
+              "SubFolders": [
+                {
+                  "Name": "Level4",
+                  "IsSelected": true,
+                  "SubFolders": [
+                    {
+                      "Name": "Level5",
+                      "IsSelected": true,
+                      "SubFolders": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "Name": "Mixed Selection Template",
+  "Description": "Template with some folders unselected",
+  "Folders": [
+    {
+      "Name": "Required",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "Core",
+          "IsSelected": true,
+          "SubFolders": []
+        }
+      ]
+    },
+    {
+      "Name": "Optional",
+      "IsSelected": false,
+      "SubFolders": [
+        {
+          "Name": "Extra",
+          "IsSelected": false,
+          "SubFolders": []
+        }
+      ]
+    },
+    {
+      "Name": "Partial",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "Include",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "Exclude",
+          "IsSelected": false,
+          "SubFolders": []
+        }
+      ]
+    }
+  ]
+}

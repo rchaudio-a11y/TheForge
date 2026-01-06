@@ -1,0 +1,37 @@
+{
+  "Name": "Simple Web Project",
+  "Description": "Basic web application structure",
+  "Folders": [
+    {
+      "Name": "src",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "components",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "services",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "models",
+          "IsSelected": true,
+          "SubFolders": []
+        }
+      ]
+    },
+    {
+      "Name": "tests",
+      "IsSelected": true,
+      "SubFolders": []
+    },
+    {
+      "Name": "docs",
+      "IsSelected": true,
+      "SubFolders": []
+    }
+  ]
+}

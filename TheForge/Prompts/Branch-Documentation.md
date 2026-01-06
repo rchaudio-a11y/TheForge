@@ -145,8 +145,8 @@ Documentation must follow this stable taxonomy (per Constitution Section 7.2):
 - Branch rules → Branch-* files (Prompts/)
 - Audit rules → ForgeAudit (Prompts/)
 - Project documentation → Taxonomy folders (Documentation/)
-- Constitution → `.github/CONSTITUTION.md`
-- Session chronicles → `.github/chronicle/` (development session logs)
+- Constitution → `github/CONSTITUTION.md`
+- Session chronicles → `github/chronicle/` (development session logs)
 - No implicit folder creation  
 - No implicit taxonomy restructuring  
 

@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://rch.audio/schemas/template-definition.json",
+  "title": "TemplateDefinition",
+  "description": "Schema for RCH.TemplateStorage TemplateDefinition JSON format",
+  "type": "object",
+  "required": ["Name", "Description", "Folders"],
+  "properties": {
+    "TemplateID": {
+      "type": "integer",
+      "description": "Primary key (auto-generated)",
+      "minimum": 0
+    },
+    "Name": {
+      "type": "string",
+      "description": "Template name",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "Description": {
+      "type": "string",
+      "description": "Template description",
+      "maxLength": 1000
+    },
+    "Version": {
+      "type": "string",
+      "description": "Template version (SemVer format)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0"
+    },
+    "Category": {
+      "type": "string",
+      "description": "Template category",
+      "maxLength": 100
+    },
+    "Tags": {
+      "type": "string",
+      "description": "Comma-separated tags",
+      "maxLength": 500
+    },
+    "Dependencies": {
+      "type": "string",
+      "description": "Comma-separated dependencies",
+      "maxLength": 500
+    },
+    "Notes": {
+      "type": "string",
+      "description": "Additional notes",
+      "maxLength": 2000
+    },
+    "ManifestTemplate": {
+      "type": "string",
+      "description": "Template for manifest file content"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "description": "Creator username",
+      "maxLength": 100
+    },
+    "ModifiedBy": {
+      "type": "string",
+      "description": "Last modifier username",
+      "maxLength": 100
+    },
+    "CreatedDate": {
+      "type": "string",
+      "description": "Creation timestamp",
+      "format": "date-time"
+    },
+    "ModifiedDate": {
+      "type": "string",
+      "description": "Last modification timestamp",
+      "format": "date-time"
+    },
+    "UsageCount": {
+      "type": "integer",
+      "description": "Number of times template has been used",
+      "minimum": 0,
+      "default": 0
+    },
+    "LastUsedDate": {
+      "type": ["string", "null"],
+      "description": "Last usage timestamp",
+      "format": "date-time"
+    },
+    "IsActive": {
+      "type": "boolean",
+      "description": "Whether template is active",
+      "default": true
+    },
+    "Folders": {
+      "type": "array",
+      "description": "List of template folders",
+      "items": {
+        "$ref": "#/definitions/TemplateFolderDefinition"
+      }
+    }
+  },
+  "definitions": {
+    "TemplateFolderDefinition": {
+      "type": "object",
+      "required": ["Name"],
+      "properties": {
+        "FolderID": {
+          "type": "integer",
+          "description": "Primary key (auto-generated)",
+          "minimum": 0
+        },
+        "TemplateID": {
+          "type": "integer",
+          "description": "Parent template ID",
+          "minimum": 0
+        },
+        "ParentFolderID": {
+          "type": ["integer", "null"],
+          "description": "Parent folder ID (null for root folders)",
+          "minimum": 0
+        },
+        "Name": {
+          "type": "string",
+          "description": "Folder name",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "Description": {
+          "type": "string",
+          "description": "Folder description",
+          "maxLength": 500
+        },
+        "IsSelected": {
+          "type": "boolean",
+          "description": "Whether folder is selected for generation",
+          "default": true
+        },
+        "DisplayOrder": {
+          "type": "integer",
+          "description": "Sort order",
+          "minimum": 0,
+          "default": 0
+        },
+        "CreatedDate": {
+          "type": "string",
+          "description": "Creation timestamp",
+          "format": "date-time"
+        },
+        "SubFolders": {
+          "type": "array",
+          "description": "List of subfolders (unlimited nesting supported)",
+          "items": {
+            "$ref": "#/definitions/TemplateFolderDefinition"
+          }
+        },
+        "Files": {
+          "type": "array",
+          "description": "List of files in this folder",
+          "items": {
+            "$ref": "#/definitions/TemplateFileDefinition"
+          }
+        }
+      }
+    },
+    "TemplateFileDefinition": {
+      "type": "object",
+      "required": ["FileName"],
+      "properties": {
+        "FileID": {
+          "type": "integer",
+          "description": "Primary key (auto-generated)",
+          "minimum": 0
+        },
+        "FolderID": {
+          "type": "integer",
+          "description": "Parent folder ID",
+          "minimum": 0
+        },
+        "TemplateID": {
+          "type": "integer",
+          "description": "Parent template ID",
+          "minimum": 0
+        },
+        "FileName": {
+          "type": "string",
+          "description": "File name with extension",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "FileType": {
+          "type": "string",
+          "description": "File extension",
+          "maxLength": 50
+        },
+        "Description": {
+          "type": "string",
+          "description": "File description",
+          "maxLength": 500
+        },
+        "ContentTemplate": {
+          "type": "string",
+          "description": "Template content with placeholders"
+        },
+        "RequiresMetadataHeader": {
+          "type": "boolean",
+          "description": "Whether file requires Forge metadata header",
+          "default": false
+        },
+        "MetadataHeaderTemplate": {
+          "type": "string",
+          "description": "Template for metadata header"
+        },
+        "Encoding": {
+          "type": "string",
+          "description": "File encoding",
+          "enum": ["UTF-8", "UTF-16", "ASCII", "UTF-32"],
+          "default": "UTF-8"
+        },
+        "LineEnding": {
+          "type": "string",
+          "description": "Line ending style",
+          "enum": ["CRLF", "LF", "CR"],
+          "default": "CRLF"
+        },
+        "IsAutoGenerated": {
+          "type": "boolean",
+          "description": "Whether file is auto-generated",
+          "default": false
+        },
+        "DisplayOrder": {
+          "type": "integer",
+          "description": "Sort order",
+          "minimum": 0,
+          "default": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Name": "Minimal Template",
+  "Description": "Simplest possible template with one folder",
+  "Folders": [
+    {
+      "Name": "src",
+      "IsSelected": true,
+      "SubFolders": []
+    }
+  ]
+}

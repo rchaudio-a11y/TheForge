@@ -1,0 +1,155 @@
+{
+  "Name": "Complex Enterprise Template",
+  "Description": "Large enterprise project with many folders",
+  "Folders": [
+    {
+      "Name": "Frontend",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "public",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "src",
+          "IsSelected": true,
+          "SubFolders": [
+            {
+              "Name": "components",
+              "IsSelected": true,
+              "SubFolders": [
+                {
+                  "Name": "common",
+                  "IsSelected": true,
+                  "SubFolders": []
+                },
+                {
+                  "Name": "pages",
+                  "IsSelected": true,
+                  "SubFolders": []
+                }
+              ]
+            },
+            {
+              "Name": "services",
+              "IsSelected": true,
+              "SubFolders": []
+            },
+            {
+              "Name": "store",
+              "IsSelected": true,
+              "SubFolders": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Backend",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "api",
+          "IsSelected": true,
+          "SubFolders": [
+            {
+              "Name": "controllers",
+              "IsSelected": true,
+              "SubFolders": []
+            },
+            {
+              "Name": "models",
+              "IsSelected": true,
+              "SubFolders": []
+            },
+            {
+              "Name": "services",
+              "IsSelected": true,
+              "SubFolders": []
+            }
+          ]
+        },
+        {
+          "Name": "database",
+          "IsSelected": true,
+          "SubFolders": [
+            {
+              "Name": "migrations",
+              "IsSelected": true,
+              "SubFolders": []
+            },
+            {
+              "Name": "seeds",
+              "IsSelected": true,
+              "SubFolders": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Infrastructure",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "docker",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "kubernetes",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "terraform",
+          "IsSelected": true,
+          "SubFolders": []
+        }
+      ]
+    },
+    {
+      "Name": "Tests",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "unit",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "integration",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "e2e",
+          "IsSelected": true,
+          "SubFolders": []
+        }
+      ]
+    },
+    {
+      "Name": "Documentation",
+      "IsSelected": true,
+      "SubFolders": [
+        {
+          "Name": "api",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "architecture",
+          "IsSelected": true,
+          "SubFolders": []
+        },
+        {
+          "Name": "deployment",
+          "IsSelected": true,
+          "SubFolders": []
+        }
+      ]
+    }
+  ]
+}
